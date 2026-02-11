@@ -1,0 +1,242 @@
+/* --- HEX STEEL: INDUSTRIAL EDITION --- */
+
+/* --- SAF STEEL PALET --- */
+@define-color steel-bg        #0e0e0d; /* Zifiri Kömür (t1) */
+@define-color steel-panel     #1d1e1b; /* Panel Rengi (t2) */
+@define-color steel-border    #333333; /* Sınır Çizgileri */
+@define-color steel-fg        #c3c3bd; /* Kemik Beyazı (t10) - Metinler için */
+
+/* VARSAYILAN İKON RENGİ (Helix Attribute Rengi - Çelik Grisi) */
+@define-color steel-icon      #727b7c;
+
+/* ÖZEL: Helix Yorum Rengi (Petrol Yeşili) - Detaylar için */
+@define-color steel-accent    #417e8c;
+
+/* DURUM RENKLERİ (Hex Steel Paletinden) */
+@define-color steel-blue      #6f91bc; /* AKTİF WORKSPACE (t5 varyasyon) */
+@define-color steel-teal      #9bc1bb; /* WIFI / SES (t8) */
+@define-color steel-rust      #f78c5e; /* CPU / UYARI (t11) */
+@define-color steel-crimson   #d85c60; /* HATA / KAPATMA (t7) */
+@define-color steel-gold      #d4d987; /* RAM / PARLAKLIK (highlight_three) */
+
+* {
+  font-family: "JetBrainsMono Nerd Font";
+  font-weight: 600; /* Steel biraz daha kalın sever */
+  font-size: 11px;
+  min-height: 0;
+  transition: 0.2s ease-out;
+}
+
+/* --- ANA BAR --- */
+window#waybar {
+  background-color: @steel-bg;
+  color: @steel-fg;
+  border-radius: 0;
+  border-left: 1px solid @steel-panel;
+}
+
+/* --- TOOLTIP --- */
+tooltip {
+  background-color: @steel-bg;
+  border: 2px solid @steel-accent; /* Sevdiğin Petrol Yeşili kenarlık */
+  border-radius: 0px;
+}
+tooltip label {
+  color: @steel-fg;
+}
+
+/* --- MODÜL GENEL YAPISI --- */
+/* Hepsi varsayılan olarak Çelik Grisi başlar, Hover ile renklenir */
+#custom-powerbutton,
+#custom-reboot,
+#custom-suspend,
+#custom-lock,
+#custom-idlekiller,
+#user,
+#network,
+#cpu,
+#memory,
+#backlight,
+#pulseaudio,
+#battery,
+#clock,
+#custom-appmenu,
+#wlr-taskbar button,
+#niri-window,
+#window {
+  padding: 8px 0px;
+  margin: 0;
+  background-color: transparent;
+  color: @steel-icon; /* Varsayılan: Çelik Grisi */
+  border-bottom: 1px solid @steel-panel;
+}
+
+/* --- SOL TARAF (HUD) --- */
+
+/* CPU: Hover -> Pas Turuncusu (Endüstriyel Isı) */
+#cpu:hover {
+  color: @steel-rust;
+  background-color: @steel-panel;
+}
+#cpu.critical {
+  color: @steel-bg;
+  background-color: @steel-crimson;
+  animation: blink 1s infinite;
+}
+
+/* RAM: Hover -> Gold/Sarı (Highlight Three) */
+#memory:hover {
+  color: @steel-gold;
+  background-color: @steel-panel;
+}
+
+/* POWER: Hover -> Crimson (Kızıl) */
+#custom-powerbutton:hover {
+  color: @steel-crimson;
+  background-color: @steel-panel;
+}
+
+/* --- PENCERE BİLGİSİ --- */
+#window,
+#niri-window {
+  color: @steel-fg; /* Metin net olsun */
+  font-weight: bold;
+}
+/* Hover -> Petrol Yeşili (Accent) */
+#window:hover,
+#niri-window:hover {
+  color: @steel-accent;
+  background-color: @steel-panel;
+}
+
+/* --- SAĞ TARAF --- */
+
+/* SES: Hover -> Pastel Teal */
+#pulseaudio:hover {
+  color: @steel-teal;
+  background-color: @steel-panel;
+}
+#pulseaudio.muted {
+  color: #444;
+}
+
+/* WIFI: Hover -> Çelik Mavisi */
+#network:hover {
+  color: @steel-blue;
+  background-color: @steel-panel;
+}
+#network.disconnected {
+  color: @steel-crimson;
+}
+
+/* PARLAKLIK: Hover -> Gold */
+#backlight:hover {
+  color: @steel-gold;
+  background-color: @steel-panel;
+}
+
+/* SAAT: Hover -> Petrol Yeşili */
+#clock {
+  font-weight: 800;
+  color: @steel-icon;
+  background-color: @steel-panel;
+  border-top: 2px solid @steel-bg;
+  margin-top: 10px;
+}
+#clock:hover {
+  color: @steel-accent;
+  background-color: #1a1a1a;
+  border-top: 2px solid @steel-accent;
+}
+
+/* BATARYA */
+#battery:hover {
+  color: @steel-teal;
+  background-color: @steel-panel;
+}
+#battery.charging {
+  color: @steel-blue;
+}
+#battery.warning {
+  color: @steel-rust;
+}
+#battery.critical {
+  color: @steel-crimson;
+}
+
+/* --- ORTA (WORKSPACES) --- */
+#workspaces {
+  background-color: @steel-bg;
+  border-bottom: 1px solid @steel-panel;
+}
+
+#workspaces button {
+  padding: 10px 0px;
+  background-color: transparent;
+  color: #444; /* Pasif olanlar sönük */
+  border: none;
+  font-weight: bold;
+}
+
+/* AKTİF WORKSPACE: Asit Yeşili yerine ÇELİK MAVİSİ */
+#workspaces button.active {
+  color: @steel-blue;
+  background-color: @steel-panel;
+}
+
+#workspaces button:hover {
+  background-color: @steel-panel;
+  color: @steel-fg;
+}
+
+#workspaces button.urgent {
+  color: @steel-bg;
+  background-color: @steel-rust;
+}
+
+/* --- AÇIK UYGULAMALAR (Taskbar) --- */
+#taskbar button {
+  padding: 8px 0;
+  border-bottom: 1px solid @steel-panel;
+  color: @steel-icon;
+  opacity: 0.8;
+}
+
+/* Aktif Uygulama: Sağ tarafında Petrol Yeşili ince çizgi */
+#taskbar button.active {
+  background-color: rgba(65, 126, 140, 0.1); /* Çok hafif petrol */
+  color: @steel-accent;
+  border-right: 2px solid @steel-accent;
+}
+
+#taskbar button:hover {
+  background-color: @steel-panel;
+  color: @steel-blue;
+  opacity: 1;
+}
+
+/* --- DİĞERLERİ --- */
+#custom-reboot:hover {
+  color: @steel-rust;
+  background-color: @steel-panel;
+}
+#custom-lock:hover {
+  color: @steel-teal;
+  background-color: @steel-panel;
+}
+#custom-appmenu:hover {
+  color: @steel-blue;
+  background-color: @steel-panel;
+}
+
+@keyframes blink {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}

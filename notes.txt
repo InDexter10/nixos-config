@@ -1,0 +1,8 @@
+pkill -f opensnitch-ui
+
+# Kilitli soket dosyasını sil (Hatayı çözen asıl hamle)
+rm -f /tmp/osui.sock
+
+
+
+environment.memoryAllocator.provider = "scudo"
