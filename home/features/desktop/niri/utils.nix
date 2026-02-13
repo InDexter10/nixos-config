@@ -38,7 +38,7 @@
     settings = {
       color = "000000";
 
-      image = "/home/dx/Pictures/bb.jpg";
+      image = "/home/virt0/Pictures/bb.jpg";
 
       scaling = "fill";
 

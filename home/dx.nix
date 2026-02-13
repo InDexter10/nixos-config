@@ -12,7 +12,6 @@
 
     ./features/pkgs/flatpakApps
     ./features/pkgs/gui
-    ./features/pkgs/gui/uyap.nix
   ];
 
   home.username = "dx";

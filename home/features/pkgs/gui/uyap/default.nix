@@ -66,7 +66,7 @@ let
       --share-net \
       --setenv HOME "${config.home.homeDirectory}" \
       --setenv USER "${config.home.username}" \
-      --setenv DISPLAY ":0" \
+      --setenv DISPLAY "$DISPLAY" \
       --setenv XAUTHORITY "$XAUTH" \
       --setenv LC_ALL "tr_TR.UTF-8" \
       --setenv LANG "tr_TR.UTF-8" \
