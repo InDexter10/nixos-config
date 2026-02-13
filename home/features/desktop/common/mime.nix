@@ -8,23 +8,23 @@
 
     defaultApplications = {
 
-      "image/jpeg" = [ "org.kde.gwenview.desktop" ];
-      "image/png" = [ "org.kde.gwenview.desktop" ];
-      "image/webp" = [ "org.kde.gwenview.desktop" ];
-      "image/gif" = [ "org.kde.gwenview.desktop" ];
-      "image/bmp" = [ "org.kde.gwenview.desktop" ];
-      "image/svg+xml" = [ "org.kde.gwenview.desktop" ];
-      "image/tiff" = [ "org.kde.gwenview.desktop" ];
+      "image/jpeg" = [ "org.xfce.ristretto" ];
+      "image/png" = [ "org.xfce.ristretto" ];
+      "image/webp" = [ "org.xfce.ristretto" ];
+      "image/gif" = [ "org.xfce.ristretto" ];
+      "image/bmp" = [ "org.xfce.ristretto" ];
+      "image/svg+xml" = [ "org.xfce.ristretto" ];
+      "image/tiff" = [ "org.xfce.ristretto" ];
 
       "application/pdf" = [ "org.kde.okular.desktop" ];
       "application/epub+zip" = [ "org.kde.okular.desktop" ];
 
-      "video/mp4" = [ "org.videolan.VLC.desktop" ];
-      "video/x-matroska" = [ "org.videolan.VLC.desktop" ]; # .mkv
-      "video/webm" = [ "org.videolan.VLC.desktop" ];
-      "video/avi" = [ "org.videolan.VLC.desktop" ];
-      "video/quicktime" = [ "org.videolan.VLC.desktop" ]; # .mov
-      "audio/mpeg" = [ "org.videolan.VLC.desktop" ]; # .mp3 (İstersen)
+      "video/mp4" = [ "io.github.celluloid_player.Celluloid" ];
+      "video/x-matroska" = [ "io.github.celluloid_player.Celluloid" ];
+      "video/webm" = [ "io.github.celluloid_player.Celluloid" ];
+      "video/avi" = [ "io.github.celluloid_player.Celluloid" ];
+      "video/quicktime" = [ "io.github.celluloid_player.Celluloid" ];
+      "audio/mpeg" = [ "io.github.celluloid_player.Celluloid" ];
 
       "application/zip" = [ "xarchiver.desktop" ];
       "application/x-rar" = [ "xarchiver.desktop" ];

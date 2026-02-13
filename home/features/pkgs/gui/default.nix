@@ -1,10 +1,9 @@
 { pkgs, ... }:
 {
   imports = [
-    ./uyap.nix
   ];
   home.packages = with pkgs; [
-    #xarchiver
+    xarchiver
 
     opensnitch-ui
 

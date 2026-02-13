@@ -15,10 +15,9 @@ output "eDP-1" {
     transform "normal"
 }
 
-// --- GÖRÜNÜM VE YERLEŞİM ---
 layout {
     gaps 24
-    center-focused-column "always"
+    center-focused-column "never"
     always-center-single-column
     preset-column-widths {
         proportion 0.40
@@ -26,14 +25,11 @@ layout {
         proportion 0.94
     }
 
-    default-column-width { proportion 0.67; }
+    default-column-width {  }
     
 
 
     focus-ring {
-        //width 4
-        //active-color "#FF204E"
-        //inactive-color "#505050"
        off 
     }
 
@@ -81,7 +77,7 @@ spawn-at-startup "dbus-update-activation-environment" "--systemd" "DISPLAY" "WAY
 
 //spawn-at-startup "xwayland-satellite"
 
-spawn-at-startup "swaybg" "-i" "/home/dx/Pictures/aa.jpg" "-m" "fill"
+spawn-at-startup "swaybg" "-i" "/home/virt0/Pictures/aa.jpg" "-m" "fill"
 spawn-at-startup "waybar"
 spawn-at-startup "mako"
 spawn-at-startup "opensnitch-ui" "--background"
@@ -126,7 +122,7 @@ binds {
 
     // Temel Araçlar
     Mod+Return { spawn "alacritty"; }
-    Mod+D { spawn "fuzzel"; }
+    Mod+D { spawn "tofi"; }
     Super+Alt+L { spawn "swaylock"; }
 
     // Ses Kontrolü (WirePlumber)

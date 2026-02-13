@@ -11,8 +11,6 @@
     nftables.enable = true;
     enableIPv6 = false;
 
-    extraHosts = builtins.readFile "${inputs.steven-black-hosts}/hosts";
-
     nameservers = [
       "9.9.9.9"
       "149.112.112.112"

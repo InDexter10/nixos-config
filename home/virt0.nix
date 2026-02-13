@@ -11,7 +11,8 @@
     ./features/desktop/common
 
     ./features/pkgs/gui
-    #./features/pkgs/gui/uyap.nix
+    ./features/pkgs/gui/uyap
+    # ./features/pkgs/gui/keepass
 
     ./features/pkgs/flatpakApps
 

@@ -10,7 +10,7 @@
     enable = true;
 
     settings = {
-      DefaultAction = "deny";
+      DefaultAction = "allow";
 
       LogOutput = "file:/var/log/opensnitchd.log";
 
