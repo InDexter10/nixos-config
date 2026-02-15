@@ -5,10 +5,9 @@
 
 {
   imports = [
-    #./waybar
+    ./waybar
     ./mime.nix
     ./style
-    #./ironbar
   ];
 
 }

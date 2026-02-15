@@ -1,30 +1,31 @@
 {
   "layer": "top",
-  "position": "right",
+  "position": "top",
+  "height": 34,
   "margin-top": 0,
   "margin-bottom": 0,
   "margin-left": 0,
-  "width": 34,
+  "margin-right": 0,
   "modules-left": [
     "group/power",
-    "cpu",
-    "memory",
-    "niri/window"
+    "niri/window",
   ],
   "modules-center": [
-    "niri/workspaces"
+    "niri/workspaces",
+    "wlr/taskbar"
   ],
   "modules-right": [
-    "group/stats",
-    "group/apps",
+    "group/brightness",
+    "group/audio",
+    "cpu",
+    "memory",
+    "battery",
     "network",
-    "backlight",
-    "pulseaudio",
     "clock"
   ],
   "cpu": {
     "interval": 2,
-    "format": "{usage}%",
+    "format": " {usage:>3}%",
     "tooltip": true,
     "states": {
       "warning": 50,
@@ -33,7 +34,7 @@
   },
   "memory": {
     "interval": 10,
-    "format": "{used:0.1f}G\n",
+    "format": " {used:>4.1f}G",
     "tooltip-format": "Kullanılan: {used:0.1f}G\nToplam: {total:0.1f}G\nSwap: {swapUsed:0.1f}G",
     "states": {
       "warning": 70,
@@ -42,8 +43,8 @@
   },
   "clock": {
     "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
-    "format-alt": "{:%d\n%m\n%y}",
-    "format": "{:%H\n%M}",
+    "format-alt": "{:%d.%m.%Y}",
+    "format": " {:%H:%M}",
     "interval": 60,
     "calendar": {
       "mode": "month",
@@ -58,11 +59,11 @@
   },
   "pulseaudio": {
     "scroll-step": 4,
-    "format": "{volume}\n{icon}",
-    "format-bluetooth": "{volume}% {icon} {format_source}",
+    "format": "{icon} {volume:>3}%",
+    "format-bluetooth": "{icon} {volume:>3}% {format_source}",
     "format-bluetooth-muted": " {icon} {format_source}",
-    "format-muted": "MUT\n󰝟",
-    "format-source": "{volume}% ",
+    "format-muted": "󰝟 MUT",
+    "format-source": " {volume:>3}%",
     "format-source-muted": "",
     "format-icons": {
       "headphone": "",
@@ -86,7 +87,7 @@
   "pulseaudio/slider": {
     "min": 0,
     "max": 100,
-    "orientation": "vertical"
+    "orientation": "horizontal"
   },
   "group/audio": {
     "modules": [
@@ -96,12 +97,12 @@
     "orientation": "inherit",
     "drawer": {
       "transition-duration": 500,
-      "transition-left-to-right": true
+      "transition-left-to-right": false
     }
   },
   "backlight": {
     "scroll-step": 4,
-    "format": "{percent}\n{icon}",
+    "format": "{icon} {percent:>3}%",
     "format-icons": [
       "",
       "",
@@ -120,7 +121,7 @@
   "backlight/slider": {
     "min": 3,
     "max": 100,
-    "orientation": "vertical"
+    "orientation": "horizontal"
   },
   "group/brightness": {
     "modules": [
@@ -130,7 +131,7 @@
     "orientation": "inherit",
     "drawer": {
       "transition-duration": 500,
-      "transition-left-to-right": true
+      "transition-left-to-right": false
     }
   },
   "battery": {
@@ -138,10 +139,10 @@
       "warning": 30,
       "critical": 15
     },
-    "format": "{capacity}\n{icon}",
-    "format-full": "{capacity}\n{icon}",
-    "format-charging": "{capacity}\n",
-    "format-plugged": "{capacity}\n",
+    "format": "{icon} {capacity:>3}%",
+    "format-full": "{icon} {capacity:>3}%",
+    "format-charging": " {capacity:>3}%",
+    "format-plugged": " {capacity:>3}%",
     "tooltip-format": "{power} W, {timeTo}",
     "format-icons": [
       "",
@@ -152,22 +153,9 @@
     ],
     "justify": "center"
   },
-  "group/stats": {
-    "modules": [
-      "battery",
-      "group/audio",
-      "group/brightness"
-    ],
-    "orientation": "inherit",
-    "drawer": {
-      "transition-duration": 750,
-      "transition-left-to-right": false
-    }
-  },
   "niri/window": {
     "tooltip": false,
     "format": "{}",
-    "rotate": 270,
     "rewrite": {
       "^null$": "Desktop"
     }
@@ -193,8 +181,17 @@
   },
   "wlr/taskbar": {
     "format": "{icon}",
+    "icon-size": 18,
+    "tooltip-format": "{title}",
     "on-click": "activate",
-    "on-click-right": "close"
+    "on-click-middle": "close",
+    "on-click-right": "close",
+    "ignore-list": [
+      "alacritty-drop"
+    ],
+    "app_ids-mapping": {
+      "firefoxdeveloperedition": "firefox-developer-edition"
+    }
   },
   "group/apps": {
     "modules": [
@@ -204,17 +201,18 @@
     "orientation": "inherit",
     "drawer": {
       "transition-duration": 500,
-      "transition-left-to-right": false
+      "transition-left-to-right": true
     }
   },
   "network": {
-    "format-wifi": " ",
-    "format-ethernet": "{ipaddr}/{cidr} ",
+    "format-wifi": " {essid}",
+    "format-ethernet": " {ipaddr}",
     "tooltip-format": "{essid}: {ipaddr}",
-    "format-linked": "{ifname} (No IP) ",
-    "format-disconnected": "⚠",
-    "rotate": 0,
-    "on-click": "alacritty -e nmtui"
+    "format-linked": " (No IP)",
+    "format-disconnected": "⚠ Offline",
+    "on-click": "alacritty -e nmtui",
+    "min-length": 15,
+    "max-length": 15
   },
   "group/power": {
     "modules": [
@@ -227,7 +225,8 @@
     ],
     "orientation": "inherit",
     "drawer": {
-      "transition-duration": 500
+      "transition-duration": 500,
+      "transition-left-to-right": true
     }
   },
   "custom/powerbutton": {
@@ -256,18 +255,7 @@
     "tooltip-format": "Inhibit Idle"
   },
   "user": {
-    "format": "{work_H}:{work_M}:{work_S} ↑",
-    "interval": 60,
-    "rotate": 270
-  },
-  "custom/playpause": {
-    "format": "󰐎",
-    "on-click": "playerctl play-pause",
-    "tooltip": false
-  },
-  "custom/wallpaper": {
-    "format": "󰸉",
-    "on-click": "qs ipc call panelWindow toggleWallpaperSwitcher",
-    "tooltip": false
+    "format": "{work_H}:{work_M} ↑",
+    "interval": 60
   }
 }
