@@ -19,12 +19,12 @@
       "application/pdf" = [ "org.kde.okular.desktop" ];
       "application/epub+zip" = [ "org.kde.okular.desktop" ];
 
-      "video/mp4" = [ "io.github.celluloid_player.Celluloid" ];
-      "video/x-matroska" = [ "io.github.celluloid_player.Celluloid" ];
-      "video/webm" = [ "io.github.celluloid_player.Celluloid" ];
-      "video/avi" = [ "io.github.celluloid_player.Celluloid" ];
-      "video/quicktime" = [ "io.github.celluloid_player.Celluloid" ];
-      "audio/mpeg" = [ "io.github.celluloid_player.Celluloid" ];
+      "video/mp4" = [ "org.videolan.VLC" ];
+      "video/x-matroska" = [ "org.videolan.VLC" ];
+      "video/webm" = [ "org.videolan.VLC" ];
+      "video/avi" = [ "org.videolan.VLC" ];
+      "video/quicktime" = [ "org.videolan.VLC" ];
+      "audio/mpeg" = [ "org.videolan.VLC" ];
 
       "application/zip" = [ "xarchiver.desktop" ];
       "application/x-rar" = [ "xarchiver.desktop" ];

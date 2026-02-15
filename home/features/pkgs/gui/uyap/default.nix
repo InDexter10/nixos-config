@@ -13,9 +13,9 @@ let
 
   # Başlatıcı Script
   uyap-launcher = pkgs.writeShellScriptBin "uyap-editor" ''
-    # 1. Klasör Kontrolleri
+    # 1. Klasör Kontrolleri (UYAPEditor alt klasörü eklendi)
     mkdir -p "$HOME/${ukiDir}"
-    mkdir -p "$HOME/${uyapDir}"
+    mkdir -p "$HOME/${uyapDir}/UYAPEditor"
 
     # 2. XAuthority Tespiti
     XAUTH=''${XAUTHORITY:-$HOME/.Xauthority}
@@ -25,18 +25,13 @@ let
     fi
 
     # 3. Font Yollarını Dinamik Belirle
-    # Eğer bu klasörler varsa bwrap argümanlarına ekleyeceğiz.
-    # Yoksa bwrap hata verip çökmesin diye kontrol ediyoruz.
     EXTRA_BINDS=""
-
     if [ -d "$HOME/.nix-profile" ]; then
         EXTRA_BINDS="$EXTRA_BINDS --ro-bind $HOME/.nix-profile $HOME/.nix-profile"
     fi
-
     if [ -d "$HOME/.local/share/fonts" ]; then
         EXTRA_BINDS="$EXTRA_BINDS --ro-bind $HOME/.local/share/fonts $HOME/.local/share/fonts"
     fi
-
     if [ -d "/run/current-system/sw/share/X11/fonts" ]; then
         EXTRA_BINDS="$EXTRA_BINDS --ro-bind /run/current-system/sw/share/X11/fonts /run/current-system/sw/share/X11/fonts"
     fi
@@ -60,6 +55,7 @@ let
       --bind "${config.home.homeDirectory}/${ukiDir}" "${config.home.homeDirectory}/${ukiDir}" \
       --bind "${config.home.homeDirectory}/Documents" "${config.home.homeDirectory}/Documents" \
       --bind "${config.home.homeDirectory}/Downloads" "${config.home.homeDirectory}/Downloads" \
+      --chdir "${config.home.homeDirectory}/${uyapDir}/UYAPEditor" \
       --die-with-parent \
       --new-session \
       --unshare-all \
@@ -76,7 +72,7 @@ let
       ${javaPkg}/bin/java \
         -Xmx2048m \
         -Duser.home="${config.home.homeDirectory}" \
-        -cp "${config.home.homeDirectory}/${uyapDir}/UYAPEditor:${config.home.homeDirectory}/${uyapDir}/UYAPEditor/*" \
+        -cp ".:*" \
         tr.com.havelsan.uyap.system.editor.common.WPAppManager \
         "getNewWPInstance" "EDITOR_TYPE_DOCUMENT" "$@"
   '';
@@ -103,11 +99,9 @@ in
     uyap-launcher
     uyap-desktop
     shared-mime-info
-    # Fontlar
-    corefonts # Times New Roman (Microsoft)
+    corefonts
   ];
 
-  # İkon ve Mime Bağlantıları
   home.file.".local/share/icons/hicolor/128x128/apps/uyap-editor.png".source =
     config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/${uyapDir}/icons/hicolor/128x128/apps/uyap-editor.png";
 

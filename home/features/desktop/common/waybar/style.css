@@ -1,28 +1,21 @@
-/* --- HEX STEEL: INDUSTRIAL EDITION --- */
+/* --- HEX STEEL: HORIZONTAL EDITION --- */
 
-/* --- SAF STEEL PALET --- */
-@define-color steel-bg        #0e0e0d; /* Zifiri Kömür (t1) */
-@define-color steel-panel     #1d1e1b; /* Panel Rengi (t2) */
-@define-color steel-border    #333333; /* Sınır Çizgileri */
-@define-color steel-fg        #c3c3bd; /* Kemik Beyazı (t10) - Metinler için */
-
-/* VARSAYILAN İKON RENGİ (Helix Attribute Rengi - Çelik Grisi) */
+@define-color steel-bg        #0e0e0d;
+@define-color steel-panel     #1d1e1b;
+@define-color steel-border    #333333;
+@define-color steel-fg        #c3c3bd;
 @define-color steel-icon      #727b7c;
-
-/* ÖZEL: Helix Yorum Rengi (Petrol Yeşili) - Detaylar için */
 @define-color steel-accent    #417e8c;
-
-/* DURUM RENKLERİ (Hex Steel Paletinden) */
-@define-color steel-blue      #6f91bc; /* AKTİF WORKSPACE (t5 varyasyon) */
-@define-color steel-teal      #9bc1bb; /* WIFI / SES (t8) */
-@define-color steel-rust      #f78c5e; /* CPU / UYARI (t11) */
-@define-color steel-crimson   #d85c60; /* HATA / KAPATMA (t7) */
-@define-color steel-gold      #d4d987; /* RAM / PARLAKLIK (highlight_three) */
+@define-color steel-blue      #6f91bc;
+@define-color steel-teal      #9bc1bb;
+@define-color steel-rust      #f78c5e;
+@define-color steel-crimson   #d85c60;
+@define-color steel-gold      #d4d987;
 
 * {
   font-family: "JetBrainsMono Nerd Font";
-  font-weight: 600; /* Steel biraz daha kalın sever */
-  font-size: 11px;
+  font-weight: 600;
+  font-size: 12px;
   min-height: 0;
   transition: 0.2s ease-out;
 }
@@ -32,21 +25,19 @@ window#waybar {
   background-color: @steel-bg;
   color: @steel-fg;
   border-radius: 0;
-  border-left: 1px solid @steel-panel;
+  border-bottom: 1px solid @steel-panel; /* Sol yerine Alt sınır */
 }
 
-/* --- TOOLTIP --- */
 tooltip {
   background-color: @steel-bg;
-  border: 2px solid @steel-accent; /* Sevdiğin Petrol Yeşili kenarlık */
+  border: 2px solid @steel-accent;
   border-radius: 0px;
 }
 tooltip label {
   color: @steel-fg;
 }
 
-/* --- MODÜL GENEL YAPISI --- */
-/* Hepsi varsayılan olarak Çelik Grisi başlar, Hover ile renklenir */
+/* --- MODÜL GENEL YAPISI (YATAY) --- */
 #custom-powerbutton,
 #custom-reboot,
 #custom-suspend,
@@ -64,16 +55,24 @@ tooltip label {
 #wlr-taskbar button,
 #niri-window,
 #window {
-  padding: 8px 0px;
+  /* Üst-alt 0, sağ-sol 10px boşluk. Yatay için en önemli ayar budur. */
+  padding: 0px 10px;
   margin: 0;
   background-color: transparent;
-  color: @steel-icon; /* Varsayılan: Çelik Grisi */
-  border-bottom: 1px solid @steel-panel;
+  color: @steel-icon;
 }
 
-/* --- SOL TARAF (HUD) --- */
+/* Sağ taraftaki modüllerin arasına şık bir ayraç çizgisi */
+#cpu,
+#memory,
+#network,
+#backlight,
+#pulseaudio,
+#battery {
+  border-left: 1px solid @steel-panel;
+}
 
-/* CPU: Hover -> Pas Turuncusu (Endüstriyel Isı) */
+/* --- SOL TARAF --- */
 #cpu:hover {
   color: @steel-rust;
   background-color: @steel-panel;
@@ -83,14 +82,10 @@ tooltip label {
   background-color: @steel-crimson;
   animation: blink 1s infinite;
 }
-
-/* RAM: Hover -> Gold/Sarı (Highlight Three) */
 #memory:hover {
   color: @steel-gold;
   background-color: @steel-panel;
 }
-
-/* POWER: Hover -> Crimson (Kızıl) */
 #custom-powerbutton:hover {
   color: @steel-crimson;
   background-color: @steel-panel;
@@ -99,10 +94,10 @@ tooltip label {
 /* --- PENCERE BİLGİSİ --- */
 #window,
 #niri-window {
-  color: @steel-fg; /* Metin net olsun */
+  color: @steel-fg;
   font-weight: bold;
+  padding-left: 15px;
 }
-/* Hover -> Petrol Yeşili (Accent) */
 #window:hover,
 #niri-window:hover {
   color: @steel-accent;
@@ -110,8 +105,6 @@ tooltip label {
 }
 
 /* --- SAĞ TARAF --- */
-
-/* SES: Hover -> Pastel Teal */
 #pulseaudio:hover {
   color: @steel-teal;
   background-color: @steel-panel;
@@ -119,8 +112,6 @@ tooltip label {
 #pulseaudio.muted {
   color: #444;
 }
-
-/* WIFI: Hover -> Çelik Mavisi */
 #network:hover {
   color: @steel-blue;
   background-color: @steel-panel;
@@ -128,28 +119,21 @@ tooltip label {
 #network.disconnected {
   color: @steel-crimson;
 }
-
-/* PARLAKLIK: Hover -> Gold */
 #backlight:hover {
   color: @steel-gold;
   background-color: @steel-panel;
 }
 
-/* SAAT: Hover -> Petrol Yeşili */
+/* SAAT: Tam merkezde, dikkat çekici */
 #clock {
   font-weight: 800;
   color: @steel-icon;
-  background-color: @steel-panel;
-  border-top: 2px solid @steel-bg;
-  margin-top: 10px;
+  background-color: transparent;
 }
 #clock:hover {
   color: @steel-accent;
-  background-color: #1a1a1a;
-  border-top: 2px solid @steel-accent;
 }
 
-/* BATARYA */
 #battery:hover {
   color: @steel-teal;
   background-color: @steel-panel;
@@ -166,29 +150,27 @@ tooltip label {
 
 /* --- ORTA (WORKSPACES) --- */
 #workspaces {
-  background-color: @steel-bg;
-  border-bottom: 1px solid @steel-panel;
+  background-color: transparent;
 }
 
 #workspaces button {
-  padding: 10px 0px;
+  padding: 0px 12px; /* Dikeyden yataya geçirildi */
   background-color: transparent;
-  color: #444; /* Pasif olanlar sönük */
+  color: #444;
   border: none;
   font-weight: bold;
 }
 
-/* AKTİF WORKSPACE: Asit Yeşili yerine ÇELİK MAVİSİ */
 #workspaces button.active {
   color: @steel-blue;
   background-color: @steel-panel;
+  border-bottom: 2px solid @steel-blue; /* Yatay aktif çizgi */
 }
 
 #workspaces button:hover {
   background-color: @steel-panel;
   color: @steel-fg;
 }
-
 #workspaces button.urgent {
   color: @steel-bg;
   background-color: @steel-rust;
@@ -196,17 +178,15 @@ tooltip label {
 
 /* --- AÇIK UYGULAMALAR (Taskbar) --- */
 #taskbar button {
-  padding: 8px 0;
-  border-bottom: 1px solid @steel-panel;
+  padding: 0 8px;
   color: @steel-icon;
   opacity: 0.8;
 }
 
-/* Aktif Uygulama: Sağ tarafında Petrol Yeşili ince çizgi */
 #taskbar button.active {
-  background-color: rgba(65, 126, 140, 0.1); /* Çok hafif petrol */
+  background-color: rgba(65, 126, 140, 0.1);
   color: @steel-accent;
-  border-right: 2px solid @steel-accent;
+  border-bottom: 2px solid @steel-accent; /* Sağdan Alta alındı */
 }
 
 #taskbar button:hover {
@@ -215,7 +195,6 @@ tooltip label {
   opacity: 1;
 }
 
-/* --- DİĞERLERİ --- */
 #custom-reboot:hover {
   color: @steel-rust;
   background-color: @steel-panel;
