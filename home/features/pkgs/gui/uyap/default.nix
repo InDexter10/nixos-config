@@ -13,9 +13,10 @@ let
 
   # Başlatıcı Script
   uyap-launcher = pkgs.writeShellScriptBin "uyap-editor" ''
-    # 1. Klasör Kontrolleri (UYAPEditor alt klasörü eklendi)
+    # 1. Klasör Kontrolleri
     mkdir -p "$HOME/${ukiDir}"
     mkdir -p "$HOME/${uyapDir}/UYAPEditor"
+    mkdir -p "$HOME/.java" # YENİ: Java'nın kendi sertifika ve ayar deposu
 
     # 2. XAuthority Tespiti
     XAUTH=''${XAUTHORITY:-$HOME/.Xauthority}
@@ -36,12 +37,15 @@ let
         EXTRA_BINDS="$EXTRA_BINDS --ro-bind /run/current-system/sw/share/X11/fonts /run/current-system/sw/share/X11/fonts"
     fi
 
-    # 4. Fortress Sandbox (Güncellenmiş)
+    # 4. Fortress Sandbox (İmza Modülü İçin Delindi)
     exec ${pkgs.bubblewrap}/bin/bwrap \
       --ro-bind /nix/store /nix/store \
+      --ro-bind /sys /sys \
       --ro-bind /etc/fonts /etc/fonts \
       --ro-bind /etc/static/fonts /etc/static/fonts \
       --ro-bind /etc/ssl/certs /etc/ssl/certs \
+      --ro-bind-try /etc/ca-certificates /etc/ca-certificates \
+      --ro-bind-try /etc/pki /etc/pki \
       --ro-bind /etc/resolv.conf /etc/resolv.conf \
       --ro-bind /etc/passwd /etc/passwd \
       --ro-bind /etc/group /etc/group \
@@ -50,7 +54,9 @@ let
       --proc /proc \
       --tmpfs /tmp \
       --bind /tmp/.X11-unix /tmp/.X11-unix \
+      --bind-try /run/pcscd /run/pcscd \
       --bind "$XAUTH" "$XAUTH" \
+      --bind "$HOME/.java" "$HOME/.java" \
       --bind "${config.home.homeDirectory}/${uyapDir}" "${config.home.homeDirectory}/${uyapDir}" \
       --bind "${config.home.homeDirectory}/${ukiDir}" "${config.home.homeDirectory}/${ukiDir}" \
       --bind "${config.home.homeDirectory}/Documents" "${config.home.homeDirectory}/Documents" \
@@ -76,7 +82,6 @@ let
         tr.com.havelsan.uyap.system.editor.common.WPAppManager \
         "getNewWPInstance" "EDITOR_TYPE_DOCUMENT" "$@"
   '';
-
   # Desktop Kısayolu
   uyap-desktop = pkgs.makeDesktopItem {
     name = "uyap-editor";

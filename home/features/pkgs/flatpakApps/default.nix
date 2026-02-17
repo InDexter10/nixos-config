@@ -24,6 +24,7 @@
       "org.kde.okular"
       "org.xfce.ristretto"
       #"com.github.jeromerobert.pdfarranger"
+      "io.mpv.Mpv"
     ];
 
     overrides = {
@@ -52,7 +53,7 @@
           filesystems = [
             "xdg-download"
             "!host"
-            "!home"
+            "home"
           ];
           sockets = [
             "wayland"
@@ -68,7 +69,7 @@
           filesystems = [
             "xdg-download"
             "!host"
-            "!home"
+            "home"
           ];
           sockets = [
             "wayland"
@@ -79,11 +80,12 @@
         };
       };
 
-      "org.videolan.VLC" = {
+      "io.mpv.Mpv" = {
         Context = {
           filesystems = [
             "!host"
             "!home"
+            "xdg-movies"
           ];
           shared = [
             "!network"
@@ -91,7 +93,7 @@
           sockets = [
             "wayland"
             "pulseaudio"
-            #"fallback-x11"
+            "!x11"
           ];
           devices = [ "dri" ];
         };

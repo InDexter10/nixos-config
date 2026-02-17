@@ -33,8 +33,8 @@
       "log_level=3"
       "quiet"
       "udev.log_priority=3"
-      "init_on_alloc=1"
-      "init_on_free=1"
+      #"init_on_alloc=1"
+      #"init_on_free=1"
       #"slab_nomerge"
       "page_alloc.shuffle=1"
 

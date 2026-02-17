@@ -6,6 +6,8 @@
     enable = true;
     execWheelOnly = true;
     wheelNeedsPassword = true;
+    extraConfig = ''
+      Defaults rootpw
+    '';
   };
-
 }
