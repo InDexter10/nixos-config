@@ -19,6 +19,8 @@
       "application/pdf" = [ "org.kde.okular.desktop" ];
       "application/epub+zip" = [ "org.kde.okular.desktop" ];
 
+      "application/x-udf" = [ "uyap-editor" ];
+
       "video/mp4" = [ "org.videolan.VLC" ];
       "video/x-matroska" = [ "org.videolan.VLC" ];
       "video/webm" = [ "org.videolan.VLC" ];
