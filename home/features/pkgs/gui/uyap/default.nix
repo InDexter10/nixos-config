@@ -98,11 +98,22 @@ let
     ];
   };
 
+  uyap-mime = pkgs.writeTextDir "share/mime/packages/udf.xml" ''
+    <?xml version="1.0" encoding="UTF-8"?>
+    <mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
+      <mime-type type="application/udf">
+        <comment>UYAP Dokuman Formati</comment>
+        <glob pattern="*.udf"/>
+      </mime-type>
+    </mime-info>
+  '';
+
 in
 {
   home.packages = with pkgs; [
     uyap-launcher
     uyap-desktop
+    uyap-mime
     shared-mime-info
     corefonts
   ];
@@ -113,7 +124,6 @@ in
   home.file.".local/share/mime/packages/udf.xml".source =
     config.lib.file.mkOutOfStoreSymlink mimeXmlPath;
 
-  xdg.mimeApps.enable = true;
   xdg.mimeApps.defaultApplications = {
     "application/udf" = [ "uyap-editor.desktop" ];
   };

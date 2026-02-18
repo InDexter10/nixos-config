@@ -16,18 +16,18 @@ output "eDP-1" {
 }
 
 layout {
-    gaps 30
+    gaps 24
     center-focused-column "never"
     default-column-display "tabbed"
     always-center-single-column
     tab-indicator {
     hide-when-single-tab
-    corner-radius 0
+    corner-radius 4
     gaps-between-tabs 12
-        width 8
+        width 12
         length total-proportion=0.40
-        gap 6
-        //active-color "#F25912"   
+        gap 10
+        //active-color "#FF5200"   
         //inactive-color "#44475a" 
         place-within-column
     }
@@ -59,7 +59,7 @@ layout {
 
      border {
         width 4
-        active-color "#00F5FF"
+        active-color "#00ffff"
         inactive-color "#4C566A"
         
     } 
@@ -113,7 +113,6 @@ screenshot-path "~/Pictures/Screenshot from %Y-%m-%d %H-%M-%S.png"
 
 spawn-at-startup "org.mozilla.firefox"
 spawn-at-startup "com.brave.Browser"
-spawn-at-startup "alacritty"
 
 
 animations {
