@@ -27,7 +27,7 @@ let
     ]
 
     system = [
-      { run = 'xdg-open "$@"', orphan = true, desc = "Sistem" }
+      { run = 'handlr open "$@"', orphan = true, desc = "Sistem" }
     ]
 
     [open]
