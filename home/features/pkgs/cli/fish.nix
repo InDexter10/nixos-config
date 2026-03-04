@@ -12,10 +12,10 @@
 
     plugins = [
 
-      {
-        name = "fzf-fish";
-        src = pkgs.fishPlugins.fzf-fish.src;
-      }
+      # {
+      #   name = "fzf-fish";
+      #   src = pkgs.fishPlugins.fzf-fish.src;
+      # }
 
       {
         name = "grc";
@@ -39,6 +39,7 @@
 
 
       direnv hook fish | source
+
 
     '';
   };

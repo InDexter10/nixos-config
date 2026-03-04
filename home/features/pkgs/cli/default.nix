@@ -2,7 +2,7 @@
 {
   imports = [
     ./git.nix
-    ./fish.nix
+    ./zsh.nix
     ./fastfetch.nix
   ];
 
@@ -17,6 +17,10 @@
     p7zip
 
     onefetch
+
+    pciutils
+    usbutils
+    binutils
 
   ];
 

@@ -44,6 +44,15 @@ let
 
       { name = "*", use = "system" }
     ]
+
+    [plugin]
+    # Video dosyaları için ffmpeg tetikleyicilerini ezip, sadece temel "file" (dosya bilgisi okuyucu) eklentisine yönlendiriyoruz.
+    prepend_previewers = [
+      { mime = "video/*", run = "file" }
+    ]
+    prepend_preloaders = [
+      { mime = "video/*", run = "noop" }
+    ]
   '';
 
 in
@@ -52,25 +61,14 @@ in
 
   xdg.configFile."yazi/yazi.toml".text = yaziConfig;
 
-  # programs.fish.interactiveShellInit = ''
-  #   function y
-  #   	set tmp (mktemp -t "yazi-cwd.XXXXXX")
-  #   	yazi $argv --cwd-file="$tmp"
-  #   	if set cwd (cat -- "$tmp"); and [ -n "$cwd" ]; and [ "$cwd" != "$PWD" ]
-  #   		builtin cd -- "$cwd"
-  #   	end
-  #   	rm -f -- "$tmp"
-  #   end
-  # '';
-
-  # programs.zsh.initExtra = ''
-  #   function y() {
-  #   	local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
-  #   	yazi "$@" --cwd-file="$tmp"
-  #   	if cwd="$(cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
-  #   		builtin cd -- "$cwd"
-  #   	fi
-  #   	rm -f -- "$tmp"
-  #   }
-  # '';
+  programs.zsh.initExtra = ''
+    function y() {
+        local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
+        yazi "$@" --cwd-file="$tmp"
+        if cwd="$(cat -- "$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
+            builtin cd -- "$cwd"
+        fi
+        rm -f -- "$tmp"
+    }
+  '';
 }

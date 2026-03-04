@@ -59,7 +59,7 @@ layout {
 
      border {
         width 4
-        active-color "#00ffff"
+        active-color "#00f5ff"
         inactive-color "#4C566A"
         
     } 
