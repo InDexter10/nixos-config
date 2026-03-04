@@ -14,6 +14,7 @@
     nameservers = [
       "9.9.9.9"
       "149.112.112.112"
+      #"1.1.1.1"
     ];
 
     firewall = {
@@ -28,6 +29,13 @@
 
       wifi.macAddress = "random";
       ethernet.macAddress = "random";
+
+      insertNameservers = [
+        "9.9.9.9"
+        "149.112.112.112"
+        #"1.1.1.1"
+      ];
+
     };
   };
 

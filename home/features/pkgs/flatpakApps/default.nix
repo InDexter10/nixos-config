@@ -20,11 +20,11 @@
       "com.brave.Browser"
       "io.gitlab.librewolf-community"
       "com.github.tchx84.Flatseal"
-      "org.videolan.VLC"
       "org.kde.okular"
       "org.xfce.ristretto"
       #"com.github.jeromerobert.pdfarranger"
-      "io.mpv.Mpv"
+      "com.logseq.Logseq"
+      "io.github.celluloid_player.Celluloid"
     ];
 
     overrides = {
@@ -80,12 +80,11 @@
         };
       };
 
-      "io.mpv.Mpv" = {
+      "com.logseq.Logseq" = {
         Context = {
           filesystems = [
             "!host"
-            "!home"
-            "xdg-movies"
+            "home"
           ];
           shared = [
             "!network"
@@ -93,11 +92,12 @@
           sockets = [
             "wayland"
             "pulseaudio"
-            "!x11"
+            "x11"
           ];
           devices = [ "dri" ];
         };
       };
+
       "org.kde.okular" = {
         Context = {
           filesystems = [
@@ -112,6 +112,25 @@
             "wayland"
             "!x11"
           ];
+        };
+      };
+
+      "io.github.celluloid_player.Celluloid" = {
+        Context = {
+          filesystems = [
+            "~/Movies"
+            "!home"
+            "!host"
+          ];
+          sockets = [
+            "wayland"
+            "pulseaudio"
+          ];
+          shared = [
+            "ipc"
+            "!network"
+          ];
+          devices = [ "dri" ];
         };
       };
 

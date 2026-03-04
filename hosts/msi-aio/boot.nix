@@ -2,7 +2,7 @@
 
 {
   boot = {
-    kernelPackages = pkgs.linuxPackages_hardened;
+    kernelPackages = pkgs.linuxPackages;
 
     initrd.systemd.enable = true;
     tmp.cleanOnBoot = true;
@@ -33,16 +33,16 @@
       "log_level=3"
       "quiet"
       "udev.log_priority=3"
-      #"init_on_alloc=1"
-      #"init_on_free=1"
-      #"slab_nomerge"
+      "init_on_alloc=1"
+      "init_on_free=1"
+      "slab_nomerge"
       "page_alloc.shuffle=1"
 
       "intel_iommu=on"
       "iommu=pt"
 
       "sysrq_always_enabled=0"
-      "lockdown=integrit" # confidentiality
+      "lockdown=integrity" # confidentiality
 
       #"lsm=capability,landlock,lockdown,yama,integrity,apparmor,bpf"
     ];
@@ -51,6 +51,8 @@
 
   systemd.coredump.enable = false;
   security.protectKernelImage = true;
+
+  #environment.memoryAllocator.provider = "scudo";
 
   boot.kernel.sysctl = {
     "kernel.kptr_restrict" = 2;
@@ -72,8 +74,6 @@
     "net.ipv6.conf.lo.disable_ipv6" = 1;
 
     "net.core.bpf_jit_harden" = 2;
-
-    "kernel.unprivileged_userns_clone" = 1;
 
     "dev.tty.ldisc_autoload" = 0;
 

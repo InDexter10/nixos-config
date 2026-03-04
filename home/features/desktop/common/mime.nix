@@ -25,12 +25,12 @@
       "application/x-udf" = [ "uyap-editor.desktop" ];
       "application/udf" = [ "uyap-editor.desktop" ];
 
-      "video/mp4" = [ "org.videolan.VLC.desktop" ];
-      "video/x-matroska" = [ "org.videolan.VLC.desktop" ];
-      "video/webm" = [ "org.videolan.VLC.desktop" ];
-      "video/avi" = [ "org.videolan.VLC.desktop" ];
-      "video/quicktime" = [ "org.videolan.VLC.desktop" ];
-      "audio/mpeg" = [ "org.videolan.VLC.desktop" ];
+      "video/mp4" = [ "io.github.celluloid_player.Celluloid.desktop" ];
+      "video/x-matroska" = [ "io.github.celluloid_player.Celluloid.desktop" ];
+      "video/webm" = [ "io.github.celluloid_player.Celluloid.desktop" ];
+      "video/avi" = [ "io.github.celluloid_player.Celluloid.desktop" ];
+      "video/quicktime" = [ "io.github.celluloid_player.Celluloid.desktop" ];
+      "audio/mpeg" = [ "io.github.celluloid_player.Celluloid.desktop" ];
 
       "application/zip" = [ "xarchiver.desktop" ];
       "application/x-rar" = [ "xarchiver.desktop" ];

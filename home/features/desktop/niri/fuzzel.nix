@@ -7,10 +7,9 @@
       main = {
         terminal = "${pkgs.alacritty}/bin/alacritty";
         layer = "overlay";
-        width = 40;
+        width = 60;
       };
       colors = {
-        # Adwaita Dark Renk Paleti (Manual & Deterministik)
         background = "1e1e1eff"; # Koyu Gri
         text = "ffffffff"; # Beyaz
         match = "3584e4ff"; # Adwaita Mavisi

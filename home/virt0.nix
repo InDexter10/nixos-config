@@ -12,7 +12,7 @@
 
     ./features/pkgs/gui
     ./features/pkgs/gui/uyap
-    # ./features/pkgs/gui/keepass
+    ./features/pkgs/gui/keepass
 
     ./features/pkgs/flatpakApps
 
