@@ -101,7 +101,7 @@ spawn-at-startup "dbus-update-activation-environment" "--systemd" "DISPLAY" "WAY
 //spawn-at-startup "xwayland-satellite"
 
 spawn-at-startup "swaybg" "-i" "/home/virt0/Pictures/aa.jpg" "-m" "fill"
-spawn-at-startup "waybar"
+spawn-at-startup "dms" "run"
 spawn-at-startup "mako"
 spawn-at-startup "opensnitch-ui" "--background"
 

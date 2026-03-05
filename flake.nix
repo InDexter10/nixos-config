@@ -9,6 +9,14 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nix-flatpak.url = "github:gmodena/nix-flatpak";
+    dms = {
+      url = "github:AvengeMedia/DankMaterialShell/stable";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    dgop = {
+      url = "github:AvengeMedia/dgop";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs =
@@ -17,6 +25,8 @@
       nixpkgs,
       home-manager,
       nix-flatpak,
+      dms,
+      dgop,
       ...
     }@inputs:
     let
@@ -52,6 +62,8 @@
           modules = [
             ./home/virt0.nix
             nix-flatpak.homeManagerModules.nix-flatpak
+            inputs.dms.homeModules.dank-material-shell
+
           ];
         };
 
@@ -65,6 +77,7 @@
           modules = [
             ./home/dx.nix
             nix-flatpak.homeManagerModules.nix-flatpak
+
           ];
         };
 

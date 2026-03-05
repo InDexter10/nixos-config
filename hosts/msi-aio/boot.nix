@@ -2,7 +2,7 @@
 
 {
   boot = {
-    kernelPackages = pkgs.linuxPackages;
+    kernelPackages = pkgs.linuxPackages_lts;
 
     initrd.systemd.enable = true;
     tmp.cleanOnBoot = true;

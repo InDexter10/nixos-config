@@ -19,6 +19,7 @@
       homeup = "home-manager switch --flake ~/nixos-config#virt0";
       n = "cd /home/virt0/nixos-config";
       h = "cd ~";
+      b = "cd /home/virt0/Books";
     };
 
     history = {
@@ -29,12 +30,9 @@
     };
 
     initContent = ''
-      # 1. Otomatik tamamlama için Fish tarzı büyük/küçük harf eşleştirme
       zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
       ZSH_AUTOSUGGEST_STRATEGY=(history completion)
 
-      # 2. "Anti-Hippi" Kısaltma Genişletici (Inline Expansion)
-      # Alias yazıp BOŞLUK tuşuna bastığında komutun aslını açıkça ekrana yazar.
       globalias() {
          zle _expand_alias
          zle self-insert
