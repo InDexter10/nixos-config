@@ -61,7 +61,7 @@ in
 
   xdg.configFile."yazi/yazi.toml".text = yaziConfig;
 
-  programs.zsh.initExtra = ''
+  programs.zsh.initContent = ''
     function y() {
         local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
         yazi "$@" --cwd-file="$tmp"

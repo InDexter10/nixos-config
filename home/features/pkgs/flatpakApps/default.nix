@@ -69,7 +69,7 @@
           filesystems = [
             "xdg-download"
             "!host"
-            "home"
+            "!home"
           ];
           sockets = [
             "wayland"
@@ -84,7 +84,7 @@
         Context = {
           filesystems = [
             "!host"
-            "home"
+            "!home"
           ];
           shared = [
             "!network"

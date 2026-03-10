@@ -38,7 +38,6 @@
          zle self-insert
       }
       zle -N globalias
-      bindkey " " globalias
     '';
   };
 

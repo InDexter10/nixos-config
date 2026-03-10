@@ -22,6 +22,8 @@
     usbutils
     binutils
 
+    nix-tree
+
   ];
 
 }
