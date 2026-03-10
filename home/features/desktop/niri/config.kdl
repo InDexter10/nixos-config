@@ -97,19 +97,21 @@ window-rule {
 
 }
 
+include "dms/binds.kdl"
+include "dms/cursor.kdl"
 spawn-at-startup "dbus-update-activation-environment" "--systemd" "DISPLAY" "WAYLAND_DISPLAY" "XDG_CURRENT_DESKTOP" "XDG_SESSION_TYPE" "XCURSOR_THEME" "XCURSOR_SIZE"
 //spawn-at-startup "xwayland-satellite"
 
-spawn-at-startup "swaybg" "-i" "/home/virt0/Pictures/aa.jpg" "-m" "fill"
+//spawn-at-startup "swaybg" "-i" "/home/virt0/Pictures/aa.jpg" "-m" "fill"
 spawn-at-startup "dms" "run"
-spawn-at-startup "mako"
+//spawn-at-startup "mako"
 spawn-at-startup "opensnitch-ui" "--background"
 
 spawn-at-startup "systemctl" "--user" "start" "graphical-session.target"
 
 
 
-screenshot-path "~/Pictures/Screenshot from %Y-%m-%d %H-%M-%S.png"
+//screenshot-path "~/Pictures/Screenshot from %Y-%m-%d %H-%M-%S.png"
 
 spawn-at-startup "org.mozilla.firefox"
 spawn-at-startup "com.brave.Browser"
