@@ -31,4 +31,12 @@
     dgop.package = inputs.dgop.packages.${pkgs.system}.default;
   };
 
+  home.packages = with pkgs; [
+    # ... mevcut paketlerin ...
+
+    # 2. EKLENECEK TEK SATIR BU:
+    inputs.noctalia.packages.${pkgs.system}.default
+    inputs.fresh-editor.packages.${pkgs.system}.default
+  ];
+
 }

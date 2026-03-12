@@ -50,9 +50,6 @@
   };
 
   systemd.coredump.enable = false;
-  security.protectKernelImage = true;
-
-  #environment.memoryAllocator.provider = "scudo";
 
   boot.kernel.sysctl = {
     "kernel.kptr_restrict" = 2;
@@ -77,7 +74,7 @@
 
     "dev.tty.ldisc_autoload" = 0;
 
-    "user.max_user_namespaces" = 1000;
+    "user.max_user_namespaces" = 500;
   };
 
 }

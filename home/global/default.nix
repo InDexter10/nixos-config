@@ -4,6 +4,7 @@
   imports = [
     ../features/pkgs/cli
     ../features/pkgs/tui
+    ./mime.nix
 
   ];
 

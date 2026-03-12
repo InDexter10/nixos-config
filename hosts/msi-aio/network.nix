@@ -30,16 +30,10 @@
       wifi.macAddress = "random";
       ethernet.macAddress = "random";
 
-      insertNameservers = [
-        "9.9.9.9"
-        "149.112.112.112"
-        #"1.1.1.1"
-      ];
-
     };
   };
 
-  services.fail2ban.enable = true;
+  #  services.fail2ban.enable = true;
 
   services.resolved = {
     enable = true;
@@ -48,7 +42,6 @@
 
     fallbackDns = [
       "9.9.9.10"
-      "2620:fe::fe"
     ];
     extraConfig = ''
       MulticastDNS=false

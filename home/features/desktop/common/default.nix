@@ -5,8 +5,7 @@
 
 {
   imports = [
-    ./waybar
-    ./mime.nix
+    #./waybar
     ./style
   ];
 

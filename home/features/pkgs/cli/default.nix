@@ -3,7 +3,6 @@
   imports = [
     ./git.nix
     ./zsh.nix
-    ./fastfetch.nix
   ];
 
   home.packages = with pkgs; [

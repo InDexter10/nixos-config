@@ -8,7 +8,9 @@ input {
 
 }
 
-
+workspace "1"
+workspace "2"
+workspace "3"
 
 output "eDP-1" {
     scale 1.0
@@ -16,7 +18,7 @@ output "eDP-1" {
 }
 
 layout {
-    gaps 24
+    gaps 36
     center-focused-column "never"
     default-column-display "tabbed"
     always-center-single-column
@@ -36,20 +38,15 @@ layout {
         color "#ffc87f80"
         gradient from="#ffbb6680" to="#ffc88080" angle=45 relative-to="workspace-view"
     }
-    // struts {
-    //     left 64
-    //     right 64
-    //     top 1
-    //     bottom 1
-    // }
 
     preset-column-widths {
         proportion 0.40
-        proportion 0.62
-        proportion 0.82
+        proportion 0.55
+        proportion 0.70
+        proportion 1.0
     }
 
-    default-column-width { proportion 0.62; }
+    default-column-width { proportion 0.70; }
     
 
 
@@ -58,7 +55,7 @@ layout {
     }
 
      border {
-        width 4
+        width 0
         active-color "#00f5ff"
         inactive-color "#4C566A"
         
@@ -73,22 +70,27 @@ layout {
     }
 }
 
+/// focus-foreground false odaklanmayı engeller
+
 window-rule {
     match app-id="org.mozilla.firefox"
-    default-column-width {proportion 0.98;}
+    open-on-workspace "1"
+    default-column-width {proportion 1.0;}
 }
 window-rule {
     match app-id="librewolf"
-    default-column-width {proportion 0.98;}
+    default-column-width {proportion 1.0;}
 }
 window-rule {
     match app-id="opensnitch_ui"
-    default-column-width { proportion 0.80; }
+    default-column-width { proportion 1.0; }
 }
 window-rule {
-    match app-id="brave-browser"
-    default-column-width {proportion 0.98;}
+    match app-id="brave-browser" 
+    open-on-workspace "2"
+    default-column-width { proportion 1.0; }
 }
+
 window-rule {
     match app-id="Alacritty"
 
@@ -97,24 +99,43 @@ window-rule {
 
 }
 
+
+window-rule {
+    match app-id="com.system76.CosmicEdit"
+    
+    open-floating true
+    
+    default-floating-position x=0 y=0 relative-to="bottom-right"
+    
+    default-column-width { fixed 580; }
+    default-window-height { proportion 0.9; } // Ekranı tam kaplayacağı için sağ duvarı tamamen kapatır
+    
+    geometry-corner-radius 0.0
+
+}
+
+
 include "dms/binds.kdl"
 include "dms/cursor.kdl"
-spawn-at-startup "dbus-update-activation-environment" "--systemd" "DISPLAY" "WAYLAND_DISPLAY" "XDG_CURRENT_DESKTOP" "XDG_SESSION_TYPE" "XCURSOR_THEME" "XCURSOR_SIZE"
+include "dms/outputs.kdl"
+spawn-at-startup "bash" "-c" "dbus-update-activation-environment --systemd DISPLAY WAYLAND_DISPLAY XDG_CURRENT_DESKTOP XDG_SESSION_TYPE XCURSOR_THEME XCURSOR_SIZE && systemctl --user start graphical-session.target"
+// spawn-at-startup "dbus-update-activation-environment" "--systemd" "DISPLAY" "WAYLAND_DISPLAY" "XDG_CURRENT_DESKTOP" "XDG_SESSION_TYPE" "XCURSOR_THEME" "XCURSOR_SIZE"
+// spawn-at-startup "systemctl" "--user" "start" "graphical-session.target"
+spawn-at-startup "org.mozilla.firefox"
+//spawn-at-startup "com.brave.Browser"
+
 //spawn-at-startup "xwayland-satellite"
 
 //spawn-at-startup "swaybg" "-i" "/home/virt0/Pictures/aa.jpg" "-m" "fill"
-spawn-at-startup "dms" "run"
+//spawn-at-startup "dms" "run"
 //spawn-at-startup "mako"
 spawn-at-startup "opensnitch-ui" "--background"
 
-spawn-at-startup "systemctl" "--user" "start" "graphical-session.target"
 
 
 
 //screenshot-path "~/Pictures/Screenshot from %Y-%m-%d %H-%M-%S.png"
 
-spawn-at-startup "org.mozilla.firefox"
-spawn-at-startup "com.brave.Browser"
 
 
 animations {
@@ -147,7 +168,7 @@ animations {
 
 binds {
     Mod+Shift+Slash { show-hotkey-overlay; }
-
+    Mod+A { spawn "cosmic-edit"; }
     // Temel Araçlar
     Mod+Return { spawn "alacritty"; }
     Mod+D { spawn "fuzzel"; }
@@ -280,7 +301,12 @@ environment {
     
     GDK_BACKEND "wayland,x11"
     
-    QT_QPA_PLATFORM "wayland;xcb"
     
     NIXOS_OZONE_WL "1"
+
+    // Qt/QML arayüzlerinin teklememesi için çizim döngüsünü ayırır
+    QSG_RENDER_LOOP "threaded" 
+    
+    // Qt uygulamalarını kesin olarak Wayland donanım hızlandırmasına zorlar
+    QT_QUICK_BACKEND "scenegraph"
 }

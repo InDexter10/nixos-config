@@ -1,9 +1,9 @@
 { pkgs, ... }:
 
 {
-  users.users.dx = {
+  users.users.dex = {
     isNormalUser = true;
-    description = "second user";
+    description = "main user";
     extraGroups = [
       "networkmanager"
       "wheel"

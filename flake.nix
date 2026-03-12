@@ -17,6 +17,24 @@
       url = "github:AvengeMedia/dgop";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    noctalia-qs = {
+      url = "github:noctalia-dev/noctalia-qs";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    # 2. Noctalia Shell ana reposu
+    noctalia = {
+      url = "github:noctalia-dev/noctalia-shell";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.noctalia-qs.follows = "noctalia-qs"; # Motoru bağla
+    };
+
+    fresh-editor = {
+      url = "github:sinelaw/fresh";
+      inputs.nixpkgs.follows = "nixpkgs"; # Senin sistemindeki nixpkgs ile uyumlu derlensin
+    };
+
   };
 
   outputs =
@@ -27,6 +45,8 @@
       nix-flatpak,
       dms,
       dgop,
+      noctalia,
+      fresh-editor,
       ...
     }@inputs:
     let

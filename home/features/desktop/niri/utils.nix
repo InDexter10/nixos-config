@@ -9,23 +9,43 @@
     #grim
     slurp
     #swaybg
-    libnotify
+    #libnotify
 
     xwayland-satellite
   ];
 
-  systemd.user.services.polkit-gnome-authentication-agent-1 = {
+  # systemd.user.services.polkit-gnome-authentication-agent-1 = {
+  #   Unit = {
+  #     Description = "polkit-gnome-authentication-agent-1";
+  #     Wants = [ "graphical-session.target" ];
+  #     After = [ "graphical-session.target" ];
+  #   };
+  #   Service = {
+  #     Type = "simple";
+  #     ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
+  #     Restart = "on-failure";
+  #     RestartSec = 1;
+  #     TimeoutStopSec = 10;
+  #   };
+  #   Install = {
+  #     WantedBy = [ "graphical-session.target" ];
+  #   };
+  # };
+
+  systemd.user.services.dms-startup = {
     Unit = {
-      Description = "polkit-gnome-authentication-agent-1";
+      Description = "DMS Waybar and Utilities";
+      # Graphical session başladığı an bunu da başlat:
       Wants = [ "graphical-session.target" ];
       After = [ "graphical-session.target" ];
     };
     Service = {
       Type = "simple";
-      ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
+      # dms'in tam yolunu (örn: /home/virt0/.local/bin/dms veya pkgs ile) belirtmen gerekebilir
+      # Eğer PATH içindeyse sadece "dms run" çalışabilir.
+      ExecStart = "${pkgs.bash}/bin/bash -c 'noctalia-shell'";
       Restart = "on-failure";
       RestartSec = 1;
-      TimeoutStopSec = 10;
     };
     Install = {
       WantedBy = [ "graphical-session.target" ];
