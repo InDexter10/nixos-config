@@ -23,7 +23,6 @@
       "org.kde.okular"
       "org.xfce.ristretto"
       #"com.github.jeromerobert.pdfarranger"
-      "com.logseq.Logseq"
       "io.github.celluloid_player.Celluloid"
     ];
 
@@ -75,24 +74,6 @@
             "wayland"
             "pulseaudio"
             "!x11"
-          ];
-          devices = [ "dri" ];
-        };
-      };
-
-      "com.logseq.Logseq" = {
-        Context = {
-          filesystems = [
-            "!host"
-            "!home"
-          ];
-          shared = [
-            "!network"
-          ];
-          sockets = [
-            "wayland"
-            "pulseaudio"
-            "x11"
           ];
           devices = [ "dri" ];
         };

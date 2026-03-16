@@ -1,22 +1,22 @@
 {
   "layer": "top",
   "position": "top",
+  "margin-top": 0, // Üstten 8 piksel boşluk
+  "margin-left": 4, // Soldan boşluk
+  "margin-right": 4, // Sağdan boşluk
+  "margin-bottom": 8,
   "height": 32,
-  "margin-top": 0,
-  "margin-bottom": 0,
-  "margin-left": 0,
-  "margin-right": 0,
   "modules-left": [
     "group/power",
-    "niri/window",
+    "wlr/window" // niri/window yerine Labwc uyumlu aktif pencere başlığı
   ],
   "modules-center": [
-    "niri/workspaces",
+    "wlr/workspaces", // niri/workspaces yerine Labwc uyumlu çalışma alanları
     "wlr/taskbar"
   ],
   "modules-right": [
     "pulseaudio",
-    "backlight",
+    //"backlight",
     "network",
     "cpu",
     "memory",
@@ -25,7 +25,7 @@
   ],
   "cpu": {
     "interval": 2,
-    "format": " {usage:>3}%",
+    "format": " {usage:>3}% (Load: {load})",
     "tooltip": true,
     "states": {
       "warning": 50,
@@ -153,15 +153,17 @@
     ],
     "justify": "center"
   },
-  "niri/window": {
-    "tooltip": false,
-    "format": "{}",
+  "wlr/window": {
+    "format": "{title}",
+    "max-length": 50,
     "rewrite": {
-      "^null$": "Desktop"
+      "(.*) - Mozilla Firefox": "🌎 $1",
+      "(.*) - Alacritty": " $1"
     }
   },
-  "niri/workspaces": {
+  "wlr/workspaces": {
     "format": "{icon}",
+    "on-click": "activate",
     "format-icons": {
       "1": "I",
       "2": "II",
@@ -183,9 +185,9 @@
     "format": "{icon}",
     "icon-size": 18,
     "tooltip-format": "{title}",
-    "on-click": "activate",
-    "on-click-middle": "close",
-    "on-click-right": "close",
+    "on-click": "minimize", // Sol tık: Minimize et / Geri getir
+    "on-click-middle": "close", // Orta tık: Pencereyi kapat
+    "on-click-right": "activate", // Sağ tık: Pencereye odaklan
     "ignore-list": [
       "alacritty-drop"
     ],

@@ -5,7 +5,7 @@
 
 {
   imports = [
-    #./waybar
+    ./waybar
     ./style
   ];
 

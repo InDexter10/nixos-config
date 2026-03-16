@@ -18,7 +18,7 @@ output "eDP-1" {
 }
 
 layout {
-    gaps 36
+    gaps 18
     center-focused-column "never"
     default-column-display "tabbed"
     always-center-single-column
@@ -50,8 +50,16 @@ layout {
     
 
 
-    focus-ring {
-       off 
+focus-ring {
+        // off
+        on
+        width 2
+        active-color "#B7410E"
+        inactive-color "#505050"
+        //urgent-color "#9b0000"
+        // active-gradient from="#80c8ff" to="#bbddff" angle=45
+        // inactive-gradient from="#505050" to="#808080" angle=45 relative-to="workspace-view"
+        // urgent-gradient from="#800" to="#a33" angle=45
     }
 
      border {
@@ -76,6 +84,15 @@ window-rule {
     match app-id="org.mozilla.firefox"
     open-on-workspace "1"
     default-column-width {proportion 1.0;}
+}
+window-rule {
+    match app-id="org.kde.okular"
+    
+    default-column-width {proportion 0.6;}
+}
+window-rule {
+    match app-id="AppFlowy"
+    default-column-width {proportion 0.4;}
 }
 window-rule {
     match app-id="librewolf"
@@ -138,15 +155,46 @@ spawn-at-startup "opensnitch-ui" "--background"
 
 
 
-animations {
-    slowdown 0.50
+// animations {
+//     slowdown 0.50
 
-    window-movement {
-        spring damping-ratio=1.0 stiffness=800 epsilon=0.0001
-    }
+//     window-movement {
+//         spring damping-ratio=1.0 stiffness=800 epsilon=0.0001
+//     }
+
+//     workspace-switch {
+//         spring damping-ratio=1.0 stiffness=800 epsilon=0.0001
+//     }
+
+//     window-open {
+//         duration-ms 150
+//         curve "ease-out-expo"
+//     }
+
+//     window-close {
+//         duration-ms 150
+//         curve "ease-out-quad"
+//     }
+    
+//     screenshot-ui-open {
+//         duration-ms 200
+//         curve "ease-out-quad"
+//     }
+// }
+
+
+animations {
+    // Uncomment to turn off all animations.
+    // You can also put "off" into each individual animation to disable it.
+    // off
+
+    // Slow down all animations by this factor. Values below 1 speed them up instead.
+     slowdown 0.7
+
+    // Individual animations.
 
     workspace-switch {
-        spring damping-ratio=1.0 stiffness=800 epsilon=0.0001
+        spring damping-ratio=1.0 stiffness=1000 epsilon=0.0001
     }
 
     window-open {
@@ -158,13 +206,40 @@ animations {
         duration-ms 150
         curve "ease-out-quad"
     }
-    
+
+    horizontal-view-movement {
+        spring damping-ratio=1.0 stiffness=800 epsilon=0.0001
+    }
+
+    window-movement {
+        spring damping-ratio=1.0 stiffness=800 epsilon=0.0001
+    }
+
+    window-resize {
+        spring damping-ratio=1.0 stiffness=800 epsilon=0.0001
+    }
+
+    config-notification-open-close {
+        spring damping-ratio=0.6 stiffness=1000 epsilon=0.001
+    }
+
+    exit-confirmation-open-close {
+        spring damping-ratio=0.6 stiffness=500 epsilon=0.01
+    }
+
     screenshot-ui-open {
         duration-ms 200
         curve "ease-out-quad"
     }
-}
 
+    overview-open-close {
+        spring damping-ratio=1.0 stiffness=800 epsilon=0.0001
+    }
+
+    recent-windows-close {
+        spring damping-ratio=1.0 stiffness=800 epsilon=0.001
+    }
+}
 
 binds {
     Mod+Shift+Slash { show-hotkey-overlay; }

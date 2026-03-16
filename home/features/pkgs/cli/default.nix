@@ -22,6 +22,7 @@
     binutils
 
     nix-tree
+    file
 
   ];
 

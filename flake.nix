@@ -9,31 +9,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     nix-flatpak.url = "github:gmodena/nix-flatpak";
-    dms = {
-      url = "github:AvengeMedia/DankMaterialShell/stable";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    dgop = {
-      url = "github:AvengeMedia/dgop";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    noctalia-qs = {
-      url = "github:noctalia-dev/noctalia-qs";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
-    # 2. Noctalia Shell ana reposu
-    noctalia = {
-      url = "github:noctalia-dev/noctalia-shell";
-      inputs.nixpkgs.follows = "nixpkgs";
-      inputs.noctalia-qs.follows = "noctalia-qs"; # Motoru bağla
-    };
-
-    fresh-editor = {
-      url = "github:sinelaw/fresh";
-      inputs.nixpkgs.follows = "nixpkgs"; # Senin sistemindeki nixpkgs ile uyumlu derlensin
-    };
 
   };
 
@@ -43,10 +18,6 @@
       nixpkgs,
       home-manager,
       nix-flatpak,
-      dms,
-      dgop,
-      noctalia,
-      fresh-editor,
       ...
     }@inputs:
     let
@@ -82,7 +53,6 @@
           modules = [
             ./home/virt0.nix
             nix-flatpak.homeManagerModules.nix-flatpak
-            inputs.dms.homeModules.dank-material-shell
 
           ];
         };

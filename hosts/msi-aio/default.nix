@@ -15,7 +15,8 @@
     ../common/users/virt0
     ../common/global
 
-    ../common/optional/niri.nix
+    #../common/optional/niri.nix
+    ../common/optional/labwc.nix
     #../common/optional/pipewire.nix
     ../common/optional/flatpak.nix
     #../common/optional/thunar.nix

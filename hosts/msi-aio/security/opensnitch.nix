@@ -11,7 +11,7 @@
 
     settings = {
       # İstasyon Mimarının Altın Kuralı: Tanımıyorsan Vur (Reddet).
-      DefaultAction = "deny";
+      DefaultAction = "allow";
 
       # UI açık değilse veya sen ekranda yoksan, 15 saniye bekler ve otomatik REDDEDER.
       DefaultDuration = "15s";

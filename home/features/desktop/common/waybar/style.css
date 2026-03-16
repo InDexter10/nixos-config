@@ -22,10 +22,19 @@
 
 /* --- ANA BAR --- */
 window#waybar {
-  background-color: @steel-bg;
-  color: @steel-fg;
-  border-radius: 0;
-  border-bottom: 1px solid @steel-panel; /* Sol yerine Alt sınır */
+  /* 1. Yarı Saydamlık (Arkasından geçen Firefox'u hafifçe hissettirir) */
+  background: rgba(0, 0, 0, 1);
+
+  /* 2. Camsı Kenarlık (Işık yansıması hissi verir, derinliği ayırır) */
+  border: 1px solid rgba(255, 255, 255, 0.12);
+
+  /* 3. Kavisli Köşeler (Floating görünümün şartı) */
+  border-radius: 4px;
+
+  /* 4. İŞTE O SİHİR: Gölgelendirme (Panelin altına simsiyah, dağılan bir gölge atar) */
+  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.7);
+
+  color: #cdd6f4;
 }
 
 tooltip {

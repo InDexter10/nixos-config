@@ -8,7 +8,7 @@
   imports = [
     ./global
 
-    ./features/desktop/niri
+    ./features/desktop/labwc
     ./features/desktop/common
 
     ./features/pkgs/gui
@@ -24,19 +24,5 @@
   home.stateVersion = "25.11";
 
   programs.home-manager.enable = true;
-
-  programs.dank-material-shell = {
-    enable = true;
-    enableSystemMonitoring = true;
-    dgop.package = inputs.dgop.packages.${pkgs.system}.default;
-  };
-
-  home.packages = with pkgs; [
-    # ... mevcut paketlerin ...
-
-    # 2. EKLENECEK TEK SATIR BU:
-    inputs.noctalia.packages.${pkgs.system}.default
-    inputs.fresh-editor.packages.${pkgs.system}.default
-  ];
 
 }
