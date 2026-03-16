@@ -7,7 +7,7 @@
 
 {
   services.opensnitch = {
-    enable = true;
+    enable = false;
 
     settings = {
       # İstasyon Mimarının Altın Kuralı: Tanımıyorsan Vur (Reddet).
