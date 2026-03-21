@@ -9,6 +9,9 @@
 
   home.packages = with pkgs; [
     htop
+    wezterm
+    rio
+    pavucontrol
   ];
 
 }

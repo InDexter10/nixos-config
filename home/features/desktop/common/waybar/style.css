@@ -1,181 +1,116 @@
-/* --- HEX STEEL: HORIZONTAL EDITION --- */
+/* --- HEX STEEL: VIP YAPI + ORİJİNAL MAT RENKLER --- */
 
-@define-color steel-bg        #0e0e0d;
-@define-color steel-panel     #1d1e1b;
-@define-color steel-border    #333333;
-@define-color steel-fg        #c3c3bd;
-@define-color steel-icon      #727b7c;
-@define-color steel-accent    #417e8c;
-@define-color steel-blue      #6f91bc;
-@define-color steel-teal      #9bc1bb;
-@define-color steel-rust      #f78c5e;
-@define-color steel-crimson   #d85c60;
-@define-color steel-gold      #d4d987;
+@define-color steel-bg #0e0e0d;
+@define-color steel-panel #1d1e1b;
+@define-color steel-border #333333;
+@define-color steel-fg #c3c3bd;
+@define-color steel-icon #727b7c;
+@define-color steel-accent #417e8c;
+@define-color steel-blue #6f91bc;
+@define-color steel-teal #9bc1bb;
+@define-color steel-rust #f78c5e;
+@define-color steel-crimson #d85c60;
+@define-color steel-gold #d4d987;
 
 * {
   font-family: "JetBrainsMono Nerd Font";
   font-weight: 600;
-  font-size: 12px;
+  font-size: 13px; /* VIP yapının okunaklı boyutu */
   min-height: 0;
-  transition: 0.2s ease-out;
+  transition: all 0.2s ease-out; /* GTK hatası düzeltildi (all eklendi) */
 }
 
-/* --- ANA BAR --- */
+/* --- ANA BAR KAPSÜLÜ (VIP Yapı) --- */
 window#waybar {
-  /* 1. Yarı Saydamlık (Arkasından geçen Firefox'u hafifçe hissettirir) */
-  background: rgba(0, 0, 0, 1);
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
 
-  /* 2. Camsı Kenarlık (Işık yansıması hissi verir, derinliği ayırır) */
-  border: 1px solid rgba(255, 255, 255, 0.12);
-
-  /* 3. Kavisli Köşeler (Floating görünümün şartı) */
-  border-radius: 4px;
-
-  /* 4. İŞTE O SİHİR: Gölgelendirme (Panelin altına simsiyah, dağılan bir gölge atar) */
-  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.7);
-
-  color: #cdd6f4;
+/* 2. ÜST KATMAN (Yuvarlak köşeli ana panel) */
+window#waybar > box {
+  background: rgba(14, 14, 13, 1);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  box-shadow:
+    0px 4px 12px rgba(0, 0, 0, 0.45),
+    0px 12px 32px rgba(0, 0, 0, 0.25);
+  color: @steel-fg;
 }
 
 tooltip {
   background-color: @steel-bg;
   border: 2px solid @steel-accent;
-  border-radius: 0px;
+  border-radius: 8px; /* VIP oval köşeler */
 }
+
 tooltip label {
   color: @steel-fg;
 }
 
-/* --- MODÜL GENEL YAPISI (YATAY) --- */
+/* --- MODÜL GENEL YAPISI (VIP Hap/Pill Yapı, Çizgi Yok) --- */
+.modules-left,
+.modules-center,
+.modules-right {
+  margin: 2px 4px;
+}
+
 #custom-powerbutton,
 #custom-reboot,
 #custom-suspend,
 #custom-lock,
 #custom-idlekiller,
 #user,
+#workspaces button,
+#taskbar button,
+#pulseaudio,
+#backlight,
 #network,
 #cpu,
+#load,
 #memory,
-#backlight,
-#pulseaudio,
 #battery,
 #clock,
-#custom-appmenu,
-#wlr-taskbar button,
-#niri-window,
-#window {
-  /* Üst-alt 0, sağ-sol 10px boşluk. Yatay için en önemli ayar budur. */
-  padding: 0px 4px;
-  margin: 0;
-  background-color: transparent;
+#custom-notification {
+  padding: 0px 4px; /* Hap görünümü için geniş boşluk */
+  border-radius: 8px; /* Hap kavisleri */
   color: @steel-icon;
+  background-color: transparent;
+  margin: 0 2px;
 }
 
-/* Sağ taraftaki modüllerin arasına şık bir ayraç çizgisi */
-#cpu,
-#memory,
-#network,
-#backlight,
-#pulseaudio,
-#battery {
-  border-left: 1px solid @steel-panel;
+/* Modüllerin üstüne gelince yanan mat Hex Steel renkleri */
+#custom-powerbutton:hover,
+#custom-reboot:hover,
+#custom-suspend:hover,
+#custom-lock:hover,
+#custom-idlekiller:hover,
+#pulseaudio:hover,
+#backlight:hover,
+#network:hover,
+#cpu:hover,
+#load:hover,
+#memory:hover,
+#battery:hover,
+#clock:hover,
+#custom-notification:hover {
+  background-color: @steel-panel;
+  color: @steel-fg;
 }
 
 /* --- SOL TARAF --- */
-#cpu:hover {
-  color: @steel-rust;
-  background-color: @steel-panel;
-}
-#cpu.critical {
-  color: @steel-bg;
-  background-color: @steel-crimson;
-  animation: blink 1s infinite;
-}
-#memory:hover {
-  color: @steel-gold;
-  background-color: @steel-panel;
-}
-#custom-powerbutton:hover {
-  color: @steel-crimson;
-  background-color: @steel-panel;
-}
-
-/* --- PENCERE BİLGİSİ --- */
-#window,
-#niri-window {
-  color: @steel-fg;
-  font-weight: bold;
-  padding-left: 15px;
-}
-#window:hover,
-#niri-window:hover {
-  color: @steel-accent;
-  background-color: @steel-panel;
-}
-
-/* --- SAĞ TARAF --- */
-#pulseaudio:hover {
-  color: @steel-teal;
-  background-color: @steel-panel;
-}
-#pulseaudio.muted {
-  color: #444;
-}
-#network:hover {
-  color: @steel-blue;
-  background-color: @steel-panel;
-}
-#network.disconnected {
-  color: @steel-crimson;
-}
-#backlight:hover {
-  color: @steel-gold;
-  background-color: @steel-panel;
-}
-
-/* SAAT: Tam merkezde, dikkat çekici */
-#clock {
-  font-weight: 800;
-  color: @steel-icon;
-  background-color: transparent;
-}
-#clock:hover {
-  color: @steel-accent;
-}
-
-#battery:hover {
-  color: @steel-teal;
-  background-color: @steel-panel;
-}
-#battery.charging {
-  color: @steel-blue;
-}
-#battery.warning {
-  color: @steel-rust;
-}
-#battery.critical {
+#custom-powerbutton {
   color: @steel-crimson;
 }
 
-/* --- ORTA (WORKSPACES) --- */
-#workspaces {
-  background-color: transparent;
-}
-
+/* --- ORTA (WORKSPACES & TASKBAR) --- */
 #workspaces button {
-  padding: 0px 12px; /* Dikeyden yataya geçirildi */
-  background-color: transparent;
-  color: #444;
-  border: none;
-  font-weight: bold;
+  color: @steel-icon;
 }
-
 #workspaces button.active {
   color: @steel-blue;
   background-color: @steel-panel;
-  border-bottom: 2px solid @steel-blue; /* Yatay aktif çizgi */
 }
-
 #workspaces button:hover {
   background-color: @steel-panel;
   color: @steel-fg;
@@ -185,36 +120,85 @@ tooltip label {
   background-color: @steel-rust;
 }
 
-/* --- AÇIK UYGULAMALAR (Taskbar) --- */
 #taskbar button {
-  padding: 0 8px;
   color: @steel-icon;
   opacity: 0.8;
 }
-
 #taskbar button.active {
-  background-color: rgba(65, 126, 140, 0.1);
   color: @steel-accent;
-  border-bottom: 2px solid @steel-accent; /* Sağdan Alta alındı */
-}
-
-#taskbar button:hover {
   background-color: @steel-panel;
+  opacity: 1;
+}
+#taskbar button:hover {
   color: @steel-blue;
+  background-color: @steel-panel;
   opacity: 1;
 }
 
-#custom-reboot:hover {
-  color: @steel-rust;
-  background-color: @steel-panel;
-}
-#custom-lock:hover {
+/* --- SAĞ TARAF --- */
+#pulseaudio:hover {
   color: @steel-teal;
-  background-color: @steel-panel;
 }
-#custom-appmenu:hover {
+#pulseaudio.muted {
+  color: #444;
+}
+
+#network:hover {
   color: @steel-blue;
-  background-color: @steel-panel;
+}
+#network.disconnected {
+  color: @steel-crimson;
+}
+
+#backlight:hover {
+  color: @steel-gold;
+}
+
+#cpu:hover {
+  color: @steel-rust;
+}
+#cpu.critical {
+  color: @steel-bg;
+  background-color: @steel-crimson;
+  animation: blink 1s infinite;
+}
+
+#load:hover {
+  color: @steel-icon;
+}
+#memory:hover {
+  color: @steel-gold;
+}
+
+#battery:hover {
+  color: @steel-teal;
+}
+#battery.charging {
+  color: @steel-blue;
+}
+#battery.warning {
+  color: @steel-rust;
+}
+#battery.critical {
+  color: @steel-crimson;
+  animation: blink 1s infinite;
+}
+
+/* SAAT */
+#clock {
+  font-weight: 800;
+  color: @steel-icon;
+}
+#clock:hover {
+  color: @steel-accent;
+}
+
+#custom-notification {
+  font-size: 16px;
+  padding-right: 12px;
+}
+#custom-notification:hover {
+  color: @steel-accent;
 }
 
 @keyframes blink {

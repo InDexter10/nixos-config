@@ -5,7 +5,7 @@
     enable = true;
     settings = {
       main = {
-        terminal = "${pkgs.alacritty}/bin/alacritty";
+        terminal = "${pkgs.wezterm}/bin/wezterm";
         layer = "overlay";
         width = 60;
       };

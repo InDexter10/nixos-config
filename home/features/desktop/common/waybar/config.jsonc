@@ -1,99 +1,72 @@
 {
   "layer": "top",
   "position": "top",
-  "margin-top": 0, // Üstten 8 piksel boşluk
-  "margin-left": 4, // Soldan boşluk
-  "margin-right": 4, // Sağdan boşluk
-  "margin-bottom": 8,
-  "padding-left": 8,
-  "height": 32,
+  "height": 34,
+  // LABWC 6PX GAP MATEMATİĞİ (SİMETRİ KİLİDİ)
+  "margin-top": -8,
+  "margin-bottom": 10, // Alt boşluğu Labwc'nin kendi 6px gap'i dolduracak
+  "margin-left": 0, // Pencerelerle tam aynı genişlikte olması için 6'ya düşürüldü
+  "margin-right": 0,
+  "spacing": 8,
   "modules-left": [
     "group/power",
-    "wlr/window" // niri/window yerine Labwc uyumlu aktif pencere başlığı
+    "ext/workspaces",
+    "cpu",
+    "load",
+    "memory"
   ],
   "modules-center": [
-    "wlr/workspaces", // niri/workspaces yerine Labwc uyumlu çalışma alanları
     "wlr/taskbar"
   ],
   "modules-right": [
     "pulseaudio",
-    //"backlight",
     "network",
-    "cpu",
-    "memory",
-    "battery",
     "clock",
     "custom/notification"
   ],
-  "custom/notification": {
-    "tooltip": false,
+  "ext/workspaces": {
+    "disable-scroll": true,
+    "all-outputs": true,
+    "format": "{name}",
+    "on-click": "activate",
+    "sort-by-number": true
+  },
+  // --- SOL MODÜLLER ---
+  "group/power": {
+    "modules": [
+      "custom/powerbutton",
+      "custom/reboot",
+      "custom/suspend",
+      "custom/lock",
+      "custom/idlekiller",
+      "user"
+    ],
+    "orientation": "inherit",
+    "drawer": {
+      "transition-duration": 500,
+      "transition-left-to-right": true
+    }
+  },
+  "wlr/taskbar": {
     "format": "{icon}",
-    "format-icons": {
-      "notification": " <span foreground='red'><sup></sup></span>",
-      "none": "",
-      "dnd-notification": " <span foreground='red'><sup></sup></span>",
-      "dnd-none": "",
-      "inhibited-notification": " <span foreground='red'><sup></sup></span>",
-      "inhibited-none": "",
-      "dnd-inhibited-notification": " <span foreground='red'><sup></sup></span>",
-      "dnd-inhibited-none": ""
-    },
-    "return-type": "json",
-    "exec-if": "which swaync-client",
-    "exec": "swaync-client -swb",
-    "on-click": "swaync-client -t -sw",
-    "on-click-right": "swaync-client -d -sw",
-    "escape": true
+    "icon-size": 18,
+    "icon-theme": "Tela-circle", // Sistemindeki ikon temasının adını yazabilirsin
+    "spacing": 4,
+    "tooltip-format": "{title} | {app_id}",
+    "on-click": "activate",
+    "on-click-middle": "close",
+    "on-click-right": "minimize",
+    "ignore-list": [
+      "wezterm-drop",
+      "Waybar"
+    ]
   },
-  "cpu": {
-    "interval": 2,
-    "format": " {usage:>3}% (Load: {load})",
-    "tooltip": true,
-    "states": {
-      "warning": 50,
-      "critical": 80
-    }
-  },
-  "memory": {
-    "interval": 10,
-    "format": " {used:>4.1f}G",
-    "tooltip-format": "Kullanılan: {used:0.1f}G\nToplam: {total:0.1f}G\nSwap: {swapUsed:0.1f}G",
-    "states": {
-      "warning": 70,
-      "critical": 85
-    }
-  },
-  "clock": {
-    "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
-    "format-alt": "{:%d.%m.%Y}",
-    "format": " {:%H:%M}",
-    "interval": 60,
-    "calendar": {
-      "mode": "month",
-      "on-scroll": 1,
-      "format": {
-        "months": "<span color='#ffead3'><b>{}</b></span>",
-        "days": "<span color='#ffffff'><b>{}</b></span>",
-        "weekdays": "<span color='#ffcc66'><b>{}</b></span>",
-        "today": "<span color='#ff6699'><b><u>{}</u></b></span>"
-      }
-    }
-  },
+  // --- SAĞ MODÜLLER ---
   "pulseaudio": {
     "scroll-step": 4,
     "format": "{icon} {volume:>3}%",
-    "format-bluetooth": "{icon} {volume:>3}% {format_source}",
-    "format-bluetooth-muted": " {icon} {format_source}",
     "format-muted": "󰝟 MUT",
-    "format-source": " {volume:>3}%",
-    "format-source-muted": "",
     "format-icons": {
-      "headphone": "",
-      "hands-free": "",
-      "headset": "",
-      "phone": "",
-      "portable": "",
-      "car": "",
       "default": [
         "",
         "",
@@ -102,25 +75,7 @@
     },
     "on-click": "pavucontrol",
     "on-click-right": "pactl set-sink-mute @DEFAULT_SINK@ toggle",
-    "tooltip": false,
-    "justify": "center",
-    "reverse-scrolling": true
-  },
-  "pulseaudio/slider": {
-    "min": 0,
-    "max": 100,
-    "orientation": "horizontal"
-  },
-  "group/audio": {
-    "modules": [
-      "pulseaudio",
-      "pulseaudio/slider"
-    ],
-    "orientation": "inherit",
-    "drawer": {
-      "transition-duration": 500,
-      "transition-left-to-right": false
-    }
+    "tooltip": false
   },
   "backlight": {
     "scroll-step": 4,
@@ -136,25 +91,31 @@
       "",
       ""
     ],
-    "tooltip": false,
-    "justify": "center",
-    "reverse-scrolling": true
+    "tooltip": false
   },
-  "backlight/slider": {
-    "min": 3,
-    "max": 100,
-    "orientation": "horizontal"
+  "network": {
+    "format-wifi": "  {essid}",
+    "format-ethernet": "  {ipaddr}",
+    "format-disconnected": "⚠ Offline",
+    "on-click": "nm-connection-editor",
+    "tooltip-format": "{essid}: {ipaddr}",
+    "max-length": 15
   },
-  "group/brightness": {
-    "modules": [
-      "backlight",
-      "backlight/slider"
-    ],
-    "orientation": "inherit",
-    "drawer": {
-      "transition-duration": 500,
-      "transition-left-to-right": false
-    }
+  "cpu": {
+    "interval": 2,
+    "format": " {usage:>2}%",
+    "tooltip": false
+  },
+  // SABİT GENİŞLİKLİ LOAD MODÜLÜ (Sarsılmayı Engeller)
+  "load": {
+    "interval": 10,
+    "format": "󰊚 {load1:>4} {load5:>4} {load15:>4}",
+    "tooltip-format": "1 Dk: {load1}\n5 Dk: {load5}\n15 Dk: {load15}"
+  },
+  "memory": {
+    "interval": 10,
+    "format": "  {used:>4.1f}G",
+    "tooltip-format": "Kullanılan: {used:0.1f}G\nToplam: {total:0.1f}G\nSwap: {swapUsed:0.1f}G"
   },
   "battery": {
     "states": {
@@ -162,10 +123,8 @@
       "critical": 15
     },
     "format": "{icon} {capacity:>3}%",
-    "format-full": "{icon} {capacity:>3}%",
     "format-charging": " {capacity:>3}%",
     "format-plugged": " {capacity:>3}%",
-    "tooltip-format": "{power} W, {timeTo}",
     "format-icons": [
       "",
       "",
@@ -173,85 +132,30 @@
       "",
       ""
     ],
-    "justify": "center"
+    "tooltip-format": "{power} W, {timeTo}"
   },
-  "wlr/window": {
-    "format": "{title}",
-    "max-length": 50,
-    "rewrite": {
-      "(.*) - Mozilla Firefox": "🌎 $1",
-      "(.*) - Alacritty": " $1"
-    }
+  "clock": {
+    "interval": 60,
+    "format": " {:%H:%M}",
+    "format-alt": " {:%d.%m.%Y}",
+    "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
   },
-  "wlr/workspaces": {
+  // macOS / Mobil Tarzı 3 Çizgili Bildirim İkonu
+  "custom/notification": {
+    "tooltip": false,
     "format": "{icon}",
-    "on-click": "activate",
     "format-icons": {
-      "1": "I",
-      "2": "II",
-      "3": "III",
-      "4": "IV",
-      "5": "V",
-      "6": "VI",
-      "7": "VII",
-      "8": "VIII",
-      "9": "IX"
-    }
-  },
-  "custom/appmenu": {
-    "format": "󰀻",
-    "on-click": "niri msg action toggle-overview",
-    "tooltip": false
-  },
-  "wlr/taskbar": {
-    "format": "{icon}",
-    "icon-size": 18,
-    "tooltip-format": "{title}",
-    "on-click": "minimize", // Sol tık: Minimize et / Geri getir
-    "on-click-middle": "close", // Orta tık: Pencereyi kapat
-    "on-click-right": "activate", // Sağ tık: Pencereye odaklan
-    "ignore-list": [
-      "alacritty-drop"
-    ],
-    "app_ids-mapping": {
-      "firefoxdeveloperedition": "firefox-developer-edition"
-    }
-  },
-  "group/apps": {
-    "modules": [
-      "custom/appmenu",
-      "wlr/taskbar"
-    ],
-    "orientation": "inherit",
-    "drawer": {
-      "transition-duration": 500,
-      "transition-left-to-right": true
-    }
-  },
-  "network": {
-    "format-wifi": " {essid}",
-    "format-ethernet": " {ipaddr}",
-    "tooltip-format": "{essid}: {ipaddr}",
-    "format-linked": " (No IP)",
-    "format-disconnected": "⚠ Offline",
-    "on-click": "alacritty -e nmtui",
-    "min-length": 15,
-    "max-length": 15
-  },
-  "group/power": {
-    "modules": [
-      "custom/powerbutton",
-      "custom/reboot",
-      "custom/suspend",
-      "custom/lock",
-      "custom/idlekiller",
-      "user"
-    ],
-    "orientation": "inherit",
-    "drawer": {
-      "transition-duration": 500,
-      "transition-left-to-right": true
-    }
+      "notification": " <span foreground='#f38ba8'><sup></sup></span>",
+      "none": "",
+      "dnd-notification": " <span foreground='#f38ba8'><sup></sup></span>",
+      "dnd-none": ""
+    },
+    "return-type": "json",
+    "exec-if": "which swaync-client",
+    "exec": "swaync-client -swb",
+    "on-click": "swaync-client -t -sw",
+    "on-click-right": "swaync-client -d -sw",
+    "escape": true
   },
   "custom/powerbutton": {
     "format": "⏻",
@@ -270,7 +174,7 @@
   },
   "custom/lock": {
     "format": "󰍁",
-    "on-click": "hyprlock",
+    "on-click": "swaylock -f",
     "tooltip-format": "Lock"
   },
   "custom/idlekiller": {

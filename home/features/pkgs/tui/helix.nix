@@ -15,6 +15,8 @@
       nodePackages.prettier
 
       marksman
+      lemminx
+      libxml2
     ];
 
     settings = {
@@ -162,6 +164,27 @@
             ];
           };
         }
+        {
+          name = "xml";
+          auto-format = true;
+          file-types = [
+            "xml"
+            "rc"
+            "menu"
+          ]; # Labwc dosyalarını kapsar
+          language-servers = [ "lemminx" ];
+          indent = {
+            tab-width = 2;
+            unit = "  ";
+          };
+          formatter = {
+            command = "${pkgs.libxml2}/bin/xmllint";
+            args = [
+              "--format"
+              "-"
+            ];
+          };
+        }
 
         {
           name = "markdown";
@@ -189,6 +212,9 @@
         marksman = {
           command = "${pkgs.marksman}/bin/marksman";
         };
+        lemminx = {
+          command = "${pkgs.lemminx}/bin/lemminx";
+        };
       };
     };
 
@@ -204,14 +230,27 @@
         };
 
         # Attribute İsimleri (inputs, outputs)
-        "variable.other.member" = {
-          fg = "#727b7c";
-          modifiers = [ "bold" ];
-        };
+        # "variable.other.member" = {
+        #   fg = "#727b7c";
+        #   modifiers = [ "bold" ];
+        # };
         "comment" = {
-          fg = "#417e8c";
-          modifiers = [ "italic" ];
+          fg = "#396884";
         };
+        "comment_doc" = {
+          fg = "#234048";
+        };
+
+        palette = {
+          t3 = "#4b5968";
+        };
+        palette = {
+          t4 = "#61586f";
+        };
+        palette = {
+          t6 = "#98acaa";
+        };
+
       };
     };
   };

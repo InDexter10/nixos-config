@@ -8,8 +8,8 @@
       url = "github:nix-community/home-manager/release-25.11";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    nix-flatpak.url = "github:gmodena/nix-flatpak";
 
+    nix-flatpak.url = "github:gmodena/nix-flatpak";
   };
 
   outputs =
@@ -22,10 +22,15 @@
     }@inputs:
     let
       system = "x86_64-linux";
-      pkgsConfig = {
-        allowUnfree = true;
+
+      pkgs = import nixpkgs {
+        inherit system;
+        config = {
+          allowUnfree = true;
+        };
       };
 
+      extraSpecialArgs = { inherit inputs; };
     in
     {
       nixosConfigurations = {
@@ -35,42 +40,27 @@
           modules = [
             ./hosts/msi-aio/default.nix
 
-            {
-              nixpkgs.config = pkgsConfig;
-            }
+            { nixpkgs.pkgs = pkgs; }
           ];
         };
       };
 
       homeConfigurations = {
         "virt0" = home-manager.lib.homeManagerConfiguration {
-          pkgs = import nixpkgs {
-            inherit system;
-            config = pkgsConfig;
-          };
-
-          extraSpecialArgs = { inherit inputs; };
+          inherit pkgs extraSpecialArgs;
           modules = [
             ./home/virt0.nix
             nix-flatpak.homeManagerModules.nix-flatpak
-
           ];
         };
 
-        "dx" = home-manager.lib.homeManagerConfiguration {
-          pkgs = import nixpkgs {
-            inherit system;
-            config = pkgsConfig;
-          };
-
-          extraSpecialArgs = { inherit inputs; };
+        "dex" = home-manager.lib.homeManagerConfiguration {
+          inherit pkgs extraSpecialArgs;
           modules = [
-            ./home/dx.nix
+            ./home/dex.nix
             nix-flatpak.homeManagerModules.nix-flatpak
-
           ];
         };
-
       };
     };
 }

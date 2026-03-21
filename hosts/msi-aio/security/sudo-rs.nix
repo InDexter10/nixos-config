@@ -8,6 +8,7 @@
     wheelNeedsPassword = true;
     extraConfig = ''
       Defaults rootpw
+      Defaults !pwfeedback
     '';
   };
 }
