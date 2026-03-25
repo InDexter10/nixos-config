@@ -20,9 +20,10 @@
   ],
   "modules-right": [
     "pulseaudio",
-    "network",
-    "clock",
-    "custom/notification"
+    "backlight",
+    "tray",
+    "custom/nightlight",
+    "clock"
   ],
   "ext/workspaces": {
     "disable-scroll": true,
@@ -46,6 +47,22 @@
       "transition-duration": 500,
       "transition-left-to-right": true
     }
+  },
+  "custom/nightlight": {
+    "format": "{icon}",
+    "format-icons": [
+      "",
+      ""
+    ],
+    "return-type": "json",
+    "exec": "sh -c 'if pgrep wlsunset > /dev/null; then echo \"{\\\"alt\\\": \\\"0\\\", \\\"tooltip\\\": \\\"Gece Modu Aktif\\\"}\"; else echo \"{\\\"alt\\\": \\\"1\\\", \\\"tooltip\\\": \\\"Gündüz Modu\\\"}\"; fi'",
+    "interval": 2,
+    "on-click": "sh -c 'pkill wlsunset || wlsunset -T 4501 -t 4500 -S 00:00 -s 23:59 &'",
+    "tooltip": true
+  },
+  "tray": {
+    "icon-size": 16,
+    "spacing": 8
   },
   "wlr/taskbar": {
     "format": "{icon}",
@@ -139,23 +156,6 @@
     "format": " {:%H:%M}",
     "format-alt": " {:%d.%m.%Y}",
     "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
-  },
-  // macOS / Mobil Tarzı 3 Çizgili Bildirim İkonu
-  "custom/notification": {
-    "tooltip": false,
-    "format": "{icon}",
-    "format-icons": {
-      "notification": " <span foreground='#f38ba8'><sup></sup></span>",
-      "none": "",
-      "dnd-notification": " <span foreground='#f38ba8'><sup></sup></span>",
-      "dnd-none": ""
-    },
-    "return-type": "json",
-    "exec-if": "which swaync-client",
-    "exec": "swaync-client -swb",
-    "on-click": "swaync-client -t -sw",
-    "on-click-right": "swaync-client -d -sw",
-    "escape": true
   },
   "custom/powerbutton": {
     "format": "⏻",

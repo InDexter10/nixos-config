@@ -5,8 +5,8 @@
 
 {
   imports = [
-    ./sfwbar
     ./style
+    ./waybar
   ];
 
 }

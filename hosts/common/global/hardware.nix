@@ -8,7 +8,6 @@
       libvdpau-va-gl
     ];
   };
-  hardware.cpu.intel.updateMicrocode = true;
 
   hardware.enableRedistributableFirmware = true;
 

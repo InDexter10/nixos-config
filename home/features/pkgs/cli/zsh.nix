@@ -20,6 +20,7 @@
       n = "cd /home/virt0/nixos-config";
       h = "cd ~";
       b = "cd /home/virt0/Books";
+      l = "cd /home/virt0/.config/labwc";
     };
 
     history = {

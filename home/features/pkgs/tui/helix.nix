@@ -171,7 +171,7 @@
             "xml"
             "rc"
             "menu"
-          ]; # Labwc dosyalarını kapsar
+          ];
           language-servers = [ "lemminx" ];
           indent = {
             tab-width = 2;
@@ -235,21 +235,26 @@
         #   modifiers = [ "bold" ];
         # };
         "comment" = {
-          fg = "#396884";
+          fg = "#417e8c";
         };
         "comment_doc" = {
           fg = "#234048";
         };
 
         palette = {
-          t3 = "#4b5968";
+          t3 = "#766f6f"; # satır numaraları rengi hex steel bir ton açık
         };
         palette = {
-          t4 = "#61586f";
+          t4 = "#7e8182"; # ana metin rengi hex steel bir ton açık
         };
-        palette = {
-          t6 = "#98acaa";
-        };
+        # palette = {
+        #   t6 = "#98acaa"; # keyword "" arasındakiler hex poison
+        # };
+
+        # t9 noktalama işaretleri
+        # t10 fonksiyon isimleri
+        # t11 keyword.function
+        # t8 if else ve operatorle = gibi
 
       };
     };

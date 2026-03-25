@@ -12,28 +12,26 @@
     enableIPv6 = false;
 
     nameservers = [
-      #"9.9.9.9"
-      #"149.112.112.112"
+      "9.9.9.9"
+      "149.112.112.112"
       "1.1.1.1"
     ];
 
     firewall = {
       enable = true;
       allowPing = false;
-      logRefusedConnections = false;
+      logRefusedConnections = true;
     };
 
     networkmanager = {
       enable = true;
       dns = "systemd-resolved";
-
+      wifi.powersave = false;
       wifi.macAddress = "random";
       ethernet.macAddress = "random";
 
     };
   };
-
-  #  services.fail2ban.enable = true;
 
   services.resolved = {
     enable = true;

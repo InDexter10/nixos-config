@@ -1,0 +1,7 @@
+dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=labwc
+systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
+systemctl --user start graphical-session.target
+waybar &
+swaybg -i /home/virt0/Pictures/aa.jpg -m fill &
+mako &
+nm-applet --indicator &

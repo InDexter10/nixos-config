@@ -1,0 +1,41 @@
+# ~/.config/rio/themes/hex_steel.toml
+# Author: portalsurfer
+# Nihai Hex Steel Paleti - Rio Terminal Uyumlu
+
+[colors]
+# --- Ana Arayüz (Core) ---
+background = "#0e0e0d"             # t1: Derin uzay siyahı
+foreground = "#7e8182"             # t4: Ana metin rengi (Açık Arduvaz Grisi)
+cursor = "#f23672"                 # highlight: Canlı pembe imleç
+selection-background = "#4a9aa6"   # selection: Çelik mavisi metin seçimi
+selection-foreground = "#080a0b"   # selection_fg: Seçili alandaki metin
+
+# --- Normal ANSI Renkleri (0-7) ---
+black   = "#1d1e1b"                # t2: İkincil siyah
+red     = "#d85c60"                # t7: Mat kırmızı
+green   = "#d4d987"                # highlight_three: Soluk fıstık yeşili
+yellow  = "#f69c3c"                # highlight_two: Mat turuncu/sarı
+blue    = "#9bc1bb"                # t8: Cam göbeği/mavi
+magenta = "#f23672"                # highlight: İmleçle uyumlu eflatun/pembe
+cyan    = "#417e8c"                # comment: Koyu çelik/deniz mavisi
+white   = "#c3c3bd"                # t10: Soluk beyaz
+
+# --- Parlak (Light) ANSI Renkleri (8-15) ---
+light-black   = "#766f6f"          # t3: Sıcak füme/açık gri (Pasif/ikincil ögeler için)
+light-red     = "#ff4000"          # error: Kritik hatalar
+light-green   = "#0ba95b"          # diff_plus: Ekleme/başarı bildirimleri
+light-yellow  = "#ffbf00"          # warning: Uyarılar
+light-blue    = "#42baff"          # display: Parlak bilgi mesajları
+light-magenta = "#98acaa"          # t6: Soluk adaçayı (alternatif vurgu)
+light-cyan    = "#b5c5c5"          # t9: Açık buz mavisi
+light-white   = "#dad7d5"          # info: En parlak beyaz
+
+# --- Rio'ya Özel UI Katmanları ---
+tabs = "#0e0e0d"                   # t1: Sekme arka planı 
+tabs-active = "#1d1e1b"            # t2: Aktif sekme zemini
+tabs-active-highlight = "#f78c5e"  # t11: Aktif sekme çizgisi (Turuncu)
+split = "#222320"                  # ruler: Paneller arası karanlık çizgi
+
+# --- Arama (Search) Katmanı ---
+search-match-background = "#f69c3c" # highlight_two: Arama eşleşme zemini
+search-match-foreground = "#0e0e0d" # t1: Eşleşen kelimenin rengi

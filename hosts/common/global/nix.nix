@@ -6,7 +6,7 @@
       "nix-command"
       "flakes"
     ];
-    auto-optimise-store = true;
+    auto-optimise-store = false;
     trusted-users = [
       "root"
       "@wheel"

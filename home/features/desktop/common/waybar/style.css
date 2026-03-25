@@ -65,6 +65,7 @@ tooltip label {
 #taskbar button,
 #pulseaudio,
 #backlight,
+#tray,
 #network,
 #cpu,
 #load,
@@ -96,6 +97,51 @@ tooltip label {
 #custom-notification:hover {
   background-color: @steel-panel;
   color: @steel-fg;
+}
+/* --- TRAY (SİSTEM TEPSİSİ) --- */
+#tray {
+  padding: 0px 6px; /* İkonların nefes alması için yatay boşluk */
+  border-radius: 8px; /* VIP hap kavisleri */
+  background-color: transparent;
+  margin: 0 2px;
+  color: @steel-rust;
+}
+
+#tray:hover {
+  background-color: @steel-panel;
+}
+
+/* Pasif veya arka planda çalışan ikonları matlaştırır (Sirk görünümünü engeller) */
+#tray > .passive {
+  -gtk-icon-effect: dim;
+  opacity: 0.6;
+}
+
+/* Bir uygulama uyarı verdiğinde (Örn: İnternet koptuğunda) */
+#tray > .needs-attention {
+  -gtk-icon-effect: highlight;
+  background-color: @steel-rust;
+  color: @steel-bg;
+  border-radius: 6px; /* Uyarı kutusu içindeki küçük hap */
+  padding: 0px 4px;
+}
+
+#custom-nightlight {
+  color: @steel-icon;
+  padding: 0 6px;
+  margin: 0 2px;
+}
+
+#custom-nightlight.0 {
+  /* Aktifken (Gece) */
+  color: @steel-gold;
+  background-color: @steel-panel;
+  border-radius: 8px;
+}
+
+#custom-nightlight.1 {
+  /* Pasifken (Gündüz) */
+  color: @steel-icon;
 }
 
 /* --- SOL TARAF --- */

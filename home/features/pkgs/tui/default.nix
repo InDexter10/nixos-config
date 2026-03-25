@@ -2,15 +2,13 @@
 
 {
   imports = [
-    ./alacritty.nix
     ./yazi.nix
     ./helix.nix
+    ./rio
   ];
 
   home.packages = with pkgs; [
     htop
-    wezterm
-    rio
     pavucontrol
   ];
 

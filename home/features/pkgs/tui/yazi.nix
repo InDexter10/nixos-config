@@ -14,12 +14,14 @@ let
 
     [preview]
     tab_size       = 2
-    max_width      = 600
-    max_height     = 900
+    max_width      = 1000
+    max_height     = 1000
+    image_delay    = 50
     cache_dir      = ""
     image_filter   = "lanczos3"  
     image_quality  = 90
     sixel_fraction = 15
+    image_adapter = "sixel"
 
     [opener]
     edit = [
@@ -47,12 +49,12 @@ let
 
     [plugin]
     # Video dosyaları için ffmpeg tetikleyicilerini ezip, sadece temel "file" (dosya bilgisi okuyucu) eklentisine yönlendiriyoruz.
-    prepend_previewers = [
-      { mime = "video/*", run = "file" }
-    ]
-    prepend_preloaders = [
-      { mime = "video/*", run = "noop" }
-    ]
+    # prepend_previewers = [
+    #   { mime = "video/*", run = "file" }
+    # ]
+    # prepend_preloaders = [
+    #   { mime = "video/*", run = "noop" }
+    # ]
   '';
 
 in

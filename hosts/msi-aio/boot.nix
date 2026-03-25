@@ -2,7 +2,7 @@
 
 {
   boot = {
-    kernelPackages = pkgs.linuxPackages;
+    #kernelPackages = pkgs.linuxPackages_latest;
 
     initrd.systemd.enable = true;
     tmp.cleanOnBoot = true;
@@ -38,15 +38,18 @@
       "slab_nomerge"
       "page_alloc.shuffle=1"
 
-      "intel_iommu=on"
-      "iommu=pt"
+      #"intel_iommu=on"
+      #"iommu=pt"
 
       "sysrq_always_enabled=0"
       "lockdown=integrity" # confidentiality
 
       #"lsm=capability,landlock,lockdown,yama,integrity,apparmor,bpf"
     ];
-
+    extraModprobeConfig = ''
+      options iwlwifi power_save=0
+      options iwlmvm power_scheme=1
+    '';
   };
 
   systemd.coredump.enable = false;
