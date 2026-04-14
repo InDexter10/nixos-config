@@ -3,8 +3,8 @@
 let
   yaziConfig = ''
     [mgr]
-    ratio          = [1, 3, 3]   
-    sort_by        = "alphabetical"   
+    ratio          = [1, 4, 3]   
+    sort_by        = "natural"   
     sort_sensitive = false       
     sort_reverse   = false
     sort_dir_first = true        
@@ -14,15 +14,14 @@ let
 
     [preview]
     tab_size       = 2
+    max_width      = 1000
+    max_height     = 1000
     image_delay    = 50
     cache_dir      = ""
     image_filter   = "lanczos3"  
     image_quality  = 90
     sixel_fraction = 15
     image_adapter = "sixel"
-
-    [tasks]
-    image_bound = [ 0, 0 ]
 
     [opener]
     edit = [
@@ -60,14 +59,7 @@ let
 
 in
 {
-  programs.yazi = {
-    enable = true;
-    extraPackages = with pkgs; [
-      ffmpegthumbnailer
-      chafa
-
-    ];
-  };
+  home.packages = [ pkgs.yazi ];
 
   xdg.configFile."yazi/yazi.toml".text = yaziConfig;
 

@@ -71,7 +71,6 @@
 
         "C-s" = ":w";
         "C-q" = ":q";
-
       };
 
     };
@@ -238,7 +237,7 @@
         "comment" = {
           fg = "#417e8c";
         };
-        "comment.block.documentation" = {
+        "comment_doc" = {
           fg = "#234048";
         };
 

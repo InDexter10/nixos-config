@@ -6,6 +6,9 @@
 }:
 
 {
+  home.sessionPath = [
+    "/home/virt0/nixos-config/home/features/desktop/common/waybar"
+  ];
   programs.zsh = {
     enable = true;
 

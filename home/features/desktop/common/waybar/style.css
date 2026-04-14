@@ -98,7 +98,31 @@ tooltip label {
   background-color: @steel-panel;
   color: @steel-fg;
 }
-/* --- TRAY (SİSTEM TEPSİSİ) --- */
+
+Waybar style snippet · CSS
+/* ~/.config/waybar/style.css */
+ 
+#custom-timew {
+  padding: 0 10px;
+  margin: 2px 4px;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+#custom-timew.idle {
+  color: #888888;
+  background-color: rgba(136, 136, 136, 0.15);
+}
+
+#custom-timew.active {
+  color: #a6e3a1;
+  background-color: rgba(166, 227, 161, 0.15);
+}
+
+#custom-timew.standby {
+  color: #f9e2af;
+  background-color: rgba(249, 226, 175, 0.15);
+} /* --- TRAY (SİSTEM TEPSİSİ) --- */
 #tray {
   padding: 0px 6px; /* İkonların nefes alması için yatay boşluk */
   border-radius: 8px; /* VIP hap kavisleri */

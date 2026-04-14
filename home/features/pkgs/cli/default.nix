@@ -10,6 +10,8 @@
     timewarrior
     jq
 
+    translate-shell
+
     grc
     ripgrep
     fd

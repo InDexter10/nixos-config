@@ -7,10 +7,10 @@
 
 {
   services.opensnitch = {
-    enable = false;
+    enable = true;
 
     settings = {
-      DefaultAction = "deny";
+      DefaultAction = "allow";
 
       DefaultDuration = "15s";
 

@@ -3,7 +3,7 @@
 {
   programs.rio = {
     enable = true;
-    package = pkgs-unstable.labwc;
+    package = pkgs-unstable.rio;
   };
   xdg.configFile."rio" = {
     source = ./configs;

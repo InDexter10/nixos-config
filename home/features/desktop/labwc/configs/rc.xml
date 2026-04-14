@@ -25,7 +25,7 @@
     <cornerRadius>8</cornerRadius>
     <keepBorder>yes</keepBorder>
     <maximizedDecoration>titlebar</maximizedDecoration>
-    <dropShadows>no</dropShadows>
+    <dropShadows>yes</dropShadows>
     <dropShadowsOnTiled>no</dropShadowsOnTiled>
     <font place="ActiveWindow">
       <name>sans</name>
@@ -94,7 +94,9 @@
     <initial>Workspace 1</initial>
     <names>
       <name>1</name>
-      <name>2</name>
+      <name>Book</name>
+      <name>Uyap</name>
+      <name>4</name>
     </names>
   </desktops>
   <margin top="10" bottom="10" left="20" right="20"/>
@@ -131,7 +133,7 @@
       <action name="ToggleMaximize"/>
     </keybind>
     <keybind key="W-d">
-      <action name="Execute" command="fuzzel"/>
+      <action name="Execute" command="tofi-drun"/>
     </keybind>
     <keybind key="W-Left">
       <action name="SnapToEdge" direction="left" combine="yes"/>
@@ -242,6 +244,10 @@
     </keybind>
     <keybind key="W-&#x131;">
       <action name="SnapToRegion" region="center"/>
+    </keybind>
+    <!-- translete-shell -->
+    <keybind key="F1">
+      <action name="Execute" command="/home/virt0/nixos-config/home/features/desktop/labwc/configs/translate-popup.sh"/>
     </keybind>
   </keyboard>
   <mouse>

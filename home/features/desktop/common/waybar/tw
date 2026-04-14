@@ -1,0 +1,92 @@
+#!/usr/bin/env bash
+# tw — timewarrior wrapper with auto-stop and waybar integration
+# Usage:
+#   tw start <tag> [minutes]   → start timer (default: 37 min)
+#   tw stop                    → stop timer
+#   tw status                  → waybar JSON output
+#   tw summary [args...]       → timew summary passthrough
+
+RUNTIME_DIR="${XDG_RUNTIME_DIR:-/tmp}"
+END_FILE="${RUNTIME_DIR}/tw-end"
+DONE_FILE="${RUNTIME_DIR}/tw-done"
+PID_FILE="${RUNTIME_DIR}/tw-bg.pid"
+DEFAULT_MINUTES=37
+SOUND_FILE="${TW_SOUND:-/usr/share/sounds/freedesktop/stereo/complete.oga}"
+
+signal_waybar() { pkill -RTMIN+10 waybar 2>/dev/null; }
+
+kill_background() {
+    [[ -f "$PID_FILE" ]] && kill "$(cat "$PID_FILE")" 2>/dev/null
+    rm -f "$PID_FILE"
+}
+
+is_timew_active() { timew get dom.active 2>/dev/null | grep -q "1"; }
+
+cmd_start() {
+    local tag="$1"
+    local minutes="${2:-$DEFAULT_MINUTES}"
+    [[ -z "$tag" ]] && { echo "Usage: tw start <tag> [minutes]"; exit 1; }
+
+    kill_background
+    timew stop 2>/dev/null
+    rm -f "$DONE_FILE" "$END_FILE"
+    timew start "$tag"
+    date -d "+${minutes} minutes" +%s > "$END_FILE"
+
+    (
+        sleep "${minutes}m"
+        timew stop 2>/dev/null
+        notify-send -u critical "Time's Up" "${tag} — ${minutes} min completed."
+        [[ -f "$SOUND_FILE" ]] && paplay "$SOUND_FILE" 2>/dev/null
+        touch "$DONE_FILE"
+        rm -f "$END_FILE" "$PID_FILE"
+        signal_waybar
+    ) &
+    echo $! > "$PID_FILE"
+    disown
+    signal_waybar
+    echo "▶ ${tag} — ${minutes} min"
+}
+
+cmd_stop() {
+    kill_background
+    timew stop 2>/dev/null
+    rm -f "$END_FILE" "$DONE_FILE"
+    signal_waybar
+}
+
+cmd_status() {
+    local text class tooltip
+    tooltip=$(timew summary :ids 2>/dev/null | head -20 | sed ':a;N;$!ba;s/\n/\\n/g;s/"/\\"/g')
+
+    if is_timew_active && [[ -f "$END_FILE" ]]; then
+        local now end_ts remaining_min
+        now=$(date +%s)
+        end_ts=$(cat "$END_FILE")
+        remaining_min=$(( (end_ts - now + 59) / 60 ))
+        [[ $remaining_min -lt 0 ]] && remaining_min=0
+        text=" ${remaining_min} min"
+        class="active"
+    elif is_timew_active; then
+        text=""
+        class="active"
+    elif [[ -f "$DONE_FILE" ]]; then
+        text=" stand by"
+        class="standby"
+    else
+        text=""
+        class="idle"
+    fi
+
+    echo "{\"text\": \"${text}\", \"class\": \"${class}\", \"tooltip\": \"${tooltip}\"}"
+}
+
+cmd_summary() { timew summary "$@"; }
+
+case "${1:-}" in
+    start)   cmd_start "$2" "$3" ;;
+    stop)    cmd_stop ;;
+    status)  cmd_status ;;
+    summary) shift; cmd_summary "$@" ;;
+    *)       echo "Usage: tw {start <tag> [min] | stop | summary [args] | status}"; exit 1 ;;
+esac

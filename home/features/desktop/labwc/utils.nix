@@ -1,32 +1,14 @@
 { pkgs, ... }:
 
 {
-  # Labwc ve SwayNC için gerekli ekstra araçlar
+
   home.packages = with pkgs; [
     wlopm # Monitör kapatmak için
-    wlsunset # Gece ışığı motoru
-    brightnessctl # Parlaklık kontrolü (Hatayı çözen paket)
-    networkmanagerapplet # GUI Wi-Fi ayarları için (nm-connection-editor)
+    wlsunset
+    brightnessctl
+    networkmanagerapplet
+    swayidle
   ];
-
-  # --- POLKIT (Yetkilendirme) ---
-  systemd.user.services.polkit-gnome-authentication-agent-1 = {
-    Unit = {
-      Description = "polkit-gnome-authentication-agent-1";
-      Wants = [ "graphical-session.target" ];
-      After = [ "graphical-session.target" ];
-    };
-    Service = {
-      Type = "simple";
-      ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
-      Restart = "on-failure";
-      RestartSec = 1;
-      TimeoutStopSec = 10;
-    };
-    Install = {
-      WantedBy = [ "graphical-session.target" ];
-    };
-  };
 
   # --- SWAYLOCK ---
   programs.swaylock = {
@@ -43,40 +25,12 @@
     };
   };
 
-  # --- SWAYIDLE (Labwc Uyumlu) ---
-  services.swayidle = {
-    enable = true;
-    systemdTarget = "graphical-session.target";
-    events = [
-      {
-        event = "before-sleep";
-        command = "${pkgs.swaylock}/bin/swaylock -f";
-      }
-      {
-        event = "lock";
-        command = "${pkgs.swaylock}/bin/swaylock -f";
-      }
-    ];
-    timeouts = [
-      {
-        timeout = 1200;
-        command = "${pkgs.swaylock}/bin/swaylock -f";
-      }
-      {
-        timeout = 1260;
-        # Ters eğik çizgileri sildik, yıldızı tırnağa aldık
-        command = "${pkgs.wlopm}/bin/wlopm --off '*'";
-        resumeCommand = "${pkgs.wlopm}/bin/wlopm --on '*'";
-      }
-    ];
-  };
+  # ─────────────────────────────────────────────────────────
+  #  utils.nix — mako yapılandırması (v3)
+  # ─────────────────────────────────────────────────────────
 
-  # --- SWAYNC (Profesyonel Kontrol Merkezi) ---
-
-  # --- SWAYNC (Ultra VIP Control Center) ---
   services.mako = {
     enable = true;
-    # Artık ayarlar 'settings' altına ve yeni isimleriyle geliyor
     settings = {
       background-color = "#0e0e0d";
       border-color = "#417e8c";
@@ -84,22 +38,48 @@
       border-radius = 0;
       border-size = 2;
       font = "JetBrainsMono Nerd Font 10";
-      width = 300;
-      height = 100;
+      width = 400;
+      height = 500;
       margin = "10";
       padding = "15";
       default-timeout = 5000;
+      markup = true;
+      max-visible = 5;
     };
-    # Özel kurallar hala extraConfig içinde kalabilir
     extraConfig = ''
       [urgency=high]
       border-color=#d85c60
+
+      # ── Çeviri popup teması ──────────────────────────────
+      #
+      # format açıklaması:
+      #   %s = summary (orijinal kelime) → teal + kalın + büyük
+      #   %b = body (Türkçe çeviri + sözlük) → koyu metin
+      #
+      # Böylece İngilizce ve Türkçe görsel olarak ayrılır:
+      #   teal = kaynak dil (İng/Jpn/Çin/Arapça...)
+      #   koyu = Türkçe çeviri
+      #
+      [app-name=translate]
+      background-color=#faf8f5
+      text-color=#2d2d2d
+      border-color=#4DB6AC
+      border-size=2
+      border-radius=4
+      font=JetBrainsMono Nerd Font 10
+      width=440
+      height=550
+      padding=18
+      default-timeout=12000
+      markup=1
+      format=<span foreground='#4DB6AC' size='large'><b>%s</b></span>\n%b
     '';
   };
+
   services.wlsunset = {
-    enable = true;
-    latitude = "39.9"; # Örnek: Ankara/Türkiye enlemi
-    longitude = "32.8"; # Örnek: Boylam
+    enable = false;
+    latitude = "39.9";
+    longitude = "32.8";
     temperature = {
       day = 6500;
       night = 4000;

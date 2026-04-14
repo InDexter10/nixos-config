@@ -112,7 +112,7 @@ osd.window-switcher.style-thumbnail.item.icon.size: 60
 # --- PENCERE DEĞİŞİMİNDE DIŞ ÇİZGİLER (Outlines) ---
 osd.window-switcher.preview.border.width: 2
 # Çizgi renkleri: t6, t1, t6
-osd.window-switcher.preview.border.color: #6e8789,#0e0e0d,#6e8789
+osd.window-switcher.preview.border.color: #ff7043,#0e0e0d,#000000
 
 # --- ÇALIŞMA ALANI KUTULARI ---
 osd.workspace-switcher.boxes.width: 20

@@ -5,7 +5,7 @@
 
   imports = [
     ./utils.nix
-    ./fuzzel.nix
+    ./tofi.nix
   ];
   xdg.configFile."labwc" = {
     source = ./configs;
@@ -13,6 +13,7 @@
   };
   home.packages = with pkgs; [
     swaybg
+    wl-clipboard
     libnotify
   ];
 }

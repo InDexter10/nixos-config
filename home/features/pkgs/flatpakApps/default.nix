@@ -21,8 +21,8 @@
       "io.gitlab.librewolf-community"
       "com.github.tchx84.Flatseal"
       "org.kde.okular"
-      "org.xfce.ristretto"
-      #"com.github.jeromerobert.pdfarranger"
+      "org.kde.gwenview"
+      "com.github.jeromerobert.pdfarranger"
       "io.github.celluloid_player.Celluloid"
     ];
 
@@ -115,7 +115,7 @@
         };
       };
 
-      "org.xfce.ristretto" = {
+      "org.kde.gwenview" = {
         Context = {
           filesystems = [
             "!host"

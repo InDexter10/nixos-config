@@ -38,8 +38,8 @@
       "slab_nomerge"
       "page_alloc.shuffle=1"
 
-      #"intel_iommu=on"
-      #"iommu=pt"
+      "intel_iommu=on"
+      "iommu=pt"
 
       "sysrq_always_enabled=0"
       "lockdown=integrity" # confidentiality

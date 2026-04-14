@@ -11,13 +11,13 @@
 
     defaultApplications = {
 
-      "image/jpeg" = [ "org.xfce.ristretto.desktop" ];
-      "image/png" = [ "org.xfce.ristretto.desktop" ];
-      "image/webp" = [ "org.xfce.ristretto.desktop" ];
-      "image/gif" = [ "org.xfce.ristretto.desktop" ];
-      "image/bmp" = [ "org.xfce.ristretto.desktop" ];
-      "image/svg+xml" = [ "org.xfce.ristretto" ];
-      "image/tiff" = [ "org.xfce.ristretto.desktop" ];
+      "image/jpeg" = [ "org.kde.gwenview.desktop" ];
+      "image/png" = [ "org.kde.gwenview.desktop" ];
+      "image/webp" = [ "org.kde.gwenview.desktop" ];
+      "image/gif" = [ "org.kde.gwenview.desktop" ];
+      "image/bmp" = [ "org.kde.gwenview.desktop" ];
+      "image/svg+xml" = [ "org.kde.gwenview.desktop" ];
+      "image/tiff" = [ "org.kde.okular.desktop" ];
 
       "application/pdf" = [ "org.kde.okular.desktop" ];
       "application/epub+zip" = [ "org.kde.okular.desktop" ];
