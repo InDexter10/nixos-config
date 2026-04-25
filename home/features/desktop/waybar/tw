@@ -19,8 +19,8 @@ is_timew_active() { timew get dom.active 2>/dev/null | grep -q "1"; }
 cmd_start() {
     local tag="$1"
     local minutes="${2:-$DEFAULT_MINUTES}"
+[[ -z "$minutes" ]] && minutes="$DEFAULT_MINUTES"
     [[ -z "$tag" ]] && { echo "Usage: tw start <tag> [minutes]"; exit 1; }
-
     kill_background
     timew stop 2>/dev/null
     rm -f "$DONE_FILE" "$END_FILE"
@@ -78,7 +78,7 @@ cmd_status() {
 cmd_summary() { timew summary "$@"; }
 
 case "${1:-}" in
-    start)   cmd_start "$2" "$3" ;;
+    start)   cmd_start "${2:-}" "${3:-}" ;;
     stop)    cmd_stop ;;
     status)  cmd_status ;;
     summary) shift; cmd_summary "$@" ;;

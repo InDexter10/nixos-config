@@ -43,7 +43,7 @@
     }
   },
   "custom/timew": {
-    "exec": "~/.config/waybar/tw status",
+    "exec": "tw status",
     "return-type": "json",
     "interval": 30,
     "signal": 10,
