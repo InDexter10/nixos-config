@@ -11,6 +11,7 @@
     ./hardware.nix
     ./zram.nix
     ./power-management.nix
+    ./pipewire.nix
   ];
 
 }

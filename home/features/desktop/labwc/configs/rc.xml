@@ -94,8 +94,8 @@
     <initial>Workspace 1</initial>
     <names>
       <name>1</name>
-      <name>Book</name>
-      <name>Uyap</name>
+      <name>book</name>
+      <name>uyap</name>
       <name>4</name>
     </names>
   </desktops>
@@ -133,7 +133,7 @@
       <action name="ToggleMaximize"/>
     </keybind>
     <keybind key="W-d">
-      <action name="Execute" command="tofi-drun"/>
+      <action name="Execute" command="fuzzel"/>
     </keybind>
     <keybind key="W-Left">
       <action name="SnapToEdge" direction="left" combine="yes"/>
@@ -474,11 +474,18 @@
     <windowRule identifier="*">
       <action name="SetDecorations" decorations="border"/>
     </windowRule>
+    <windowRule identifier="org.mozilla.firefox" matchOnce="true">
+      <action name="SendToDesktop" to="1"/>
+      <action name="Maximize"/>
+    </windowRule>
+    <windowRule identifier="brave-browser" matchOnce="true">
+      <action name="SendToDesktop" to="book"/>
+      <action name="Maximize"/>
+    </windowRule>
+    <windowRule identifier="tr-com-havelsan-uyap-system-editor-common-WPAppManager">
+      <action name="SendToDesktop" to="uyap"/>
+    </windowRule>
   </windowRules>
-  <windowRule server="false">
-    <action name="ResizeTo" width="1000" height="700"/>
-    <action name="Center"/>
-  </windowRule>
   <menu>
     <ignoreButtonReleasePeriod>250</ignoreButtonReleasePeriod>
     <showIcons>yes</showIcons>

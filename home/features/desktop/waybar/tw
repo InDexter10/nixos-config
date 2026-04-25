@@ -1,10 +1,4 @@
 #!/usr/bin/env bash
-# tw — timewarrior wrapper with auto-stop and waybar integration
-# Usage:
-#   tw start <tag> [minutes]   → start timer (default: 37 min)
-#   tw stop                    → stop timer
-#   tw status                  → waybar JSON output
-#   tw summary [args...]       → timew summary passthrough
 
 RUNTIME_DIR="${XDG_RUNTIME_DIR:-/tmp}"
 END_FILE="${RUNTIME_DIR}/tw-end"

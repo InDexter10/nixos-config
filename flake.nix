@@ -61,10 +61,10 @@
           ];
         };
 
-        "dex" = home-manager.lib.homeManagerConfiguration {
+        "rai" = home-manager.lib.homeManagerConfiguration {
           inherit pkgs extraSpecialArgs;
           modules = [
-            ./home/dex.nix
+            ./home/rai.nix
             nix-flatpak.homeManagerModules.nix-flatpak
           ];
         };

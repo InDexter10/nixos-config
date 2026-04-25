@@ -9,7 +9,8 @@
     ./global
 
     ./features/desktop/labwc
-    ./features/desktop/common
+    ./features/desktop/waybar
+    ./features/desktop/style
 
     ./features/pkgs/gui
     ./features/pkgs/gui/uyap

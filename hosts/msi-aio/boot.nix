@@ -42,7 +42,7 @@
       "iommu=pt"
 
       "sysrq_always_enabled=0"
-      "lockdown=integrity" # confidentiality
+      "lockdown=integrity"
 
       #"lsm=capability,landlock,lockdown,yama,integrity,apparmor,bpf"
     ];

@@ -18,7 +18,6 @@
     ../common/optional/labwc.nix
     ../common/optional/flatpak.nix
     ../common/optional/greetd.nix
-    ../common/optional/pipewire.nix
 
   ];
 

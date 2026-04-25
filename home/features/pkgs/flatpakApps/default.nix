@@ -23,7 +23,7 @@
       "org.kde.okular"
       "org.kde.gwenview"
       "com.github.jeromerobert.pdfarranger"
-      "io.github.celluloid_player.Celluloid"
+      "org.videolan.VLC"
     ];
 
     overrides = {
@@ -96,7 +96,7 @@
         };
       };
 
-      "io.github.celluloid_player.Celluloid" = {
+      "org.videolan.VLC" = {
         Context = {
           filesystems = [
             "~/Movies"
@@ -107,10 +107,8 @@
             "!xdg-run/gvfsd"
           ];
           sockets = [
-            "wayland"
             "pulseaudio"
-            "!x11" # X11'i açıkça reddet
-            "!fallback-x11" # Yedek X11'i açıkça reddet
+            "fallback-x11" # Yedek X11'i açıkça reddet
           ];
           shared = [
             "ipc"

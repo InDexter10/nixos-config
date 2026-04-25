@@ -12,6 +12,7 @@
   "spacing": 8,
   "modules-left": [
     "group/power",
+    "ext/workspaces",
     "cpu",
     "load",
     "memory"
@@ -28,8 +29,6 @@
   ],
   // --- SOL MODÜLLER ---
   "group/power": {
-    // "user" drawer içinden çıkarıldı — user modülü panel-level,
-    // drawer içinde düzgün render olmuyor.
     "modules": [
       "custom/powerbutton",
       "custom/reboot",
@@ -44,8 +43,6 @@
     }
   },
   "custom/timew": {
-    // tw scripti gerçekten JSON dönüyorsa return-type JSON kalır.
-    // Eğer plain text dönüyorsa bu satırı tamamen sil, format sadece "{}" olsun.
     "exec": "~/.config/waybar/tw status",
     "return-type": "json",
     "interval": 30,
@@ -53,14 +50,6 @@
     "format": "{}",
     "tooltip": true
   },
-  // --- NIGHTLIGHT: TAMAMEN POLLINGSIZ ---
-  // Eski hali her 2 saniyede subprocess spawn ediyordu (load'un ana kaynağı).
-  // Yeni yaklaşım: interval 0 (hiç polling yok), toggle anında signal gönder.
-  // Güncelleme için: pkill -RTMIN+8 waybar
-  //
-  // on-click hem wlsunset'i toggle ediyor hem de waybar'a sinyal yolluyor,
-  // böylece ikon anında güncelleniyor. sh -c sarmalaması kaldırıldı,
-  // waybar exec alanını zaten shell'de çalıştırıyor.
   "tray": {
     "icon-size": 16,
     "spacing": 8
@@ -78,6 +67,12 @@
       "wezterm-drop",
       "Waybar"
     ]
+  },
+  "ext/workspaces": {
+    "format": "{name}",
+    "on-click": "activate",
+    "all-outputs": true,
+    "sort-by-number": true
   },
   // --- SAĞ MODÜLLER ---
   "pulseaudio": {
@@ -119,8 +114,6 @@
     "tooltip-format": "{essid}: {ipaddr}",
     "max-length": 15
   },
-  // CPU interval 2 → 5. 2 saniyelik güncelleme hiçbir şey ifade etmiyor,
-  // gözle zaten takip edemiyorsun. Load'u gereksiz yere yukarı çekiyordu.
   "cpu": {
     "interval": 5,
     "format": " {usage:>2}%",
@@ -154,13 +147,25 @@
     "tooltip-format": "{power} W, {timeTo}"
   },
   "clock": {
+    "locale": "tr_TR.UTF-8",
     "interval": 60,
     "format": " {:%H:%M}",
-    "format-alt": " {:%d.%m.%Y}",
-    "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
+    "format-alt": " {:%A, %d %B %Y}",
+    "tooltip-format": "<big>{:%A, %d %B %Y}</big>\n<tt><small>{calendar}</small></tt>",
+    "calendar": {
+      "mode": "month",
+      "mode-mon-col": 3,
+      "weeks-pos": "right",
+      "on-scroll": 1,
+      "format": {
+        "months": "<span color='#f78c5e'><b>{}</b></span>",
+        "days": "<span color='#c3c3bd'><b>{}</b></span>",
+        "weeks": "<span color='#417e8c'><b>W{}</b></span>",
+        "weekdays": "<span color='#9bc1bb'><b>{}</b></span>",
+        "today": "<span color='#d85c60'><b><u>{}</u></b></span>"
+      }
+    }
   },
-  // --- POWER DRAWER ALT MODÜLLERİ ---
-  // sh -c sarmalamaları kaldırıldı, waybar on-click zaten shell'de çalıştırır.
   "custom/powerbutton": {
     "format": "⏻",
     "on-click": "poweroff",
@@ -187,28 +192,3 @@
     "tooltip": "Inhibit Idle"
   }
 }
-// =============================================================
-// ÖZET: YAPILAN DEĞİŞİKLİKLER
-// =============================================================
-//
-// KALDIRILDI:
-// - ext/workspaces modülü: niri'ye özel, labwc'de çalışmaz.
-//   labwc'de native workspace kavramı yok; sway/river gibi değil.
-// - group/power içinden "user" modülü: drawer içinde düzgün render olmuyor.
-// - custom/powerbutton vb. için "tooltip-format" → "tooltip": anahtar yanlıştı.
-//
-// OPTİMIZE EDİLDİ (load düşürücü ana değişiklikler):
-// - custom/nightlight: interval 2sn polling → "once" + signal tabanlı.
-//   Bu tek başına load'un büyük kısmını açıklıyordu. Günde ~43k fork → 0.
-// - cpu: interval 2 → 5 saniye.
-// - sh -c sarmalamaları kaldırıldı: her tıklamada gereksiz shell process'i
-//   spawn etmeyi önler.
-//
-// DEĞİŞMEDEN BIRAKILDI AMA NOT:
-// - custom/timew: return-type JSON dönüyor, tw scripti gerçekten JSON
-//   çıktı veriyor mu emin ol. Vermiyorsa return-type'ı sil.
-// - wlr/taskbar: yeni waybar'da deprecated değil ama "taskbar" olarak
-//   prefix'siz de çalışıyor. Şimdilik dokunmadım.
-//
-// NOT: nightlight signal numarası 8 seçildi (timew'in signal 10'undan farklı).
-// Her custom modülün signal numarası unique olmalı.
