@@ -43,7 +43,7 @@
   <menu id="client-list-combined-menu" label="Running..." />
   -->
   <item label="Terminal">
-    <action name="Execute" command="lab-sensible-terminal" />
+    <action name="Execute" command="rio" />
   </item>
   <separator />
   <item label="Reconfigure">

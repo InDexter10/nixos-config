@@ -1,6 +1,5 @@
 dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP=labwc
 systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
-
 waybar &
 swaybg -i $HOME/Pictures/aa.jpg -m fill &
 nm-applet --indicator &

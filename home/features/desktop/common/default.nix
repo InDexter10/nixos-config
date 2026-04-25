@@ -9,7 +9,6 @@
     ./waybar
   ];
   home.packages = with pkgs; [
-    ironbar
   ];
 
 }

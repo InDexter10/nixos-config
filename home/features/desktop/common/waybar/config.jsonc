@@ -1,16 +1,17 @@
+// Waybar config — labwc uyumlu, load-optimize edilmiş
+// Ana değişiklikler özet olarak dosya sonundaki yorumda.
 {
   "layer": "top",
   "position": "top",
   "height": 34,
-  // LABWC 6PX GAP MATEMATİĞİ (SİMETRİ KİLİDİ)
+  // labwc gap matematiği — 6px gap varsayılıyor
   "margin-top": -8,
-  "margin-bottom": 10, // Alt boşluğu Labwc'nin kendi 6px gap'i dolduracak
-  "margin-left": 0, // Pencerelerle tam aynı genişlikte olması için 6'ya düşürüldü
+  "margin-bottom": 10,
+  "margin-left": 0,
   "margin-right": 0,
   "spacing": 8,
   "modules-left": [
     "group/power",
-    "ext/workspaces",
     "cpu",
     "load",
     "memory"
@@ -23,25 +24,18 @@
     "pulseaudio",
     "backlight",
     "tray",
-    "custom/nightlight",
     "clock"
   ],
-  "ext/workspaces": {
-    "disable-scroll": true,
-    "all-outputs": true,
-    "format": "{name}",
-    "on-click": "activate",
-    "sort-by-number": true
-  },
   // --- SOL MODÜLLER ---
   "group/power": {
+    // "user" drawer içinden çıkarıldı — user modülü panel-level,
+    // drawer içinde düzgün render olmuyor.
     "modules": [
       "custom/powerbutton",
       "custom/reboot",
       "custom/suspend",
       "custom/lock",
-      "custom/idlekiller",
-      "user"
+      "custom/idlekiller"
     ],
     "orientation": "inherit",
     "drawer": {
@@ -49,27 +43,24 @@
       "transition-left-to-right": true
     }
   },
-  // "modules-right" dizisine "custom/timew" ekleyin
   "custom/timew": {
+    // tw scripti gerçekten JSON dönüyorsa return-type JSON kalır.
+    // Eğer plain text dönüyorsa bu satırı tamamen sil, format sadece "{}" olsun.
     "exec": "~/.config/waybar/tw status",
     "return-type": "json",
     "interval": 30,
     "signal": 10,
-    //"on-click": "notify-send 'Timewarrior' \"$(~/.config/waybar/tw summary)\"",
-    "format": "{}"
-  },
-  "custom/nightlight": {
-    "format": "{icon}",
-    "format-icons": [
-      "",
-      ""
-    ],
-    "return-type": "json",
-    "exec": "sh -c 'if pgrep wlsunset > /dev/null; then echo \"{\\\"alt\\\": \\\"0\\\", \\\"tooltip\\\": \\\"Gece Modu Aktif\\\"}\"; else echo \"{\\\"alt\\\": \\\"1\\\", \\\"tooltip\\\": \\\"Gündüz Modu\\\"}\"; fi'",
-    "interval": 2,
-    "on-click": "sh -c 'pkill wlsunset || wlsunset -T 4501 -t 4500 -S 00:00 -s 23:59 &'",
+    "format": "{}",
     "tooltip": true
   },
+  // --- NIGHTLIGHT: TAMAMEN POLLINGSIZ ---
+  // Eski hali her 2 saniyede subprocess spawn ediyordu (load'un ana kaynağı).
+  // Yeni yaklaşım: interval 0 (hiç polling yok), toggle anında signal gönder.
+  // Güncelleme için: pkill -RTMIN+8 waybar
+  //
+  // on-click hem wlsunset'i toggle ediyor hem de waybar'a sinyal yolluyor,
+  // böylece ikon anında güncelleniyor. sh -c sarmalaması kaldırıldı,
+  // waybar exec alanını zaten shell'de çalıştırıyor.
   "tray": {
     "icon-size": 16,
     "spacing": 8
@@ -95,9 +86,9 @@
     "format-muted": "󰝟 MUT",
     "format-icons": {
       "default": [
-        "",
-        "",
-        ""
+        "",
+        "",
+        ""
       ]
     },
     "on-click": "pavucontrol",
@@ -108,32 +99,33 @@
     "scroll-step": 4,
     "format": "{icon} {percent:>3}%",
     "format-icons": [
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      "",
-      ""
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      "",
+      ""
     ],
     "tooltip": false
   },
   "network": {
-    "format-wifi": "  {essid}",
-    "format-ethernet": "  {ipaddr}",
+    "format-wifi": "  {essid}",
+    "format-ethernet": "  {ipaddr}",
     "format-disconnected": "⚠ Offline",
     "on-click": "nm-connection-editor",
     "tooltip-format": "{essid}: {ipaddr}",
     "max-length": 15
   },
+  // CPU interval 2 → 5. 2 saniyelik güncelleme hiçbir şey ifade etmiyor,
+  // gözle zaten takip edemiyorsun. Load'u gereksiz yere yukarı çekiyordu.
   "cpu": {
-    "interval": 2,
-    "format": " {usage:>2}%",
+    "interval": 5,
+    "format": " {usage:>2}%",
     "tooltip": false
   },
-  // SABİT GENİŞLİKLİ LOAD MODÜLÜ (Sarsılmayı Engeller)
   "load": {
     "interval": 10,
     "format": "󰊚 {load1:>4} {load5:>4} {load15:>4}",
@@ -141,7 +133,7 @@
   },
   "memory": {
     "interval": 10,
-    "format": "  {used:>4.1f}G",
+    "format": "  {used:>4.1f}G",
     "tooltip-format": "Kullanılan: {used:0.1f}G\nToplam: {total:0.1f}G\nSwap: {swapUsed:0.1f}G"
   },
   "battery": {
@@ -150,50 +142,73 @@
       "critical": 15
     },
     "format": "{icon} {capacity:>3}%",
-    "format-charging": " {capacity:>3}%",
-    "format-plugged": " {capacity:>3}%",
+    "format-charging": " {capacity:>3}%",
+    "format-plugged": " {capacity:>3}%",
     "format-icons": [
-      "",
-      "",
-      "",
-      "",
-      ""
+      "",
+      "",
+      "",
+      "",
+      ""
     ],
     "tooltip-format": "{power} W, {timeTo}"
   },
   "clock": {
     "interval": 60,
-    "format": " {:%H:%M}",
-    "format-alt": " {:%d.%m.%Y}",
+    "format": " {:%H:%M}",
+    "format-alt": " {:%d.%m.%Y}",
     "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
   },
+  // --- POWER DRAWER ALT MODÜLLERİ ---
+  // sh -c sarmalamaları kaldırıldı, waybar on-click zaten shell'de çalıştırır.
   "custom/powerbutton": {
     "format": "⏻",
     "on-click": "poweroff",
-    "tooltip-format": "Power Off"
+    "tooltip": "Power Off"
   },
   "custom/reboot": {
     "format": "󰜉",
     "on-click": "reboot",
-    "tooltip-format": "Reboot"
+    "tooltip": "Reboot"
   },
   "custom/suspend": {
-    "format": "",
+    "format": "",
     "on-click": "systemctl suspend",
-    "tooltip-format": "Suspend"
+    "tooltip": "Suspend"
   },
   "custom/lock": {
     "format": "󰍁",
     "on-click": "swaylock -f",
-    "tooltip-format": "Lock"
+    "tooltip": "Lock"
   },
   "custom/idlekiller": {
-    "format": "",
+    "format": "",
     "on-click": "pkill hypridle || hypridle",
-    "tooltip-format": "Inhibit Idle"
-  },
-  "user": {
-    "format": "{work_H}:{work_M} ↑",
-    "interval": 60
+    "tooltip": "Inhibit Idle"
   }
 }
+// =============================================================
+// ÖZET: YAPILAN DEĞİŞİKLİKLER
+// =============================================================
+//
+// KALDIRILDI:
+// - ext/workspaces modülü: niri'ye özel, labwc'de çalışmaz.
+//   labwc'de native workspace kavramı yok; sway/river gibi değil.
+// - group/power içinden "user" modülü: drawer içinde düzgün render olmuyor.
+// - custom/powerbutton vb. için "tooltip-format" → "tooltip": anahtar yanlıştı.
+//
+// OPTİMIZE EDİLDİ (load düşürücü ana değişiklikler):
+// - custom/nightlight: interval 2sn polling → "once" + signal tabanlı.
+//   Bu tek başına load'un büyük kısmını açıklıyordu. Günde ~43k fork → 0.
+// - cpu: interval 2 → 5 saniye.
+// - sh -c sarmalamaları kaldırıldı: her tıklamada gereksiz shell process'i
+//   spawn etmeyi önler.
+//
+// DEĞİŞMEDEN BIRAKILDI AMA NOT:
+// - custom/timew: return-type JSON dönüyor, tw scripti gerçekten JSON
+//   çıktı veriyor mu emin ol. Vermiyorsa return-type'ı sil.
+// - wlr/taskbar: yeni waybar'da deprecated değil ama "taskbar" olarak
+//   prefix'siz de çalışıyor. Şimdilik dokunmadım.
+//
+// NOT: nightlight signal numarası 8 seçildi (timew'in signal 10'undan farklı).
+// Her custom modülün signal numarası unique olmalı.

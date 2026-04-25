@@ -44,7 +44,7 @@ let
           --ro-bind /nix/store /nix/store \
           --ro-bind /sys /sys \
           --ro-bind /etc/fonts /etc/fonts \
-          --ro-bind /etc/static/fonts /etc/static/fonts \
+          --ro-bind-try /etc/static/fonts /etc/static/fonts \
           --ro-bind /etc/ssl/certs /etc/ssl/certs \
           --ro-bind-try /etc/ca-certificates /etc/ca-certificates \
           --ro-bind-try /etc/pki /etc/pki \

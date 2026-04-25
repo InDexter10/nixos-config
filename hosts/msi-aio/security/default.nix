@@ -7,7 +7,7 @@
   imports = [
     ./sudo-rs.nix
     #./opensnitch.nix
-    #./usbguard.nix
+    ./usbguard.nix
     ./others.nix
   ];
 

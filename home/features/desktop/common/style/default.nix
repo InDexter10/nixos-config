@@ -32,7 +32,7 @@ in
     enable = true;
     font = {
       name = theme.fonts.sansSerif.name;
-      size = 11;
+      size = 10;
     };
     iconTheme = {
       package = theme.icons.package;
@@ -101,8 +101,9 @@ in
   home.sessionVariables = {
     QT_QPA_PLATFORMTHEME = "qt5ct";
 
+    QT_QPA_PLATFORM = "wayland;xcb";
     MOZ_ENABLE_WAYLAND = "1";
-    GTK_THEME = "Adwaita-dark";
+    #GTK_THEME = "Adwaita-dark";
   };
 
   home.pointerCursor = {

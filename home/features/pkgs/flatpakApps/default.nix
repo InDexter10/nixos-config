@@ -18,7 +18,7 @@
     packages = [
       "org.mozilla.firefox"
       "com.brave.Browser"
-      "io.gitlab.librewolf-community"
+      #"io.gitlab.librewolf-community"
       "com.github.tchx84.Flatseal"
       "org.kde.okular"
       "org.kde.gwenview"
@@ -102,32 +102,23 @@
             "~/Movies"
             "!home"
             "!host"
+            "!xdg-pictures" # Resimlere erişimi açıkça reddet
+            "!xdg-run/gvfs" # Ağ bağlantılı disklere erişimi reddet
+            "!xdg-run/gvfsd"
           ];
           sockets = [
             "wayland"
             "pulseaudio"
+            "!x11" # X11'i açıkça reddet
+            "!fallback-x11" # Yedek X11'i açıkça reddet
           ];
           shared = [
             "ipc"
             "!network"
           ];
-          devices = [ "dri" ];
-        };
-      };
-
-      "org.kde.gwenview" = {
-        Context = {
-          filesystems = [
-            "!host"
-            "!home"
-          ];
-          shared = [
-            "!network"
-            "!ipc"
-          ];
-          sockets = [
-            "wayland"
-            "!x11"
+          devices = [
+            "dri"
+            "!all" # Diğer tüm donanımları açıkça reddet
           ];
         };
       };

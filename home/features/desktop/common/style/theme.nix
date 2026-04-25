@@ -1,7 +1,6 @@
 { pkgs, ... }:
 
 {
-  # Fortress Workstation - GNOME/Adwaita Standard (Approved)
 
   colors = {
     base = "#1e1e1e";

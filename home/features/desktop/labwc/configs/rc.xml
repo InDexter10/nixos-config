@@ -249,6 +249,10 @@
     <keybind key="F1">
       <action name="Execute" command="/home/virt0/nixos-config/home/features/desktop/labwc/configs/translate-popup.sh"/>
     </keybind>
+    <!-- wl-sunset -->
+    <keybind key="W-n">
+      <action name="Execute" command="sh -c 'pkill wlsunset || wlsunset -T 4500 '"/>
+    </keybind>
   </keyboard>
   <mouse>
     <default/>

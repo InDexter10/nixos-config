@@ -5,11 +5,11 @@
 
   imports = [
     ./utils.nix
-    ./tofi.nix
+    ./fuzzel.nix
   ];
   xdg.configFile."labwc" = {
     source = ./configs;
-    recursive = true; # Eğer ileride alt klasör eklersen onları da kapsar
+    recursive = true;
   };
   home.packages = with pkgs; [
     swaybg
