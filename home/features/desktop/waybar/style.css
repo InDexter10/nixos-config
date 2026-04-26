@@ -100,22 +100,12 @@ tooltip label {
 }
 
 /* --- TIMEW (POMODORO) --- */
-#custom-pomodoro {
+#custom-focus {
   padding: 0px 10px;
   border-radius: 8px;
+  color: @steel-icon;
 }
 
-#custom-pomodoro.inactive {
-  color: @steel-icon; /* Sadece ikon varken gri görünür */
-}
-
-#custom-pomodoro.work {
-  background-color: @steel-panel; /* Çalışırken modülün arkası hafif koyulaşır */
-}
-
-#custom-pomodoro.break {
-  background-color: @steel-panel;
-}
 @keyframes pulse {
   0% {
     opacity: 1;

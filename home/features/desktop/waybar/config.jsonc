@@ -25,7 +25,7 @@
     "wlr/taskbar"
   ],
   "modules-right": [
-    "custom/pomodoro",
+    "custom/focus",
     "pulseaudio",
     "backlight",
     "tray",
@@ -47,13 +47,13 @@
     }
   },
   // --- TIMEW POMODORO ---
-  "custom/pomodoro": {
-    "exec": "tw-manager waybar",
+  "custom/focus": {
+    "exec": "focus status",
     "return-type": "json",
+    "interval": 1,
     "format": "{}",
-    "on-click": "tw-manager toggle", // Sol tık (Açıkken duraklatır, kapalıysa Rofi açar)
-    "on-click-right": "tw-manager stop", // Sağ tık (Erken bitirip süreyi kaydeder)
-    "on-click-middle": "tw-manager summary" // Orta tık (Rofi üzerinde haftalık raporu gösterir)
+    "on-click": "focus start",
+    "on-click-right": "focus stop"
   },
   "tray": {
     "icon-size": 16,

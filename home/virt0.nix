@@ -10,6 +10,7 @@
 
     ./features/desktop/labwc
     ./features/desktop/waybar
+    ./features/desktop/focus
     ./features/desktop/style
 
     ./features/pkgs/gui
