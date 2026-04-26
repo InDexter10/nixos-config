@@ -1,0 +1,23 @@
+[defaults]
+format = '{"time": "{time}", "class": "{id}"}\n'
+
+# DURUM 0: İNAKTİF (Bekleme Odası - Sonsuz süre)
+[[sessions]]
+id = "idle"
+name = "Idle"
+duration = "8760h"
+command = ""
+
+# DURUM 1: ÇALIŞMA (25 Dakika)
+[[sessions]]
+id = "work"
+name = "Work"
+duration = "25m"
+command = "tw-manager work-done" # Bittiğinde kaydet ve molaya geç
+
+# DURUM 2: MOLA (5 Dakika)
+[[sessions]]
+id = "break"
+name = "Break"
+duration = "5m"
+command = "tw-manager break-done" # Bittiğinde inaktif moda dön

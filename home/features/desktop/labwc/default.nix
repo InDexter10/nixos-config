@@ -5,7 +5,7 @@
 
   imports = [
     ./utils.nix
-    ./fuzzel.nix
+    ./rofi.nix
   ];
   xdg.configFile."labwc" = {
     source = ./configs;

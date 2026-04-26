@@ -8,6 +8,7 @@
   home.packages = with pkgs; [
     tree
     timewarrior
+    uair
     jq
 
     translate-shell

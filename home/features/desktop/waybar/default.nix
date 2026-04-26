@@ -1,25 +1,29 @@
 { pkgs, ... }:
 
 let
-  tw = pkgs.writeShellApplication {
-    name = "tw";
+  tw-manager = pkgs.writeShellApplication {
+    name = "tw-manager";
     runtimeInputs = with pkgs; [
       timewarrior
-      libnotify # notify-send
-      pulseaudio # paplay
-      procps # pkill
-      coreutils # date, sleep, mkdir, touch, cat, head, sed
+      uair
+      jq
+      libnotify
+      rofi
     ];
-    text = builtins.readFile ./tw;
+    text = builtins.readFile ./tw-manager.sh;
   };
+
 in
+
 {
-  home.packages = [
-    pkgs.waybar
-    tw
+
+  home.packages = with pkgs; [
+    waybar
+    tw-manager
   ];
 
   xdg.configFile."waybar/config".source = ./config.jsonc;
   xdg.configFile."waybar/style.css".source = ./style.css;
-  # waybar/tw artık gerekmiyor — pakete dönüştü
+  xdg.configFile."uair/uair.toml".source = ./uair.toml;
+
 }

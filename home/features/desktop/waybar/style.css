@@ -11,23 +11,23 @@
 @define-color steel-rust #f78c5e;
 @define-color steel-crimson #d85c60;
 @define-color steel-gold #d4d987;
+@define-color steel-green #a6e3a1;
 
 * {
   font-family: "JetBrainsMono Nerd Font";
   font-weight: 600;
-  font-size: 13px; /* VIP yapının okunaklı boyutu */
+  font-size: 13px;
   min-height: 0;
-  transition: all 0.2s ease-out; /* GTK hatası düzeltildi (all eklendi) */
+  transition: all 0.2s ease-out;
 }
 
-/* --- ANA BAR KAPSÜLÜ (VIP Yapı) --- */
+/* --- ANA BAR --- */
 window#waybar {
   background: transparent;
   border: none;
   box-shadow: none;
 }
 
-/* 2. ÜST KATMAN (Yuvarlak köşeli ana panel) */
 window#waybar > box {
   background: rgba(14, 14, 13, 1);
   border: 1px solid rgba(255, 255, 255, 0.08);
@@ -41,14 +41,14 @@ window#waybar > box {
 tooltip {
   background-color: @steel-bg;
   border: 2px solid @steel-accent;
-  border-radius: 8px; /* VIP oval köşeler */
+  border-radius: 8px;
 }
 
 tooltip label {
   color: @steel-fg;
 }
 
-/* --- MODÜL GENEL YAPISI (VIP Hap/Pill Yapı, Çizgi Yok) --- */
+/* --- MODÜL GENEL YAPISI --- */
 .modules-left,
 .modules-center,
 .modules-right {
@@ -72,15 +72,15 @@ tooltip label {
 #memory,
 #battery,
 #clock,
+#custom-timew,
 #custom-notification {
-  padding: 0px 4px; /* Hap görünümü için geniş boşluk */
-  border-radius: 8px; /* Hap kavisleri */
+  padding: 0px 4px;
+  border-radius: 8px;
   color: @steel-icon;
   background-color: transparent;
   margin: 0 2px;
 }
 
-/* Modüllerin üstüne gelince yanan mat Hex Steel renkleri */
 #custom-powerbutton:hover,
 #custom-reboot:hover,
 #custom-suspend:hover,
@@ -99,33 +99,39 @@ tooltip label {
   color: @steel-fg;
 }
 
-Waybar style snippet · CSS
-/* ~/.config/waybar/style.css */
- 
-#custom-timew {
-  padding: 0 10px;
-  margin: 2px 4px;
-  border-radius: 4px;
-  font-weight: bold;
+/* --- TIMEW (POMODORO) --- */
+#custom-pomodoro {
+  padding: 0px 10px;
+  border-radius: 8px;
 }
 
-#custom-timew.idle {
-  color: #888888;
-  background-color: rgba(136, 136, 136, 0.15);
+#custom-pomodoro.inactive {
+  color: @steel-icon; /* Sadece ikon varken gri görünür */
 }
 
-#custom-timew.active {
-  color: #a6e3a1;
-  background-color: rgba(166, 227, 161, 0.15);
+#custom-pomodoro.work {
+  background-color: @steel-panel; /* Çalışırken modülün arkası hafif koyulaşır */
 }
 
-#custom-timew.standby {
-  color: #f9e2af;
-  background-color: rgba(249, 226, 175, 0.15);
-} /* --- TRAY (SİSTEM TEPSİSİ) --- */
+#custom-pomodoro.break {
+  background-color: @steel-panel;
+}
+@keyframes pulse {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* --- TRAY --- */
 #tray {
-  padding: 0px 6px; /* İkonların nefes alması için yatay boşluk */
-  border-radius: 8px; /* VIP hap kavisleri */
+  padding: 0px 6px;
+  border-radius: 8px;
   background-color: transparent;
   margin: 0 2px;
   color: @steel-rust;
@@ -135,45 +141,25 @@ Waybar style snippet · CSS
   background-color: @steel-panel;
 }
 
-/* Pasif veya arka planda çalışan ikonları matlaştırır (Sirk görünümünü engeller) */
 #tray > .passive {
   -gtk-icon-effect: dim;
   opacity: 0.6;
 }
 
-/* Bir uygulama uyarı verdiğinde (Örn: İnternet koptuğunda) */
 #tray > .needs-attention {
   -gtk-icon-effect: highlight;
   background-color: @steel-rust;
   color: @steel-bg;
-  border-radius: 6px; /* Uyarı kutusu içindeki küçük hap */
+  border-radius: 6px;
   padding: 0px 4px;
 }
 
-#custom-nightlight {
-  color: @steel-icon;
-  padding: 0 6px;
-  margin: 0 2px;
-}
-
-#custom-nightlight.0 {
-  /* Aktifken (Gece) */
-  color: @steel-gold;
-  background-color: @steel-panel;
-  border-radius: 8px;
-}
-
-#custom-nightlight.1 {
-  /* Pasifken (Gündüz) */
-  color: @steel-icon;
-}
-
-/* --- SOL TARAF --- */
+/* --- SOL --- */
 #custom-powerbutton {
   color: @steel-crimson;
 }
 
-/* --- ORTA (WORKSPACES & TASKBAR) --- */
+/* --- WORKSPACES & TASKBAR --- */
 #workspaces button {
   color: @steel-icon;
 }
@@ -205,7 +191,7 @@ Waybar style snippet · CSS
   opacity: 1;
 }
 
-/* --- SAĞ TARAF --- */
+/* --- SAĞ --- */
 #pulseaudio:hover {
   color: @steel-teal;
 }

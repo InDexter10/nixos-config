@@ -1,10 +1,14 @@
-// Waybar config — labwc uyumlu, load-optimize edilmiş
-// Ana değişiklikler özet olarak dosya sonundaki yorumda.
+// Waybar config — labwc uyumlu
+// Önemli değişiklikler:
+//   - ext/workspaces (var olmayan modül) -> wlr/workspaces
+//     (labwc 0.8.3+ ve waybar 0.12+ ext-workspace-v1 protokolünü destekler)
+//   - custom/timew: sol tık toggle (pause/resume), sağ tık rofi pick,
+//     orta tık stop. interval düşürüldü (5s) — saniye-hassas geri sayım için.
+//   - signal: 10 -> tw script `pkill -RTMIN+10 waybar` gönderir.
 {
   "layer": "top",
   "position": "top",
   "height": 34,
-  // labwc gap matematiği — 6px gap varsayılıyor
   "margin-top": -8,
   "margin-bottom": 10,
   "margin-left": 0,
@@ -21,13 +25,13 @@
     "wlr/taskbar"
   ],
   "modules-right": [
-    "custom/timew",
+    "custom/pomodoro",
     "pulseaudio",
     "backlight",
     "tray",
     "clock"
   ],
-  // --- SOL MODÜLLER ---
+  // --- SOL ---
   "group/power": {
     "modules": [
       "custom/powerbutton",
@@ -42,13 +46,14 @@
       "transition-left-to-right": true
     }
   },
-  "custom/timew": {
-    "exec": "tw status",
+  // --- TIMEW POMODORO ---
+  "custom/pomodoro": {
+    "exec": "tw-manager waybar",
     "return-type": "json",
-    "interval": 30,
-    "signal": 10,
     "format": "{}",
-    "tooltip": true
+    "on-click": "tw-manager toggle", // Sol tık (Açıkken duraklatır, kapalıysa Rofi açar)
+    "on-click-right": "tw-manager stop", // Sağ tık (Erken bitirip süreyi kaydeder)
+    "on-click-middle": "tw-manager summary" // Orta tık (Rofi üzerinde haftalık raporu gösterir)
   },
   "tray": {
     "icon-size": 16,
@@ -72,9 +77,10 @@
     "format": "{name}",
     "on-click": "activate",
     "all-outputs": true,
-    "sort-by-number": true
+    "sort-by-number": true,
+    "active-only": false
   },
-  // --- SAĞ MODÜLLER ---
+  // --- SAĞ ---
   "pulseaudio": {
     "scroll-step": 4,
     "format": "{icon} {volume:>3}%",
