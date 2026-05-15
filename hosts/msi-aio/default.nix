@@ -11,7 +11,6 @@
 
     ./security
 
-    ../common/users/rai
     ../common/users/dx0
     ../common/global
 
