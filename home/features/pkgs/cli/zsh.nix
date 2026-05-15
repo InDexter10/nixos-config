@@ -16,11 +16,11 @@
 
     shellAliases = {
       sysup = "sudo nixos-rebuild switch --flake ~/nixos-config#msi-aio";
-      homeup = "home-manager switch --flake ~/nixos-config#virt0";
-      n = "cd /home/virt0/nixos-config";
+      homeup = "home-manager switch --flake ~/nixos-config#dx0";
+      n = "cd /home/dx0/nixos-config";
       h = "cd ~";
-      b = "cd /home/virt0/Books";
-      l = "cd /home/virt0/.config/labwc";
+      b = "cd /home/dx0/Books";
+      l = "cd /home/dx0/.config/labwc";
     };
 
     history = {

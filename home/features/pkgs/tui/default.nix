@@ -4,7 +4,7 @@
   imports = [
     ./yazi.nix
     ./helix.nix
-    ./rio
+    ./kitty.nix
   ];
 
   home.packages = with pkgs; [

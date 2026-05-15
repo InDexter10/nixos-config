@@ -124,7 +124,7 @@
       <action name="PreviousWindow"/>
     </keybind>
     <keybind key="W-Return">
-      <action name="Execute" command="rio"/>
+      <action name="Execute" command="kitty"/>
     </keybind>
     <keybind key="W-q">
       <action name="Close"/>
@@ -247,7 +247,7 @@
     </keybind>
     <!-- translete-shell -->
     <keybind key="F1">
-      <action name="Execute" command="/home/virt0/nixos-config/home/features/desktop/labwc/configs/translate-popup.sh"/>
+      <action name="Execute" command="/home/dx0/nixos-config/home/features/desktop/labwc/configs/translate-popup.sh"/>
     </keybind>
     <!-- wl-sunset -->
     <keybind key="W-n">
@@ -256,6 +256,9 @@
     <!--rofi-->
     <keybind key="W-a">
       <action name="Execute" command="rofi -show window"/>
+    </keybind>
+    <keybind key="W-r">
+      <action name="Execute" command="rofi -show run"/>
     </keybind>
   </keyboard>
   <mouse>
@@ -488,6 +491,9 @@
     </windowRule>
     <windowRule identifier="tr-com-havelsan-uyap-system-editor-common-WPAppManager">
       <action name="SendToDesktop" to="uyap"/>
+    </windowRule>
+    <windowRule identifier="vlc">
+      <action name="SendToDesktop" to="4"/>
     </windowRule>
   </windowRules>
   <menu>

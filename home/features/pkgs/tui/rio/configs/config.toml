@@ -258,7 +258,7 @@ theme = "hex"
 #
 # Example:
  [navigation]
- mode = "bottomtab"
+ mode = "tab"
 # clickable = false
 # hide-if-single = true
 # use-current-path = false

@@ -12,7 +12,7 @@
     ./security
 
     ../common/users/rai
-    ../common/users/virt0
+    ../common/users/dx0
     ../common/global
 
     ../common/optional/labwc.nix

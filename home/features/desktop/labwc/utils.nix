@@ -15,7 +15,7 @@
     enable = true;
     settings = {
       color = "000000";
-      image = "/home/virt0/Pictures/bb.jpg";
+      image = "/home/dx0/Pictures/bb.jpg";
       scaling = "fill";
       font-size = 24;
       indicator-idle-visible = false;

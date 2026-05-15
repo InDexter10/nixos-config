@@ -19,7 +19,7 @@ let
     image_filter   = "lanczos3"  
     image_quality  = 90
     sixel_fraction = 15
-    image_adapter = "sixel"
+    image_adapter = "kitty"
 
     [tasks]
     image_bound = [ 0, 0 ]

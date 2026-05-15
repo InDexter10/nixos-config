@@ -153,7 +153,7 @@
     "tooltip-format": "{power} W, {timeTo}"
   },
   "clock": {
-    "locale": "tr_TR.UTF-8",
+    // "locale": "tr_TR.UTF-8",
     "interval": 60,
     "format": " {:%H:%M}",
     "format-alt": " {:%A, %d %B %Y}",

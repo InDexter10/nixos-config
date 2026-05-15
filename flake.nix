@@ -53,21 +53,14 @@
       };
 
       homeConfigurations = {
-        "virt0" = home-manager.lib.homeManagerConfiguration {
+        "dx0" = home-manager.lib.homeManagerConfiguration {
           inherit pkgs extraSpecialArgs;
           modules = [
-            ./home/virt0.nix
+            ./home/dx0.nix
             nix-flatpak.homeManagerModules.nix-flatpak
           ];
         };
 
-        "rai" = home-manager.lib.homeManagerConfiguration {
-          inherit pkgs extraSpecialArgs;
-          modules = [
-            ./home/rai.nix
-            nix-flatpak.homeManagerModules.nix-flatpak
-          ];
-        };
       };
     };
 }
