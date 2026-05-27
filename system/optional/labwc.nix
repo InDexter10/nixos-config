@@ -1,10 +1,7 @@
-{ pkgs, pkgs-unstable, ... }:
+{ pkgs, ... }:
 
 {
-  programs.labwc = {
-    enable = true;
-    package = pkgs-unstable.labwc;
-  };
+  programs.labwc.enable = true;
   programs.dconf.enable = true;
 
   xdg.portal = {
@@ -19,8 +16,7 @@
       "org.freedesktop.impl.portal.ScreenCast" = "wlr";
       "org.freedesktop.impl.portal.Screenshot" = "wlr";
       "org.freedesktop.impl.portal.Inhibit" = "none";
-      default = "gtk";
+      default = [ "gtk" ];
     };
   };
-
 }

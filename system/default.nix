@@ -13,6 +13,7 @@
     ./boot.nix
     ./network.nix
     ./sudo-rs.nix
+    ./nix.nix
     ./others.nix
 
   ];

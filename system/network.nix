@@ -7,14 +7,12 @@
 
 {
   networking = {
-    hostName = "lanz0";
+    hostName = "msi";
     nftables.enable = true;
     enableIPv6 = false;
-
     nameservers = [
-      "9.9.9.9"
-      "149.112.112.112"
-      "1.1.1.1"
+      "9.9.9.9#dns.quad9.net"
+      "149.112.112.112#dns.quad9.net"
     ];
 
     firewall = {
@@ -28,8 +26,7 @@
       dns = "systemd-resolved";
       wifi.powersave = false;
       wifi.macAddress = "random";
-      ethernet.macAddress = "random";
-
+      ethernet.macAddress = "stable";
     };
   };
 
@@ -39,8 +36,9 @@
     domains = [ "~." ];
 
     fallbackDns = [
-      "9.9.9.10"
+      "194.242.2.4#base.dns.mullvad.net"
     ];
+
     extraConfig = ''
       MulticastDNS=false
       LLMNR=false
