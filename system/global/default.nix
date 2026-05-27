@@ -1,7 +1,4 @@
-{
-  pkgs,
-  ...
-}:
+{ ... }:
 
 {
   imports = [
@@ -10,5 +7,4 @@
     ./power-management.nix
     ./pipewire.nix
   ];
-
 }

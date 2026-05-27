@@ -5,6 +5,6 @@
 
   security.polkit.enable = true;
 
-  security.audit.enable = true;
-  security.auditd.enable = true;
+  security.audit.enable = false;
+  security.auditd.enable = false;
 }

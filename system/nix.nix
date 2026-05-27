@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ ... }:
 
 {
   nix.settings = {
@@ -6,12 +6,15 @@
       "nix-command"
       "flakes"
     ];
-    auto-optimise-store = true;
     trusted-users = [
       "root"
-      "@wheel"
     ];
     warn-dirty = false;
+  };
+
+  nix.optimise = {
+    automatic = true;
+    dates = [ "weekly" ];
   };
 
   nix.gc = {

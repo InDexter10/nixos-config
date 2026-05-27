@@ -113,12 +113,6 @@
     "net.ipv4.conf.all.accept_source_route" = 0;
     "net.ipv4.conf.default.accept_source_route" = 0;
 
-    # Ağ — IPv6
-    "net.ipv6.conf.all.accept_redirects" = 0;
-    "net.ipv6.conf.default.accept_redirects" = 0;
-    "net.ipv6.conf.all.accept_source_route" = 0;
-    "net.ipv6.conf.default.accept_source_route" = 0;
-
     # BPF JIT ve tty
     "net.core.bpf_jit_harden" = 2;
     "dev.tty.ldisc_autoload" = 0;
