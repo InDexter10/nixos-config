@@ -3,6 +3,8 @@
   imports = [
     ./git.nix
     ./zsh.nix
+    ./helix.nix
+    ./yazi.nix
   ];
 
   home.packages = with pkgs; [

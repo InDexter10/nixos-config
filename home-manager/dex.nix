@@ -4,12 +4,11 @@
   imports = [
     ./cli
     ./gui
-    ./nixpak
     ./wm
   ];
 
-  home.username = "dx0";
-  home.homeDirectory = "/home/dx0";
+  home.username = "dex";
+  home.homeDirectory = "/home/dex";
   home.stateVersion = "26.05";
 
   programs.home-manager.enable = true;

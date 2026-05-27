@@ -6,7 +6,7 @@
 {
   imports = [
     ./disko.nix
-    ./users/dx0.nix
+    ./users/dex.nix
     ./global
     ./optional
     ./hardware-configuration.nix

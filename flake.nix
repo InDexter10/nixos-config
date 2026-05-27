@@ -14,10 +14,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nixpak = {
-      url = "github:nixpak/nixpak";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
   };
 
   outputs =
@@ -26,7 +22,6 @@
       nixpkgs,
       home-manager,
       disko,
-      nixpak,
       ...
     }@inputs:
     let
@@ -50,11 +45,11 @@
       };
 
       homeConfigurations = {
-        "dx0@msi" = home-manager.lib.homeManagerConfiguration {
+        "dex0@msi" = home-manager.lib.homeManagerConfiguration {
           inherit pkgs;
           extraSpecialArgs = { inherit inputs; };
           modules = [
-            ./home-manager/dx0.nix
+            ./home-manager/dex.nix
           ];
         };
       };
