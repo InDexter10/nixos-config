@@ -63,7 +63,7 @@
 
   security.apparmor = {
     enable = true;
-    killUnconfinedConfinables = true;
+    killUnconfinedConfinables = false;
     packages = [ pkgs.apparmor-profiles ];
   };
 

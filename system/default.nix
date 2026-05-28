@@ -5,14 +5,14 @@
 {
   imports = [
     ./users/dex.nix
-    ./core-services.nix
+    ./global
     ./optional
     ./hardware-configuration.nix
     ./boot.nix
     ./network.nix
     ./sudo-rs.nix
     ./nix.nix
-    ./others.nix
+    ./core-services.nix
 
   ];
 
