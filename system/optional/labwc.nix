@@ -1,22 +1,11 @@
 { pkgs, ... }:
-
 {
   programs.labwc.enable = true;
   programs.dconf.enable = true;
 
   xdg.portal = {
     enable = true;
-    wlr.enable = true;
-
-    extraPortals = [
-      pkgs.xdg-desktop-portal-gtk
-    ];
-
-    config.labwc = {
-      "org.freedesktop.impl.portal.ScreenCast" = "wlr";
-      "org.freedesktop.impl.portal.Screenshot" = "wlr";
-      "org.freedesktop.impl.portal.Inhibit" = "none";
-      default = [ "gtk" ];
-    };
+    extraPortals = [ pkgs.xdg-desktop-portal-gtk ];
+    config.labwc.default = [ "gtk" ];
   };
 }

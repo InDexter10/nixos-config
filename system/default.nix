@@ -5,6 +5,7 @@
 {
   imports = [
     ./users/dex.nix
+    ./users/virt0.nix
     ./global
     ./optional
     ./hardware-configuration.nix

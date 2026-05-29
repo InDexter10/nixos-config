@@ -6,5 +6,6 @@
     ./hardware.nix
     ./power-management.nix
     ./pipewire.nix
+    ./zram.nix
   ];
 }

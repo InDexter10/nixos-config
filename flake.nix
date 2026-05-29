@@ -8,12 +8,14 @@
       url = "github:nix-community/home-manager/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nix-flatpak.url = "github:gmodena/nix-flatpak";
   };
 
   outputs =
     {
       nixpkgs,
       home-manager,
+      nix-flatpak,
       ...
     }@inputs:
     let
@@ -42,6 +44,15 @@
             ./home-manager/dex.nix
           ];
         };
+
+        "virt0@msi" = home-manager.lib.homeManagerConfiguration {
+          inherit pkgs;
+          modules = [
+            ./home/virt0.nix
+            nix-flatpak.homeManagerModules.nix-flatpak
+          ];
+        };
+
       };
     };
 }
