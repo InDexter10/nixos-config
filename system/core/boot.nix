@@ -50,7 +50,6 @@
       "randomize_kstack_offset=on"
 
       "intel_iommu=on"
-      "amd_iommu=on"
       "iommu=pt"
 
       # Eski / zayıf yüzeyler

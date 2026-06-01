@@ -13,7 +13,6 @@
     timewarrior
     jq
 
-    grc
     ripgrep
 
     onefetch

@@ -41,15 +41,6 @@
       # SHARE_HISTORY ile eşzamanlı oturumlarda güvenli yazım için fcntl kilidi.
       setopt HIST_FCNTL_LOCK
 
-      # yazi: çıkışta bulunulan dizine cd (resmi wrapper, tek kopya).
-      function y() {
-        local tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
-        yazi "$@" --cwd-file="$tmp"
-        if cwd="$(<"$tmp")" && [ -n "$cwd" ] && [ "$cwd" != "$PWD" ]; then
-          builtin cd -- "$cwd"
-        fi
-        rm -f -- "$tmp"
-      }
     '';
   };
 

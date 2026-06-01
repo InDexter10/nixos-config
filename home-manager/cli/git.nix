@@ -5,10 +5,6 @@ let
   userEmail = "247799176+InDexter10@users.noreply.github.com";
 in
 {
-  home.shellAliases = {
-    g = "git";
-    lg = "git log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all";
-  };
 
   xdg.configFile."git/allowed_signers".text =
     "${userEmail} namespaces=\"git\" ssh-ed25519-pubkey-placeholder";
