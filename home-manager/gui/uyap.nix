@@ -117,7 +117,6 @@ in
     uyap-desktop
     uyap-mime
     shared-mime-info
-    corefonts
   ];
 
   home.file.".local/share/icons/hicolor/128x128/apps/uyap-editor.png".source =
