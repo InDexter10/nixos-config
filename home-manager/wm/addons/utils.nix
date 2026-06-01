@@ -2,14 +2,6 @@
 
 {
 
-  home.packages = with pkgs; [
-    wlopm # Monitör kapatmak için
-    wlsunset
-    brightnessctl
-    networkmanagerapplet
-    swayidle
-  ];
-
   # --- SWAYLOCK ---
   programs.swaylock = {
     enable = true;
@@ -85,4 +77,11 @@
       night = 4000;
     };
   };
+
+  services.swayosd = {
+    enable = true;
+    # İsteğe bağlı: Göstergenin çıkacağı konumu belirleyebilirsiniz (örnek: top-right)
+    # topMargin = 0.1;
+  };
+
 }

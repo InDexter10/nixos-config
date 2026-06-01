@@ -1,14 +1,9 @@
-{ inputs, pkgs, ... }:
+{ ... }:
 
 {
-  imports = [
-    ./cli
-    ./wm
-    ./flatpakApps
-  ];
 
-  home.username = "virt0";
-  home.homeDirectory = "/home/virt0";
+  home.username = "dex";
+  home.homeDirectory = "/home/dex";
   home.stateVersion = "26.05";
 
   programs.home-manager.enable = true;

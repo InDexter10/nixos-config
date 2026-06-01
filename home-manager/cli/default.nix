@@ -12,12 +12,8 @@
     timewarrior
     jq
 
-    translate-shell
-
     grc
     ripgrep
-    fd
-    p7zip
 
     onefetch
 
