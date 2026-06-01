@@ -1,6 +1,13 @@
 { ... }:
 
 {
+  imports = [
+    ./cli
+    ./gui
+    ./wm
+    ./etc
+
+  ];
 
   home.username = "dex";
   home.homeDirectory = "/home/dex";
