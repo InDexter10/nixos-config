@@ -27,6 +27,9 @@
 
       wifi.macAddress = "random";
       ethernet.macAddress = "random";
+      connectionConfig = {
+        "ipv4.ignore-auto-dns" = true;
+      };
     };
   };
 
