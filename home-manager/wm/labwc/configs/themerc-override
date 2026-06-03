@@ -1,17 +1,7 @@
+border.width: 3
+osd.border.width: 3
 
-# --- Kenarlik (border-only dekorasyonun tek gorunur ogesi) ---
-border.width: 2
-window.active.border.color: #45aee9     # aktif pencere: Breeze vurgu mavisi
-window.inactive.border.color: #31363b   # pasif pencere: Breeze koyu gri
 
-# --- Kok menu ---
-menu.items.bg.color: #31363b
-menu.items.text.color: #fcfcfc
-menu.items.active.bg.color: #3daee9
-menu.items.active.text.color: #fcfcfc
-
-# --- OSD (workspace gostergesi + Alt-Tab pencere cercevesi bunu miras alir) ---
-osd.bg.color: #31363b
-osd.border.color: #3daee9
-osd.border.width: 1
-osd.label.text.color: #fcfcfc
+window.active.border.color: #00FFFF
+window.inactive.border.color: #000000
+osd.window-switcher.preview.border.color: #FF00FF

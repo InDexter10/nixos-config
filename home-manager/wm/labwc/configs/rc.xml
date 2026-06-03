@@ -2,40 +2,80 @@
 <labwc_config>
 
   <core>
-    <decoration>server</decoration>               
-    <gap>0</gap>                                  
-    <adaptiveSync>no</adaptiveSync>               
-    <allowTearing>no</allowTearing>               
-    <autoEnableOutputs>yes</autoEnableOutputs>    
-    <hdr>no</hdr>                                 
-    <reuseOutputMode>no</reuseOutputMode>         
-    <xwaylandPersistence>no</xwaylandPersistence> 
-    <primarySelection>yes</primarySelection>      
+    <decoration>server</decoration>
+    <gap>0</gap>
+    <adaptiveSync>no</adaptiveSync>
+    <allowTearing>no</allowTearing>
+    <autoEnableOutputs>yes</autoEnableOutputs>
+    <hdr>no</hdr>
+    <reuseOutputMode>no</reuseOutputMode>
+    <xwaylandPersistence>no</xwaylandPersistence>
+    <primarySelection>yes</primarySelection>
   </core>
+
 <margin top="20" bottom="20" left="20" right="20" />
+
   <focus>
     <followMouse>no</followMouse>
   </focus>
 
-  <placement>
-    <policy>center</policy>
-  </placement>
+<placement>
+  <policy>cascade</policy>
+  <cascadeOffset x="40" y="30" />
+</placement>
 
   <desktops number="4">
-    <popupTime>700</popupTime>                    
+    <popupTime>700</popupTime>
   </desktops>
 
-  <regions>
-    <region name="left"   x="0%"  y="0%"  width="50%" height="100%"/>
-    <region name="right"  x="50%" y="0%"  width="50%" height="100%"/>
-    <region name="center" x="15%" y="10%" width="70%" height="80%"/>
-  </regions>
+    <regions>
+      <region name="top-left"     x="0%"  y="0%"  height="50%"  width="50%"  />
+      <region name="top"          x="0%"  y="0%"  height="50%"  width="100%" />
+      <region name="top-right"    x="50%" y="0%"  height="50%"  width="50%"  />
+      <region name="left"         x="0%"  y="0%"  height="100%" width="50%"  />
+      <region name="center"       x="10%" y="10%" height="80%"  width="80%"  />
+      <region name="right"        x="50%" y="0%"  height="100%" width="50%"  />
+      <region name="bottom-left"  x="0%"  y="50%" height="50%"  width="50%"  />
+      <region name="bottom"       x="0%"  y="50%" height="50%"  width="100%" />
+      <region name="bottom-right" x="50%" y="50%" height="50%"  width="50%"  />
+    </regions>
+
+ <!-- SnapToRegion via W-Numpad -->
+
+    <keybind key="W-KP_7">
+      <action name="SnapToRegion" region="top-left" />
+    </keybind>
+    <keybind key="W-KP_8">
+      <action name="SnapToRegion" region="top" />
+    </keybind>
+    <keybind key="W-KP_9">
+      <action name="SnapToRegion" region="top-right" />
+    </keybind>
+    <keybind key="W-KP_4">
+      <action name="SnapToRegion" region="left" />
+    </keybind>
+    <keybind key="W-KP_5">
+      <action name="SnapToRegion" region="center" />
+    </keybind>
+    <keybind key="W-KP_6">
+      <action name="SnapToRegion" region="right" />
+    </keybind>
+    <keybind key="W-KP_1">
+      <action name="SnapToRegion" region="bottom-left" />
+    </keybind>
+    <keybind key="W-KP_2">
+      <action name="SnapToRegion" region="bottom" />
+    </keybind>
+    <keybind key="W-KP_3">
+      <action name="SnapToRegion" region="bottom-right" />
+    </keybind>
+  
 
   <theme>
-    <cornerRadius>0</cornerRadius>                
-    <font place="ActiveWindow"><name>Arial</name><size>10</size></font>
-    <font place="MenuItem"><name>Arial</name><size>10</size></font>
-    <font place="OnScreenDisplay"><name>Arial</name><size>10</size></font>
+    <cornerRadius>0</cornerRadius>
+    <font place="ActiveWindow"><name>JetBrains Mono</name><size>10</size></font>
+    <font place="MenuItem"><name>JetBrains Mono</name><size>10</size></font>
+    <font place="OnScreenDisplay"><name>JetBrains Mono</name><size>10</size></font>
   </theme>
 
   <windowSwitcher preview="yes" outlines="yes">
@@ -43,30 +83,60 @@
   </windowSwitcher>
 
   <keyboard>
-    <default/> 
+    <!-- (1) Acilista NumLock aktif. -->
+    <numlock>on</numlock>
+
+    <!-- Daha tepkili klavye (pro/usable); guvenli, standart degerler. -->
+    <repeatRate>30</repeatRate>
+    <repeatDelay>250</repeatDelay>
+
+    <!-- Tum varsayilan keybind'ler (A-Tab=NextWindow, A-S-Tab=prev, vb.) -->
+    <default/>
 
     <!-- Uygulama baslatma -->
     <keybind key="W-Return"><action name="Execute"><command>alacritty</command></action></keybind>
     <keybind key="W-d"><action name="Execute"><command>rofi -show drun</command></action></keybind>
     <keybind key="A-l"><action name="Execute"><command>swaylock</command></action></keybind>
+    
+    <keybind key="W-n">
+      <action name="Execute">
+        <command>sh -c 'systemctl --user is-active --quiet wlsunset.service &amp;&amp; systemctl --user stop wlsunset.service || systemctl --user start wlsunset.service'</command>
+      </action>
+    </keybind>
+  
 
     <!-- Pencere yonetimi -->
     <keybind key="W-q"><action name="Close"/></keybind>
     <keybind key="W-f"><action name="ToggleMaximize"/></keybind>
 
-    <!-- Yari-ekran kenetleme - vim tuslari (combine=yes ile kose ceyrekleri de mumkun) -->
-    <keybind key="W-h"><action name="SnapToEdge" direction="left"  combine="yes"/></keybind>
-    <keybind key="W-j"><action name="SnapToEdge" direction="down"  combine="yes"/></keybind>
-    <keybind key="W-k"><action name="SnapToEdge" direction="up"    combine="yes"/></keybind>
-    <keybind key="W-l"><action name="SnapToEdge" direction="right" combine="yes"/></keybind>
+
+    <!-- Super + Sol/Sağ ile pencereler arası sırayla geçiş (Alt+Tab mantığı) -->
+    <keybind key="W-Left">
+      <action name="PreviousWindow" />
+    </keybind>
+    
+    <keybind key="W-Right">
+      <action name="NextWindow" />
+    </keybind>
+
+    <!-- Super + Üst/Alt ile Çalışma Alanları (Workspaces) arası geçiş -->
+    <keybind key="W-Up">
+      <action name="GoToDesktop">
+        <to>right</to>
+      </action>
+    </keybind>
+    
+    <keybind key="W-Down">
+      <action name="GoToDesktop">
+        <to>left</to>
+      </action>
+    </keybind>
 
     <!-- Masaustune dogrudan gecis -->
     <keybind key="W-1"><action name="GoToDesktop" to="1"/></keybind>
     <keybind key="W-2"><action name="GoToDesktop" to="2"/></keybind>
     <keybind key="W-3"><action name="GoToDesktop" to="3"/></keybind>
     <keybind key="W-4"><action name="GoToDesktop" to="4"/></keybind>
-    <keybind key="C-A-Left"><action name="GoToDesktop" to="left"/></keybind>
-    <keybind key="C-A-Right"><action name="GoToDesktop" to="right"/></keybind>
 
     <!-- Pencereyi masaustune gonder (follow=no: gecerli masaustunde kal) -->
     <keybind key="W-S-1"><action name="SendToDesktop" to="1" follow="no"/></keybind>
@@ -96,10 +166,15 @@
   </keyboard>
 
   <mouse>
-    <default/> 
+    <default/>
   </mouse>
 
   <windowRules>
+    <!-- (2) TUM pencereler: SADECE kenarlik (baslik cubugu YOK), Hyprland tarzi.
+         decorations="border" -> yalnizca kenarlik + gorunmez resize alani.
+         forceSSD="yes"       -> CSD kullanan GTK/Firefox pencerelerine de zorla
+                                 server-side kenarlik uygulanir (varsayilan "no"
+                                 olsaydi bu pencerelerde kural yok sayilirdi). -->
     <windowRule identifier="*">
       <action name="SetDecorations" decorations="border" forceSSD="yes"/>
     </windowRule>

@@ -5,7 +5,6 @@
   imports = [
     ./utils.nix
     ./rofi.nix
-    ./ironbar.nix
     ./conky.nix
   ];
   home.packages = with pkgs; [
