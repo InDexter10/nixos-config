@@ -1,68 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <labwc_config>
 
-  <!-- ============================ CEKIRDEK ============================ -->
-  <!-- Bilesik sunucu davranisi. Cogu deger labwc varsayilani ile aynidir;
-       deterministik olsun diye acikca yazilmistir. -->
   <core>
-    <decoration>server</decoration>               <!-- Pencere cercevelerini labwc cizer (SSD) -->
-    <gap>0</gap>                                   <!-- Tasima/snap sirasinda kenar boslugu (px) -->
-    <adaptiveSync>no</adaptiveSync>               <!-- VRR/FreeSync kapali -->
-    <allowTearing>no</allowTearing>               <!-- Ekran yirtilmasina izin verme -->
-    <autoEnableOutputs>yes</autoEnableOutputs>    <!-- Ekranlari otomatik etkinlestir (kanshi kullanmiyorsan 'yes' birak) -->
-    <hdr>no</hdr>                                  <!-- HDR kapali -->
-    <reuseOutputMode>no</reuseOutputMode>         <!-- Acilista mevcut cozunurluk modu yeniden kullanilmasin -->
-    <xwaylandPersistence>no</xwaylandPersistence> <!-- Son X uygulamasi kapaninca Xwayland'i kapat (saldiri yuzeyini kucultur) -->
-    <primarySelection>yes</primarySelection>      <!-- Orta-tik yapistir (PRIMARY selection) acik -->
+    <decoration>server</decoration>               
+    <gap>0</gap>                                  
+    <adaptiveSync>no</adaptiveSync>               
+    <allowTearing>no</allowTearing>               
+    <autoEnableOutputs>yes</autoEnableOutputs>    
+    <hdr>no</hdr>                                 
+    <reuseOutputMode>no</reuseOutputMode>         
+    <xwaylandPersistence>no</xwaylandPersistence> 
+    <primarySelection>yes</primarySelection>      
   </core>
-
-  <!-- ============================== ODAK ============================== -->
-  <!-- Tikla-odaklan: fare bir pencere uzerine gelince odak degismez. -->
+<margin top="20" bottom="20" left="20" right="20" />
   <focus>
     <followMouse>no</followMouse>
   </focus>
 
-  <!-- ============================ YERLESIM ============================ -->
-  <!-- Yeni pencereler ekranin ortasinda acilir. -->
   <placement>
     <policy>center</policy>
   </placement>
 
-  <!-- ======================= CALISMA ALANLARI ======================== -->
-  <!-- Sabit 4 masaustu (labwc'de dinamik workspace yerlesik degildir). -->
   <desktops number="4">
-    <popupTime>700</popupTime>                    <!-- Masaustu adi gostergesinin ekranda kalma suresi (ms) -->
+    <popupTime>700</popupTime>                    
   </desktops>
 
-  <!-- ======================== SNAP BOLGELERI ========================= -->
-  <!-- Super tusu basili tutup surukledikce pencerenin oturacagi bolgeler. -->
   <regions>
     <region name="left"   x="0%"  y="0%"  width="50%" height="100%"/>
     <region name="right"  x="50%" y="0%"  width="50%" height="100%"/>
     <region name="center" x="15%" y="10%" width="70%" height="80%"/>
   </regions>
 
-  <!-- ============================== TEMA ============================== -->
-  <!-- Renkler burada DEGIL; ayni dizindeki 'themerc-override' dosyasindadir
-       (BreezeDark kenarlik/menu/OSD renkleri). Burada yalnizca kose ve font. -->
   <theme>
-    <cornerRadius>0</cornerRadius>                <!-- Keskin koseler (yuvarlatma yok) -->
-    <!-- labwc'nin kendi metni (menu + OSD) sistem UI fontu (Arial) ile ayni.
-         Baslik cubugu yok (border-only) oldugu icin ActiveWindow pratikte gorunmez,
-         ileride titlebar acarsan tutarli olsun diye birakildi. -->
+    <cornerRadius>0</cornerRadius>                
     <font place="ActiveWindow"><name>Arial</name><size>10</size></font>
     <font place="MenuItem"><name>Arial</name><size>10</size></font>
     <font place="OnScreenDisplay"><name>Arial</name><size>10</size></font>
   </theme>
 
-  <!-- Alt-Tab penceresi: onizleme + cerceve goster, OSD metnini gizle. -->
   <windowSwitcher preview="yes" outlines="yes">
     <osd show="no"/>
   </windowSwitcher>
 
-  <!-- ============================= KLAVYE ============================= -->
   <keyboard>
-    <default/>  <!-- labwc'nin yerlesik kisayollari (A-Tab, W-ok ile tasi vb.) -->
+    <default/> 
 
     <!-- Uygulama baslatma -->
     <keybind key="W-Return"><action name="Execute"><command>alacritty</command></action></keybind>
@@ -114,15 +95,11 @@
     <keybind key="XF86MonBrightnessDown"><action name="Execute"><command>swayosd-client --brightness lower</command></action></keybind>
   </keyboard>
 
-  <!-- ============================== FARE ============================== -->
   <mouse>
-    <default/>  <!-- labwc'nin yerlesik fare baglamalari -->
+    <default/> 
   </mouse>
 
-  <!-- ======================== PENCERE KURALLARI ====================== -->
   <windowRules>
-    <!-- Tum pencereler: yalnizca kenarlik (baslik cubugu yok).
-         forceSSD=yes, kendi cercevesini cizen (CSD) uygulamalari da SSD'ye zorlar. -->
     <windowRule identifier="*">
       <action name="SetDecorations" decorations="border" forceSSD="yes"/>
     </windowRule>

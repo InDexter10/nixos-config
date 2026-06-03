@@ -8,12 +8,14 @@
 let
   jsonFormat = pkgs.formats.json { };
 
+  wpctl = "${pkgs.wireplumber}/bin/wpctl";
+
   ironbarConfig = {
     position = "top";
-    height = 34; # COSMIC üst paneli ~32-36px, ince ve temiz
-    anchor_to_edges = true; # kenardan kenara, tam genişlik (COSMIC üst paneli)
+    height = 34; # COSMIC üst paneli ~32-36px
+    anchor_to_edges = true; # kenardan kenara tam genişlik
 
-    # --- SOL: taskbar + (workspaces, doğrulanacak) -------------------------
+    # --- SOL: workspaces + taskbar (icon-only) ----------------------------
     start = [
       {
         type = "workspaces";
@@ -23,12 +25,12 @@ let
 
       {
         type = "launcher";
-        show_names = false; # COSMIC-temiz: sadece ikon
+        show_names = false; # COSMIC-temiz: yalnızca ikon
         show_icons = true;
         icon_size = 20;
         reversed = false;
         favorites = [
-          # Sık kullandıklarını app_id ile ekle (boş bırakabilirsin):
+          # Sık kullandıklarını app_id ile ekleyebilirsin:
           # "firefox" "org.kde.okular" "vlc"
         ];
       }
@@ -38,41 +40,42 @@ let
         format = [
           "CPU {cpu_percent}%"
           "RAM {memory_percent}%"
-          "LD {load_average:1}"
         ];
         interval = 5;
-        # saniye. Sürümünde hata verirse map biçimini dene:
-        # interval = { cpus = 5; memory = 5; load_average = 5; };
       }
     ];
 
-    # --- ORTA: saat + tarih (native takvim popup'u dahili) -----------------
     center = [
       {
         type = "clock";
-        # %a=gün, %d=gün-no, %b=ay, %H:%M=saat. Tıklayınca dahili takvim popup açılır.
         format = "%a %d %b   %H:%M";
         format_popup = "%H:%M:%S";
-        # Gerçek takvim UYGULAMASI istersen on_click ekle (ironbar takvimi yerine):
-        # on_click = "!gnome-calendar";
       }
     ];
 
-    # --- SAĞ: kontrol (ses + parlaklık + tray) -----------------------------
     end = [
-      # volume: tıklayınca native popover'da slider + cihaz seçici açılır.
+      {
+        type = "network_manager";
+      }
+
       {
         type = "volume";
-        format = "{percentage}%"; # temiz; Nerd Font ikonu istersen "{icon} {percentage}%"
+        format = "{icon} {percentage}%";
         max_volume = 100;
-        # icons = { volume_high = "󰕾"; volume_medium = "󰖀"; volume_low = "󰕿"; muted = "󰝟"; };
+        on_scroll_up = "${wpctl} set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 5%+";
+        on_scroll_down = "${wpctl} set-volume -l 1.0 @DEFAULT_AUDIO_SINK@ 5%-";
+        icons = {
+          volume_high = "󰕾";
+          volume_medium = "󰖀";
+          volume_low = "󰕿";
+          muted = "󰝟";
+        };
       }
 
       {
         type = "brightness";
       }
 
-      # tray = uygulama göstergeleri (COSMIC üst-sağ köşesi gibi).
       {
         type = "tray";
         icon_size = 18;
@@ -88,67 +91,107 @@ in
     jsonFormat.generate "ironbar-config.json" ironbarConfig;
 
   xdg.configFile."ironbar/style.css".text = ''
-    /* ---- Genel: temiz sans, orta kalınlık ---- */
+    /* =======================================================================
+       Modern / COSMIC-benzeri tema — sade, yuvarlatılmış, hafif translucency.
+       ironbar 0.18.0 (GTK4). Sınıflar modül adının kebab-case hâlidir:
+       .workspaces .launcher .clock .volume .brightness .network-manager .tray
+       ======================================================================= */
+
+    @define-color accent      #6aa0ff;     /* COSMIC-vari yumuşak mavi vurgu */
+    @define-color fg          #e8e8ea;
+    @define-color fg-muted    #b8b8be;
+
+    /* ---- Genel tipografi ---- */
     * {
-      font-family: "Inter", "Noto Sans", sans-serif;
+      font-family: "Inter", "Noto Sans", "Noto Sans Nerd Font", sans-serif;
       font-size: 13px;
       font-weight: 500;
-      /* GTK4'te yumuşak geçişler */
-      transition: background-color 150ms ease;
+      transition: background-color 150ms ease, color 150ms ease;
     }
 
-    /* ---- Bar gövdesi: koyu, hafif yarı saydam, ince alt çizgi ---- */
+    /* ---- Bar gövdesi: koyu translucency, sert çizgi YOK (temiz kenar) ---- */
     .background {
-      background-color: rgba(20, 20, 22, 0.85);
-      color: #e6e6e6;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      background-color: rgba(22, 22, 25, 0.72);
+      color: @fg;
     }
 
-    /* ---- Modül butonları: şeffaf, hover'da hafif pill ---- */
-    button {
+    /* ---- Bölge kutuları arası nefes alanı ---- */
+    .start  { margin-left: 4px; }
+    .end    { margin-right: 6px; }
+
+    /* ---- Modül butonları: şeffaf, hover'da yuvarlak pill ---- */
+    button,
+    .volume,
+    .brightness,
+    .network-manager,
+    .clock {
       background-color: transparent;
       border: none;
-      border-radius: 8px;
-      padding: 0 8px;
-      margin: 4px 3px;
+      border-radius: 9px;
+      padding: 0 9px;
+      margin: 4px 2px;
       min-height: 0;
+      color: @fg;
     }
-    button:hover {
-      background-color: rgba(255, 255, 255, 0.08);
+    button:hover,
+    .volume:hover,
+    .brightness:hover,
+    .network-manager:hover {
+      background-color: rgba(255, 255, 255, 0.09);
     }
 
-    /* ---- Saat: biraz daha belirgin (orta odak) ---- */
+    /* ---- Saat: orta odak, biraz daha belirgin ---- */
     .clock {
       font-weight: 600;
       letter-spacing: 0.3px;
     }
 
-    /* ---- Workspaces: aktif olan vurgulu ---- */
+    /* ---- Workspaces: aktif olan vurgu rengiyle ---- */
+    .workspaces button {
+      border-radius: 9px;
+      margin: 4px 2px;
+      padding: 0 8px;
+      color: @fg-muted;
+    }
     .workspaces button.focused,
     .workspaces button:checked {
-      background-color: rgba(255, 255, 255, 0.14);
+      background-color: alpha(@accent, 0.20);
+      color: @fg;
     }
     .workspaces button.urgent {
       background-color: rgba(235, 110, 90, 0.30);
+      color: @fg;
     }
 
-    /* ---- sys_info: gri-soft, dikkat çekmeyen ---- */
-    .sys-info {
-      color: #b8b8bd;
+    /* ---- Taskbar (launcher): kompakt ikonlar ---- */
+    .launcher button {
+      padding: 0 5px;
+      margin: 4px 1px;
+    }
+    .launcher button.focused {
+      background-color: rgba(255, 255, 255, 0.10);
     }
 
-    /* ---- Tray ikonları biraz nefes alsın ---- */
+    /* ---- Sağ küme: ikonlar nefes alsın, hizalı dursun ---- */
+    .network-manager,
+    .volume,
+    .brightness {
+      color: @fg;
+    }
+
+    /* ---- Tray ikonları ---- */
     .tray button {
       padding: 0 5px;
+      margin: 4px 1px;
     }
 
-    /* ---- Popover'lar (saat takvimi, ses slider'ı): kart görünümü ---- */
+    /* ---- Popover'lar (takvim, ses slider'ı, ağ listesi): kart görünümü ---- */
     .popup {
-      background-color: rgba(28, 28, 30, 0.96);
+      background-color: rgba(28, 28, 31, 0.97);
       border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 12px;
+      border-radius: 14px;
       padding: 12px;
-      color: #e6e6e6;
+      color: @fg;
     }
     .popup button:hover {
       background-color: rgba(255, 255, 255, 0.10);

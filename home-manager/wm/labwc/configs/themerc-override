@@ -1,7 +1,7 @@
 
 # --- Kenarlik (border-only dekorasyonun tek gorunur ogesi) ---
 border.width: 2
-window.active.border.color: #3daee9     # aktif pencere: Breeze vurgu mavisi
+window.active.border.color: #45aee9     # aktif pencere: Breeze vurgu mavisi
 window.inactive.border.color: #31363b   # pasif pencere: Breeze koyu gri
 
 # --- Kok menu ---

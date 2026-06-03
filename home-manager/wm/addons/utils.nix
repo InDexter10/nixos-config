@@ -69,7 +69,7 @@
   };
 
   services.wlsunset = {
-    enable = false;
+    enable = true;
     latitude = "39.9";
     longitude = "32.8";
     temperature = {
@@ -80,8 +80,7 @@
 
   services.swayosd = {
     enable = true;
-    # İsteğe bağlı: Göstergenin çıkacağı konumu belirleyebilirsiniz (örnek: top-right)
-    # topMargin = 0.1;
+    topMargin = 1.0;
   };
 
 }

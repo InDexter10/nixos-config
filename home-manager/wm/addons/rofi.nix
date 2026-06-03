@@ -14,7 +14,7 @@ in
   programs.rofi = {
     enable = true;
 
-    package = pkgs.rofi-wayland;
+    package = pkgs.rofi;
 
     # Sistemde kurulu font.
     font = "JetBrainsMono Nerd Font 10";

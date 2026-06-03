@@ -1,12 +1,90 @@
-# firefox.nix — kullanıcı seviyesinde (home-manager), hardened + bwrap sandbox.
-# Tek giriş noktası: bin/firefox = sandbox sarmalayıcı. .desktop de aynı sarmalayıcıya sabit.
-{ pkgs, ... }:
+{
+  pkgs,
+  lib,
+  ...
+}:
 
 let
+  mkLockPrefs =
+    prefs:
+    lib.concatStringsSep "\n" (
+      lib.mapAttrsToList (k: v: "lockPref(${builtins.toJSON k}, ${builtins.toJSON v});") prefs
+    );
+
+  hardenedPrefs = {
+    # -- Telemetri / veri raporlama (telemetry.mozilla.org) --
+    "toolkit.telemetry.enabled" = false;
+    "toolkit.telemetry.unified" = false;
+    "toolkit.telemetry.archive.enabled" = false;
+    "toolkit.telemetry.newProfilePing.enabled" = false;
+    "toolkit.telemetry.shutdownPingSender.enabled" = false;
+    "toolkit.telemetry.updatePing.enabled" = false;
+    "toolkit.telemetry.coverage.opt-out" = true;
+    "toolkit.coverage.opt-out" = true;
+    "toolkit.coverage.endpoint.base" = "";
+    "datareporting.healthreport.uploadEnabled" = false;
+    "datareporting.policy.dataSubmissionEnabled" = false;
+    "browser.ping-centre.telemetry" = false;
+    "beacon.enabled" = false;
+
+    # -- Shield / Normandy çalışmaları (normandy.cdn.mozilla.net) --
+    "app.shield.optoutstudies.enabled" = false;
+    "app.normandy.enabled" = false;
+    "app.normandy.api_url" = "";
+
+    # -- Çökme raporu gönderimi --
+    "breakpad.reportURL" = "";
+    "browser.tabs.crashReporting.sendReport" = false;
+
+    # -- Bağlantı / captive-portal yoklaması (detectportal.firefox.com) --
+    "network.captive-portal-service.enabled" = false;
+    "network.connectivity-service.enabled" = false;
+    "captivedetect.canonicalURL" = "";
+
+    # -- Prefetch / speculative bağlantı (ağ sızıntısı) --
+    "network.prefetch-next" = false;
+    "network.dns.disablePrefetch" = true;
+    "network.predictor.enabled" = false;
+    "network.predictor.enable-prefetch" = false;
+
+    # -- DoH/TRR kapalı: sistem resolved + DoT kullanılsın (network.nix ile tutarlı) --
+    "network.trr.mode" = 5;
+
+    # -- Push servisi (push.services.mozilla.com) --
+    "dom.push.enabled" = false;
+    "dom.push.serverURL" = "";
+
+    # -- Konum / bölge ağ sorguları (location.services.mozilla.com) --
+    "geo.provider.network.url" = "";
+    "geo.provider.use_geoclue" = false;
+    "browser.region.network.url" = "";
+    "browser.region.update.enabled" = false;
+
+    # -- AMO keşif/öneri trafiği (eklenti GÜNCELLEMESİ değil; o açık kalıyor) --
+    "extensions.getAddons.showPane" = false;
+    "extensions.getAddons.cache.enabled" = false;
+    "extensions.htmlaboutaddons.recommendations.enabled" = false;
+    "browser.discovery.enabled" = false;
+
+    # -- Yeni sekme telemetrisi + sponsorlu içerik --
+    "browser.newtabpage.activity-stream.feeds.telemetry" = false;
+    "browser.newtabpage.activity-stream.telemetry" = false;
+    "browser.newtabpage.activity-stream.showSponsored" = false;
+    "browser.newtabpage.activity-stream.showSponsoredTopSites" = false;
+
+    # -- Gizlilik: modern parmak-izi koruması (FPP; tam RFP'den daha az kırıcı) --
+    "privacy.fingerprintingProtection" = true;
+    "privacy.trackingprotection.enabled" = true;
+    "privacy.trackingprotection.socialtracking.enabled" = true;
+
+  };
+
   # ---------------------------------------------------------------------------
-  # 1) Politika ile sertleştirilmiş Firefox (wrapFirefox.extraPolicies)
+  # 1) Politika ile sertleştirilmiş Firefox (wrapFirefox.extraPolicies + extraPrefs)
   # ---------------------------------------------------------------------------
   hardenedFirefox = pkgs.firefox.override {
+    extraPrefs = mkLockPrefs hardenedPrefs;
+
     extraPolicies = {
       # -- Telemetri / arka plan veri toplama --
       DisableTelemetry = true;
@@ -14,34 +92,47 @@ let
       DisablePocket = true;
       DisableDefaultBrowserAgent = true; # arka plan telemetri ajanı
       DontCheckDefaultBrowser = true; # "varsayılan tarayıcı yap" nag'i yok
+      CaptivePortal = false; # captive-portal yoklaması (policy seviyesinde de kapalı)
 
-      # -- Hesap / Sync --
+      # -- Hesap / Sync (accounts.firefox.com) — Bitwarden var, Sync'e gerek yok --
       DisableFirefoxAccounts = true; # Sync istersen bu satırı sil
 
-      # -- Güncelleme: Firefox'u Nix yönetir --
+      # -- Güncelleme: Firefox'u Nix yönetir (uygulama auto-update kapalı). --
+      #    NOT: Eklenti güncellemesi (ExtensionUpdate) BİLİNÇLİ olarak açık (güvenlik).
       DisableAppUpdate = true;
       DisableSystemAddonUpdate = true;
 
-      # -- DNS: sistem resolved + DoT (Quad9) kullanılsın; Firefox kendi DoH'unu
-      #    açıp sistem çözümleyiciyi ATLAMASIN (network.nix ile tutarlı). --
+      # -- DNS: sistem resolved + DoT kullanılsın; Firefox kendi DoH'unu açıp sistem
+      #    çözümleyiciyi ATLAMASIN (network.nix ile tutarlı). --
       DNSOverHTTPS = {
         Enabled = false;
         Locked = true;
       };
 
-      # -- DRM (Widevine = Google kapalı kaynak modülü). Netflix/Spotify için
-      #    Enabled = true yap. --
+      # -- DRM (Widevine = Google kapalı kaynak). Korsan/derme stream siteleri düz
+      #    HTML5/HLS kullanır → tehdit modeliyle uyumlu kapalı. Netflix/Spotify/DAZN
+      #    gibi MEŞRU DRM istersen Enabled = true yap. --
       EncryptedMediaExtensions = {
         Enabled = false;
         Locked = true;
       };
 
-      # -- Parola: Bitwarden kullanılıyor --
+      # -- Parola: Bitwarden EKLENTİSİ kullanılıyor. Aşağıdaki iki satır YALNIZCA
+      #    Firefox'un YERLEŞİK parola yöneticisini (about:logins + "kaydedeyim mi?"
+      #    çıktısı) kapatır; Bitwarden eklentisine dokunmaz, onunla çakışmaz. --
       OfferToSaveLogins = false;
       DisablePasswordReveal = true;
 
       # -- Ağ sızıntısı --
       NetworkPrediction = false; # prefetch / speculative DNS
+
+      # -- Yeni sekme: Pocket / sponsorlu / snippet (Mozilla'dan çekilir) kapalı --
+      FirefoxHome = {
+        Pocket = false;
+        SponsoredPocket = false;
+        Snippets = false;
+        SponsoredTopSites = false;
+      };
 
       # -- İlk çalıştırma / nag / öneri gürültüsü --
       OverrideFirstRunPage = "";
@@ -56,6 +147,32 @@ let
         SkipOnboarding = true;
         MoreFromMozilla = false;
       };
+
+      # -- EKLENTİ ALLOWLIST (default-deny / zero-trust) --
+      #    "*" = blocked  → listede olmayan HER eklenti reddedilir, elle kurulamaz.
+      #    force_installed → kaldırılamaz/devre dışı bırakılamaz; AMO'dan güvenlik
+      #    güncellemesi alır (telemetri değil; bilinçli açık tek Mozilla-temaslı kanal).
+      ExtensionSettings = {
+        "*" = {
+          installation_mode = "blocked";
+          blocked_install_message = "Yalnızca sistemde tanımlı eklentiler kullanılabilir.";
+        };
+        # uBlock Origin
+        "uBlock0@raymondhill.net" = {
+          installation_mode = "force_installed";
+          install_url = "https://addons.mozilla.org/firefox/downloads/latest/ublock-origin/latest.xpi";
+        };
+        # Bitwarden Password Manager
+        "{446900e4-71c2-419f-a6a7-df9c091e268b}" = {
+          installation_mode = "force_installed";
+          install_url = "https://addons.mozilla.org/firefox/downloads/latest/bitwarden-password-manager/latest.xpi";
+        };
+        # Firefox Multi-Account Containers
+        "@testpilot-containers" = {
+          installation_mode = "force_installed";
+          install_url = "https://addons.mozilla.org/firefox/downloads/latest/multi-account-containers/latest.xpi";
+        };
+      };
     };
   };
 
@@ -69,7 +186,7 @@ let
     PROFILE_HOME="$HOME/.mozilla-sandbox"
     CACHE_HOME="$HOME/.cache/mozilla-sandbox"
     DOWNLOADS="$HOME/Downloads"
-    mkdir -p "$PROFILE_HOME" "$CACHE_HOME" "$DOWNLOADS"
+    mkdir -p "$PROFILE_HOME/firefox" "$CACHE_HOME" "$DOWNLOADS"
 
     # ── Runtime dizini + Wayland soketi (labwc'de wayland-0/1 olabilir) ──
     XDG_RUNTIME_DIR="''${XDG_RUNTIME_DIR:-/run/user/$(id -u)}"
@@ -109,7 +226,7 @@ let
     args+=(--ro-bind-try /etc/ssl          /etc/ssl)
     args+=(--ro-bind-try /etc/static       /etc/static)        # NixOS ssl/font symlink hedefleri
     args+=(--ro-bind-try /etc/pki          /etc/pki)
-    # /etc/machine-id, /etc/hostname, /etc/os-release: BİLİNÇLİ olarak bind EDİLMEDİ.
+    # /etc/machine-id, /etc/hostname, /etc/os-release, /etc/passwd: BİLİNÇLİ bind EDİLMEDİ.
 
     # ── Fontlar ──
     args+=(--ro-bind-try /etc/fonts          /etc/fonts)
@@ -130,11 +247,32 @@ let
     args+=(--bind-try "$DOWNLOADS" "$DOWNLOADS")           # indirilenler
     # ~/.ssh, ~/.gnupg, ~/Documents, diğer dotfile'lar: HİÇ bind edilmedi → görünmez.
 
-    # ── Ortam ──
+    # ── Ortam: --clearenv ile ambient env'i SIFIRLA, yalnızca gerekenleri geçir ──
+    #    (least-privilege: host env değişkenleri güvenilmeyen tarayıcıya sızmasın)
+    args+=(--clearenv)
+    args+=(--setenv HOME "$HOME")
+    args+=(--setenv USER "''${USER:-user}")
+    args+=(--setenv XDG_RUNTIME_DIR "$XDG_RUNTIME_DIR")
+    args+=(--setenv WAYLAND_DISPLAY "$WL_DST")
+    args+=(--setenv XDG_SESSION_TYPE wayland)
     args+=(--setenv MOZ_ENABLE_WAYLAND 1)  # native Wayland (XWayland'a düşme)
+    args+=(--setenv MOZ_DBUS_REMOTE 0)     # sandbox'ta dbus yok; remoting denemesin
+    args+=(--setenv PATH "${hardenedFirefox}/bin")
+    args+=(--setenv LANG "''${LANG:-C.UTF-8}")
+    args+=(--setenv TZ "''${TZ:-UTC}")
 
-    exec ${pkgs.bubblewrap}/bin/bwrap "''${args[@]}" -- \
-      ${hardenedFirefox}/bin/firefox --name firefox "$@"
+    # ── Çalıştır: önce arken0 profilini idempotent garanti et, sonra Firefox'u exec et.
+    #    default profili Firefox kendi üretir; arken0, profiles.ini oluştuktan sonra
+    #    (ilk normal açılışın ardından) bir kez eklenir — başlangıç profilini ele geçirmez.
+    exec ${pkgs.bubblewrap}/bin/bwrap "''${args[@]}" -- ${pkgs.bash}/bin/bash -c '
+      set -euo pipefail
+      ff="${hardenedFirefox}/bin/firefox"
+      ini="$HOME/.mozilla/firefox/profiles.ini"
+      if [ -f "$ini" ] && ! ${pkgs.gnugrep}/bin/grep -qi "^Name=arken0" "$ini"; then
+        "$ff" -CreateProfile arken0 >/dev/null 2>&1 || true
+      fi
+      exec "$ff" --name firefox "$@"
+    ' bash "$@"
   '';
 
   # ---------------------------------------------------------------------------

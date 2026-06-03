@@ -70,25 +70,25 @@
           use = "edit";
         }
         {
-          name = "*.nix";
+          url = "*.nix";
           use = "edit";
-        }
+        } # name -> url
         {
-          name = "*.md";
+          url = "*.md";
           use = "edit";
-        }
+        } # name -> url
         {
-          name = "*.conf";
+          url = "*.conf";
           use = "edit";
-        }
+        } # name -> url
         {
-          name = "*.toml";
+          url = "*.toml";
           use = "edit";
-        }
+        } # name -> url
         {
-          name = "*";
+          url = "*";
           use = "system";
-        } # catchall — en sonda
+        } # catchall — name -> url, en sonda
       ];
     };
   };
