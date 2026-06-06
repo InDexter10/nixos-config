@@ -2,7 +2,8 @@ dbus-update-activation-environment --systemd WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
 systemctl --user import-environment WAYLAND_DISPLAY XDG_CURRENT_DESKTOP
 swayosd-server &
 swaybg -i $HOME/Pictures/aa.jpg -m fill &
-conky &
+nm-applet &
+sfwbar &
 swayidle -w \
   timeout 1200 'swaylock -f' \
   timeout 1260 'wlopm --off "*"' \

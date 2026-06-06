@@ -12,6 +12,7 @@
     tree
     timewarrior
     jq
+    htop
 
     ripgrep
 

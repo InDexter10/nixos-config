@@ -73,7 +73,7 @@
     latitude = "39.9";
     longitude = "32.8";
     temperature = {
-      day = 4000;
+      day = 4500;
       night = 4000;
     };
   };

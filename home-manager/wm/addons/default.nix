@@ -5,7 +5,7 @@
   imports = [
     ./utils.nix
     ./rofi.nix
-    ./conky.nix
+    ./sfwbar.nix
   ];
   home.packages = with pkgs; [
     swaybg

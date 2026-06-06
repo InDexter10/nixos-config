@@ -7,6 +7,7 @@
     packages = with pkgs; [
       corefonts # Times New Roman + Arial (Windows web fontlari)
       nerd-fonts.jetbrains-mono # monospace + ikon glyph'leri (terminal, rofi, mako)
+      cantarell-fonts
     ];
 
     fontconfig.defaultFonts = {

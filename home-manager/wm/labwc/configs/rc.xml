@@ -3,7 +3,7 @@
 
   <core>
     <decoration>server</decoration>
-    <gap>0</gap>
+    <gap>12</gap>
     <adaptiveSync>no</adaptiveSync>
     <allowTearing>no</allowTearing>
     <autoEnableOutputs>yes</autoEnableOutputs>
@@ -13,63 +13,30 @@
     <primarySelection>yes</primarySelection>
   </core>
 
-<margin top="20" bottom="20" left="20" right="20" />
-
   <focus>
     <followMouse>no</followMouse>
   </focus>
 
-<placement>
-  <policy>cascade</policy>
-  <cascadeOffset x="40" y="30" />
-</placement>
+  <placement>
+    <policy>cascade</policy>
+    <cascadeOffset x="40" y="30" />
+  </placement>
 
   <desktops number="4">
     <popupTime>700</popupTime>
   </desktops>
 
-    <regions>
-      <region name="top-left"     x="0%"  y="0%"  height="50%"  width="50%"  />
-      <region name="top"          x="0%"  y="0%"  height="50%"  width="100%" />
-      <region name="top-right"    x="50%" y="0%"  height="50%"  width="50%"  />
-      <region name="left"         x="0%"  y="0%"  height="100%" width="50%"  />
-      <region name="center"       x="10%" y="10%" height="80%"  width="80%"  />
-      <region name="right"        x="50%" y="0%"  height="100%" width="50%"  />
-      <region name="bottom-left"  x="0%"  y="50%" height="50%"  width="50%"  />
-      <region name="bottom"       x="0%"  y="50%" height="50%"  width="100%" />
-      <region name="bottom-right" x="50%" y="50%" height="50%"  width="50%"  />
-    </regions>
-
- <!-- SnapToRegion via W-Numpad -->
-
-    <keybind key="W-KP_7">
-      <action name="SnapToRegion" region="top-left" />
-    </keybind>
-    <keybind key="W-KP_8">
-      <action name="SnapToRegion" region="top" />
-    </keybind>
-    <keybind key="W-KP_9">
-      <action name="SnapToRegion" region="top-right" />
-    </keybind>
-    <keybind key="W-KP_4">
-      <action name="SnapToRegion" region="left" />
-    </keybind>
-    <keybind key="W-KP_5">
-      <action name="SnapToRegion" region="center" />
-    </keybind>
-    <keybind key="W-KP_6">
-      <action name="SnapToRegion" region="right" />
-    </keybind>
-    <keybind key="W-KP_1">
-      <action name="SnapToRegion" region="bottom-left" />
-    </keybind>
-    <keybind key="W-KP_2">
-      <action name="SnapToRegion" region="bottom" />
-    </keybind>
-    <keybind key="W-KP_3">
-      <action name="SnapToRegion" region="bottom-right" />
-    </keybind>
-  
+  <regions>
+    <region name="top-left"     x="0%"  y="0%"  height="50%"  width="50%"  />
+    <region name="top"          x="0%"  y="0%"  height="50%"  width="100%" />
+    <region name="top-right"    x="50%" y="0%"  height="50%"  width="50%"  />
+    <region name="left"         x="0%"  y="0%"  height="100%" width="50%"  />
+    <region name="center"       x="10%" y="10%" height="80%"  width="80%"  />
+    <region name="right"        x="50%" y="0%"  height="100%" width="50%"  />
+    <region name="bottom-left"  x="0%"  y="50%" height="50%"  width="50%"  />
+    <region name="bottom"       x="0%"  y="50%" height="50%"  width="100%" />
+    <region name="bottom-right" x="50%" y="50%" height="50%"  width="50%"  />
+  </regions>
 
   <theme>
     <cornerRadius>0</cornerRadius>
@@ -83,103 +50,158 @@
   </windowSwitcher>
 
   <keyboard>
-    <!-- (1) Acilista NumLock aktif. -->
+    <!-- Açılışta NumLock aktif. -->
     <numlock>on</numlock>
 
-    <!-- Daha tepkili klavye (pro/usable); guvenli, standart degerler. -->
+    <!-- Daha tepkili klavye; güvenli standart değerler. -->
     <repeatRate>30</repeatRate>
     <repeatDelay>250</repeatDelay>
 
-    <!-- Tum varsayilan keybind'ler (A-Tab=NextWindow, A-S-Tab=prev, vb.) -->
+    <!-- TÜM varsayılan keybind'ler:
+           A-Tab / A-S-Tab = pencere döngüsü
+           A-<ok>          = pencereyi kenara taşı (MoveToEdge)
+           W-a             = ToggleMaximize  (W-f ile aynı işi yapar; bilgi olsun)
+           A-F4            = Close            (W-q ile aynı)
+         W-<ok>'un varsayılanı (yarım-ekran tile) AŞAĞIDA bilinçli
+         olarak EZİLİYOR (pencere/masaüstü gezinmesi için). -->
     <default/>
 
-    <!-- Uygulama baslatma -->
+    <!-- ============== UYGULAMA BAŞLATMA ============== -->
     <keybind key="W-Return"><action name="Execute"><command>alacritty</command></action></keybind>
     <keybind key="W-d"><action name="Execute"><command>rofi -show drun</command></action></keybind>
     <keybind key="A-l"><action name="Execute"><command>swaylock</command></action></keybind>
-    
-    <keybind key="W-n">
-      <action name="Execute">
-        <command>sh -c 'systemctl --user is-active --quiet wlsunset.service &amp;&amp; systemctl --user stop wlsunset.service || systemctl --user start wlsunset.service'</command>
-      </action>
+
+    <keybind key="W-Home">
+      <action name="Execute" command="systemctl reboot" />
+    </keybind>
+
+    <keybind key="W-End">
+      <action name="Execute" command="systemctl poweroff" />
     </keybind>
   
 
-    <!-- Pencere yonetimi -->
+    <keybind key="W-n">
+      <action name="Execute">
+        <command>sh -c 'if systemctl --user is-active --quiet wlsunset.service; then systemctl --user stop wlsunset.service;  else systemctl --user start wlsunset.service;  fi'</command>
+      </action>
+    </keybind>
+
+    <!-- ============== PENCERE YÖNETİMİ ============== -->
     <keybind key="W-q"><action name="Close"/></keybind>
     <keybind key="W-f"><action name="ToggleMaximize"/></keybind>
 
 
-    <!-- Super + Sol/Sağ ile pencereler arası sırayla geçiş (Alt+Tab mantığı) -->
-    <keybind key="W-Left">
-      <action name="PreviousWindow" />
-    </keybind>
-    
-    <keybind key="W-Right">
-      <action name="NextWindow" />
-    </keybind>
+    <!-- Super + Sol/Sağ: pencereler arası sırayla geçiş (senin tercihin, kaldı) -->
+    <keybind key="W-Left"><action name="PreviousWindow"/></keybind>
+    <keybind key="W-Right"><action name="NextWindow"/></keybind>
 
-    <!-- Super + Üst/Alt ile Çalışma Alanları (Workspaces) arası geçiş -->
-    <keybind key="W-Up">
-      <action name="GoToDesktop">
-        <to>right</to>
-      </action>
-    </keybind>
-    
-    <keybind key="W-Down">
-      <action name="GoToDesktop">
-        <to>left</to>
-      </action>
-    </keybind>
+    <keybind key="W-Up"><action name="GoToDesktop" to="right" wrap="yes"/></keybind>
+    <keybind key="W-Down"><action name="GoToDesktop" to="left" wrap="yes"/></keybind>
 
-    <!-- Masaustune dogrudan gecis -->
+    <!-- Masaüstüne doğrudan geçiş -->
     <keybind key="W-1"><action name="GoToDesktop" to="1"/></keybind>
     <keybind key="W-2"><action name="GoToDesktop" to="2"/></keybind>
     <keybind key="W-3"><action name="GoToDesktop" to="3"/></keybind>
     <keybind key="W-4"><action name="GoToDesktop" to="4"/></keybind>
 
-    <!-- Pencereyi masaustune gonder (follow=no: gecerli masaustunde kal) -->
+    <!-- Pencereyi masaüstüne gönder (follow=no: geçerli masaüstünde kal) -->
     <keybind key="W-S-1"><action name="SendToDesktop" to="1" follow="no"/></keybind>
     <keybind key="W-S-2"><action name="SendToDesktop" to="2" follow="no"/></keybind>
     <keybind key="W-S-3"><action name="SendToDesktop" to="3" follow="no"/></keybind>
     <keybind key="W-S-4"><action name="SendToDesktop" to="4" follow="no"/></keybind>
 
-    <!-- Ekran goruntusu (grim + slurp + wl-clipboard kurulu olmali) -->
+    <!-- ============== SNAP TO REGION (W + Numpad) ==============
+         Her bölge İKİ keysym'e birden bağlandı:
+           NumLock AÇIK  → KP_7 KP_8 KP_9 ... (rakam keysym'leri)
+           NumLock KAPALI → KP_Home KP_Up KP_Prior ... (yön keysym'leri)
+         Böylece numlock durumundan BAĞIMSIZ çalışır. Gerekçe:
+         labwc #2709 — numlock açık görünse de numpad oturum başında
+         bazen aktif olmuyor; çift keysym bağlamak bunu kalıcı çözer. -->
+
+    <!-- 7 = top-left -->
+    <keybind key="W-KP_7"><action name="SnapToRegion" region="top-left"/></keybind>
+    <keybind key="W-KP_Home"><action name="SnapToRegion" region="top-left"/></keybind>
+    <!-- 8 = top -->
+    <keybind key="W-KP_8"><action name="SnapToRegion" region="top"/></keybind>
+    <keybind key="W-KP_Up"><action name="SnapToRegion" region="top"/></keybind>
+    <!-- 9 = top-right -->
+    <keybind key="W-KP_9"><action name="SnapToRegion" region="top-right"/></keybind>
+    <keybind key="W-KP_Prior"><action name="SnapToRegion" region="top-right"/></keybind>
+    <!-- 4 = left -->
+    <keybind key="W-KP_4"><action name="SnapToRegion" region="left"/></keybind>
+    <keybind key="W-KP_Left"><action name="SnapToRegion" region="left"/></keybind>
+    <!-- 5 = center -->
+    <keybind key="W-KP_5"><action name="SnapToRegion" region="center"/></keybind>
+    <keybind key="W-KP_Begin"><action name="SnapToRegion" region="center"/></keybind>
+    <!-- 6 = right -->
+    <keybind key="W-KP_6"><action name="SnapToRegion" region="right"/></keybind>
+    <keybind key="W-KP_Right"><action name="SnapToRegion" region="right"/></keybind>
+    <!-- 1 = bottom-left -->
+    <keybind key="W-KP_1"><action name="SnapToRegion" region="bottom-left"/></keybind>
+    <keybind key="W-KP_End"><action name="SnapToRegion" region="bottom-left"/></keybind>
+    <!-- 2 = bottom -->
+    <keybind key="W-KP_2"><action name="SnapToRegion" region="bottom"/></keybind>
+    <keybind key="W-KP_Down"><action name="SnapToRegion" region="bottom"/></keybind>
+    <!-- 3 = bottom-right -->
+    <keybind key="W-KP_3"><action name="SnapToRegion" region="bottom-right"/></keybind>
+    <keybind key="W-KP_Next"><action name="SnapToRegion" region="bottom-right"/></keybind>
+
+    <!-- ============== EKRAN GÖRÜNTÜSÜ ============== -->
     <keybind key="Print"><action name="Execute"><command>grim</command></action></keybind>
     <keybind key="W-S-s"><action name="Execute"><command>sh -c 'grim -g "$(slurp)" - | wl-copy'</command></action></keybind>
 
-    <!-- Ses: fiziksel medya tuslari; eylem + ekran gostergesi swayosd ile -->
+    <!-- ============== SES (fiziksel medya tuşları) ============== -->
     <keybind key="XF86AudioRaiseVolume"><action name="Execute"><command>swayosd-client --output-volume raise</command></action></keybind>
     <keybind key="XF86AudioLowerVolume"><action name="Execute"><command>swayosd-client --output-volume lower</command></action></keybind>
     <keybind key="XF86AudioMute"><action name="Execute"><command>swayosd-client --output-volume mute-toggle</command></action></keybind>
     <keybind key="XF86AudioMicMute"><action name="Execute"><command>swayosd-client --input-volume mute-toggle</command></action></keybind>
 
-    <!-- Parlaklik: bu klavyede ayri parlaklik tusu yok. Medya ileri/geri
-         tuslari parlaklik kontrolune atandi (iz atlama islevini devre disi birakir). -->
+    <!-- ============== PARLAKLIK ==============
+         Bu klavyede ayrı parlaklık tuşu yok → medya ileri/geri
+         tuşları parlaklığa atandı (iz atlama işlevi devre dışı). -->
     <keybind key="XF86AudioNext"><action name="Execute"><command>swayosd-client --brightness raise</command></action></keybind>
     <keybind key="XF86AudioPrev"><action name="Execute"><command>swayosd-client --brightness lower</command></action></keybind>
-
-    <!-- Standart parlaklik tuslari: harici klavye/dock takilirsa calisir.
-         Gerekmezse bu iki satir guvenle silinebilir. -->
+    <!-- Harici klavye/dock takılırsa standart tuşlar da çalışsın. -->
     <keybind key="XF86MonBrightnessUp"><action name="Execute"><command>swayosd-client --brightness raise</command></action></keybind>
     <keybind key="XF86MonBrightnessDown"><action name="Execute"><command>swayosd-client --brightness lower</command></action></keybind>
   </keyboard>
 
   <mouse>
     <default/>
+
+    <!-- ====== Super + Tekerlek = SES, Super+Shift + Tekerlek = PARLAKLIK ======
+         "Her yerde" tek context yok (bkz. labwc #1767). Bu yüzden:
+           Frame = pencere üzerindeki her yer (olaylar uygulamaya GEÇMEZ)
+           Root  = masaüstü boşluğu
+         İkisine de bağlandı → ekranın her yerinde çalışır.
+         Modifier (Super) olduğu için uygulamaların normal kaydırması
+         etkilenmez; yalnızca Super basılıyken tekerlek yakalanır.
+         Sade tekerlek (modifiersiz) Root'ta varsayılan olarak
+         masaüstü değiştirir; <default/> ile korunur, çakışmaz. -->
+    <context name="Frame">
+      <mousebind direction="W-Up"   action="Scroll"><action name="Execute"><command>swayosd-client --output-volume raise</command></action></mousebind>
+      <mousebind direction="W-Down" action="Scroll"><action name="Execute"><command>swayosd-client --output-volume lower</command></action></mousebind>
+      <mousebind direction="W-S-Up"   action="Scroll"><action name="Execute"><command>swayosd-client --brightness raise</command></action></mousebind>
+      <mousebind direction="W-S-Down" action="Scroll"><action name="Execute"><command>swayosd-client --brightness lower</command></action></mousebind>
+    </context>
+
+    <context name="Root">
+      <mousebind direction="W-Up"   action="Scroll"><action name="Execute"><command>swayosd-client --output-volume raise</command></action></mousebind>
+      <mousebind direction="W-Down" action="Scroll"><action name="Execute"><command>swayosd-client --output-volume lower</command></action></mousebind>
+      <mousebind direction="W-S-Up"   action="Scroll"><action name="Execute"><command>swayosd-client --brightness raise</command></action></mousebind>
+      <mousebind direction="W-S-Down" action="Scroll"><action name="Execute"><command>swayosd-client --brightness lower</command></action></mousebind>
+    </context>
   </mouse>
 
   <windowRules>
-    <!-- (2) TUM pencereler: SADECE kenarlik (baslik cubugu YOK), Hyprland tarzi.
-         decorations="border" -> yalnizca kenarlik + gorunmez resize alani.
-         forceSSD="yes"       -> CSD kullanan GTK/Firefox pencerelerine de zorla
-                                 server-side kenarlik uygulanir (varsayilan "no"
-                                 olsaydi bu pencerelerde kural yok sayilirdi). -->
+    <!-- TÜM pencereler: yalnızca kenarlık (başlık çubuğu YOK).
+         forceSSD=yes → CSD kullanan GTK/Firefox'a da zorla server-side
+         kenarlık uygulanır. -->
     <windowRule identifier="*">
       <action name="SetDecorations" decorations="border" forceSSD="yes"/>
     </windowRule>
 
-    <!-- Firefox acildiginda buyutulmus gelsin -->
+    <!-- Firefox açılışta büyütülmüş gelsin -->
     <windowRule identifier="*firefox*" type="normal">
       <action name="Maximize"/>
     </windowRule>

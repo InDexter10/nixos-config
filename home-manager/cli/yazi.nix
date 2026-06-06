@@ -8,7 +8,7 @@
     shellWrapperName = "y";
 
     extraPackages = with pkgs; [
-      ffmpegthumbnailer # video küçük resimleri
+      ffmpegthumbnailer
       ueberzugpp
     ];
 
@@ -72,23 +72,23 @@
         {
           url = "*.nix";
           use = "edit";
-        } # name -> url
+        }
         {
           url = "*.md";
           use = "edit";
-        } # name -> url
+        }
         {
           url = "*.conf";
           use = "edit";
-        } # name -> url
+        }
         {
           url = "*.toml";
           use = "edit";
-        } # name -> url
+        }
         {
           url = "*";
           use = "system";
-        } # catchall — name -> url, en sonda
+        }
       ];
     };
   };
