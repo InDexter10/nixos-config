@@ -13,8 +13,8 @@
 
       "image/jpeg" = [ "org.kde.gwenview.desktop" ];
       "image/png" = [ "org.kde.gwenview.desktop" ];
-      "image/webp" = [ "org.kde.gwenview.desktop" ];
-      "image/gif" = [ "org.kde.gwenview.desktop" ];
+      "image/webp" = [ "org.kdegwenview.desktop" ];
+      "image/gif" = [ "org.kdegwenview.desktop" ];
       "image/bmp" = [ "org.kde.gwenview.desktop" ];
       "image/svg+xml" = [ "org.kde.gwenview.desktop" ];
       "image/tiff" = [ "org.kde.okular.desktop" ];
@@ -25,12 +25,12 @@
       "application/x-udf" = [ "uyap-editor.desktop" ];
       "application/udf" = [ "uyap-editor.desktop" ];
 
-      "video/mp4" = [ "io.github.celluloid_player.Celluloid.desktop" ];
-      "video/x-matroska" = [ "io.github.celluloid_player.Celluloid.desktop" ];
-      "video/webm" = [ "io.github.celluloid_player.Celluloid.desktop" ];
-      "video/avi" = [ "io.github.celluloid_player.Celluloid.desktop" ];
-      "video/quicktime" = [ "io.github.celluloid_player.Celluloid.desktop" ];
-      "audio/mpeg" = [ "io.github.celluloid_player.Celluloid.desktop" ];
+      "video/mp4" = [ "vlc.desktop" ];
+      "video/x-matroska" = [ "vlc.desktop" ];
+      "video/webm" = [ "vlc.desktop" ];
+      "video/avi" = [ "vlc.desktop" ];
+      "video/quicktime" = [ "vlc.desktop" ];
+      "audio/mpeg" = [ "vlc.desktop" ];
 
       "application/zip" = [ "xarchiver.desktop" ];
       "application/x-rar" = [ "xarchiver.desktop" ];
@@ -38,7 +38,7 @@
       "application/x-tar" = [ "xarchiver.desktop" ];
       "application/gzip" = [ "xarchiver.desktop" ];
 
-      "text/html" = [ "com.brave.Browser.desktop" ];
+      "text/html" = [ "firefox.desktop" ];
       "x-scheme-handler/http" = [ "com.brave.Browser.desktop" ];
       "x-scheme-handler/https" = [ "com.brave.Browser.desktop" ];
       "x-scheme-handler/about" = [ "com.brave.Browser.desktop" ];

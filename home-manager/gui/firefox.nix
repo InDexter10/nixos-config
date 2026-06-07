@@ -12,6 +12,9 @@ let
     );
 
   hardenedPrefs = {
+    # arkenfox override
+    "media.av1.enabled" = false;
+
     # -- Telemetri / veri raporlama (telemetry.mozilla.org) --
     "toolkit.telemetry.enabled" = false;
     "toolkit.telemetry.unified" = false;
