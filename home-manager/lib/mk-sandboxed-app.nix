@@ -84,135 +84,143 @@ let
   # bwrap sarmalayıcı — bin adı "name" (PATH'te ham ikiliyi gölgeler)
   # ---------------------------------------------------------------------------
   wrapper = pkgs.writeShellScriptBin name ''
-    set -euo pipefail
+        set -euo pipefail
 
-    XDG_RUNTIME_DIR="''${XDG_RUNTIME_DIR:-/run/user/$(id -u)}"
-    ${optionalString isolatedConfig ''
-      # İzole, kalıcı uygulama verisi — host'ta ~/.sandboxes altında, sandbox
-      # içinde standart XDG yollarına bağlanır. ~/.sandboxes sandbox'ta GÖRÜNMEZ.
-      SBOX="$HOME/.sandboxes/${name}"
-      mkdir -p "$SBOX/config" "$SBOX/cache" "$SBOX/share"
-    ''}
-${allowMkLines}
-    ${optionalString wantX11 ''
-      XAUTH="''${XAUTHORITY:-$HOME/.Xauthority}"
-      if [ ! -f "$XAUTH" ]; then
-        : > "$HOME/.Xauthority" || true
-        XAUTH="$HOME/.Xauthority"
-      fi
-    ''}
-    ${optionalString wantWayland ''
-      WL_NAME="''${WAYLAND_DISPLAY:-wayland-0}"
-      case "$WL_NAME" in
-        /*) WL_SRC="$WL_NAME"; WL_DST="$WL_NAME" ;;
-        *)  WL_SRC="$XDG_RUNTIME_DIR/$WL_NAME"; WL_DST="$WL_SRC" ;;
-      esac
-    ''}
+        XDG_RUNTIME_DIR="''${XDG_RUNTIME_DIR:-/run/user/$(id -u)}"
+        ${optionalString isolatedConfig ''
+          # İzole, kalıcı uygulama verisi — host'ta ~/.sandboxes altında, sandbox
+          # içinde standart XDG yollarına bağlanır. ~/.sandboxes sandbox'ta GÖRÜNMEZ.
+          SBOX="$HOME/.sandboxes/${name}"
+          mkdir -p "$SBOX/config" "$SBOX/cache" "$SBOX/share"
+        ''}
+    ${allowMkLines}
+        ${optionalString wantX11 ''
+          XAUTH="''${XAUTHORITY:-$HOME/.Xauthority}"
+          if [ ! -f "$XAUTH" ]; then
+            : > "$HOME/.Xauthority" || true
+            XAUTH="$HOME/.Xauthority"
+          fi
+        ''}
+        ${optionalString wantWayland ''
+          WL_NAME="''${WAYLAND_DISPLAY:-wayland-0}"
+          case "$WL_NAME" in
+            /*) WL_SRC="$WL_NAME"; WL_DST="$WL_NAME" ;;
+            *)  WL_SRC="$XDG_RUNTIME_DIR/$WL_NAME"; WL_DST="$WL_SRC" ;;
+          esac
+        ''}
 
-    args=()
+        args=()
 
-    # ── Namespace izolasyonu ──
-    args+=(--unshare-all)        # user/pid/ipc/uts/cgroup/mount/net
-    ${optionalString net "args+=(--share-net)        # ...ağ hariç (yalnız net=true)"}
-    args+=(--hostname localhost) # gerçek makine adını gizle
-    args+=(--die-with-parent)    # başlatıcı ölünce sandbox da ölsün
-    args+=(--new-session)        # TIOCSTI terminal enjeksiyonuna karşı
+        # ── Namespace izolasyonu ──
+        args+=(--unshare-all)        # user/pid/ipc/uts/cgroup/mount/net
+        ${optionalString net "args+=(--share-net)        # ...ağ hariç (yalnız net=true)"}
+        args+=(--hostname localhost) # gerçek makine adını gizle
+        args+=(--die-with-parent)    # başlatıcı ölünce sandbox da ölsün
+        args+=(--new-session)        # TIOCSTI terminal enjeksiyonuna karşı
 
-    # ── Çekirdek sistem (salt-okunur) ──
-    args+=(--ro-bind /nix/store /nix/store)
-    args+=(--proc /proc)
-    args+=(--dev /dev)
-    args+=(--tmpfs /tmp)
-    args+=(--tmpfs /dev/shm)
+        # ── Çekirdek sistem (salt-okunur) ──
+        args+=(--ro-bind /nix/store /nix/store)
+        args+=(--proc /proc)
+        args+=(--dev /dev)
+        args+=(--tmpfs /tmp)
+        args+=(--tmpfs /dev/shm)
 
-    # ── Fontlar + sistem teması/ikon/mime (salt-okunur, sırf gizli-olmayan veri) ──
-    args+=(--ro-bind-try /etc/fonts /etc/fonts)
-    args+=(--ro-bind-try /etc/static /etc/static)
-    args+=(--ro-bind-try /etc/xdg /etc/xdg)
-    args+=(--ro-bind-try /var/cache/fontconfig /var/cache/fontconfig)
-    args+=(--ro-bind-try /run/current-system/sw/share /run/current-system/sw/share)
-    ${optionalString net ''
-      # ── Ağ: isim çözümleme + CA sertifikaları (yalnız net=true) ──
-      args+=(--ro-bind-try /etc/resolv.conf /etc/resolv.conf)
-      args+=(--ro-bind-try /etc/nsswitch.conf /etc/nsswitch.conf)
-      args+=(--ro-bind-try /etc/hosts /etc/hosts)
-      args+=(--ro-bind-try /etc/ssl /etc/ssl)
-      args+=(--ro-bind-try /etc/pki /etc/pki)
-    ''}
-    ${optionalString passwd ''
-      args+=(--ro-bind-try /etc/passwd /etc/passwd)
-      args+=(--ro-bind-try /etc/group /etc/group)
-    ''}
-    ${optionalString gpu ''
-      # ── GPU / VA-API (firefox.nix ile birebir bind seti) ──
-      args+=(--dev-bind /dev/dri /dev/dri)
-      args+=(--ro-bind /run/opengl-driver /run/opengl-driver)
-      args+=(--ro-bind-try /sys/dev/char /sys/dev/char)
-      args+=(--ro-bind-try /sys/devices /sys/devices)
-      args+=(--ro-bind-try /sys/class/drm /sys/class/drm)
-    ''}
+        # ── Fontlar + sistem teması/ikon/mime (salt-okunur, sırf gizli-olmayan veri) ──
+        args+=(--ro-bind-try /etc/fonts /etc/fonts)
+        args+=(--ro-bind-try /etc/static /etc/static)
+        args+=(--ro-bind-try /etc/xdg /etc/xdg)
+        args+=(--ro-bind-try /var/cache/fontconfig /var/cache/fontconfig)
+        args+=(--ro-bind-try /run/current-system/sw/share /run/current-system/sw/share)
+        ${optionalString net ''
+          # ── Ağ: isim çözümleme + CA sertifikaları (yalnız net=true) ──
+          args+=(--ro-bind-try /etc/resolv.conf /etc/resolv.conf)
+          args+=(--ro-bind-try /etc/nsswitch.conf /etc/nsswitch.conf)
+          args+=(--ro-bind-try /etc/hosts /etc/hosts)
+          args+=(--ro-bind-try /etc/ssl /etc/ssl)
+          args+=(--ro-bind-try /etc/pki /etc/pki)
+        ''}
+        ${optionalString passwd ''
+          args+=(--ro-bind-try /etc/passwd /etc/passwd)
+          args+=(--ro-bind-try /etc/group /etc/group)
+        ''}
+        ${optionalString gpu ''
+          # ── GPU / VA-API (firefox.nix ile birebir bind seti) ──
+          args+=(--dev-bind /dev/dri /dev/dri)
+          args+=(--ro-bind /run/opengl-driver /run/opengl-driver)
+          args+=(--ro-bind-try /sys/dev/char /sys/dev/char)
+          args+=(--ro-bind-try /sys/devices /sys/devices)
+          args+=(--ro-bind-try /sys/class/drm /sys/class/drm)
+        ''}
 
-    # ── Runtime dizini (izole) + ekran/ses soketleri ──
-    args+=(--tmpfs "$XDG_RUNTIME_DIR")
-    args+=(--chmod 0700 "$XDG_RUNTIME_DIR")   # Qt'nin Flatpak/izin kontrolü için zorunlu
-    ${optionalString wantWayland ''args+=(--bind-try "$WL_SRC" "$WL_DST")''}
-    ${optionalString audio ''
-      args+=(--bind-try "$XDG_RUNTIME_DIR/pipewire-0" "$XDG_RUNTIME_DIR/pipewire-0")
-      args+=(--bind-try "$XDG_RUNTIME_DIR/pulse"      "$XDG_RUNTIME_DIR/pulse")
-    ''}
-    ${optionalString wantX11 ''
-      # NOT: X11 soketi paylaşımı XWayland istemcileri arası gözetlemeye açıktır;
-      # yalnız native Wayland desteklemeyen uygulamalar için (display="x11").
-      args+=(--bind-try /tmp/.X11-unix /tmp/.X11-unix)
-      args+=(--ro-bind-try "$XAUTH" "$XAUTH")
-    ''}
-    ${optionalString isolatedConfig ''
-      args+=(--bind "$SBOX/config" "$HOME/.config")
-      args+=(--bind "$SBOX/cache"  "$HOME/.cache")
-      args+=(--bind "$SBOX/share"  "$HOME/.local/share")
-    ''}
+        # ── Runtime dizini (izole) + ekran/ses soketleri ──
+        args+=(--tmpfs "$XDG_RUNTIME_DIR")
+        args+=(--chmod 0700 "$XDG_RUNTIME_DIR")   # Qt'nin Flatpak/izin kontrolü için zorunlu
+        ${optionalString wantWayland ''args+=(--bind-try "$WL_SRC" "$WL_DST")''}
+        ${optionalString audio ''
+          args+=(--bind-try "$XDG_RUNTIME_DIR/pipewire-0" "$XDG_RUNTIME_DIR/pipewire-0")
+          args+=(--bind-try "$XDG_RUNTIME_DIR/pulse"      "$XDG_RUNTIME_DIR/pulse")
+        ''}
+        ${optionalString wantX11 ''
+          # NOT: X11 soketi paylaşımı XWayland istemcileri arası gözetlemeye açıktır;
+          # yalnız native Wayland desteklemeyen uygulamalar için (display="x11").
+          args+=(--bind-try /tmp/.X11-unix /tmp/.X11-unix)
+          args+=(--ro-bind-try "$XAUTH" "$XAUTH")
+        ''}
+        ${optionalString isolatedConfig ''
+          args+=(--bind "$SBOX/config" "$HOME/.config")
+          args+=(--bind "$SBOX/cache"  "$HOME/.cache")
+          args+=(--bind "$SBOX/share"  "$HOME/.local/share")
+        ''}
 
-    # ── Dosya erişim allowlist'i (host yolu = sandbox yolu) ──
-${roDirLines}
-${rwDirLines}
+        # ── Dosya erişim allowlist'i (host yolu = sandbox yolu) ──
+    ${roDirLines}
+    ${rwDirLines}
 
-    # ── Ortam: --clearenv ile sıfırla, yalnız gerekenleri geçir ──
-    args+=(--clearenv)
-    args+=(--setenv HOME "$HOME")
-    args+=(--setenv USER "''${USER:-${user}}")
-    args+=(--setenv XDG_RUNTIME_DIR "$XDG_RUNTIME_DIR")
-    args+=(--setenv PATH "${package}/bin")
-    args+=(--setenv LANG "''${LANG:-C.UTF-8}")
-    args+=(--setenv TZ "''${TZ:-UTC}")
-    args+=(--setenv XDG_DATA_DIRS "${package}/share:/run/current-system/sw/share")
-    args+=(--setenv XDG_CONFIG_DIRS "/etc/xdg")
-    ${optionalString isolatedConfig ''
-      args+=(--setenv XDG_CONFIG_HOME "$HOME/.config")
-      args+=(--setenv XDG_CACHE_HOME  "$HOME/.cache")
-      args+=(--setenv XDG_DATA_HOME   "$HOME/.local/share")
-    ''}
-    ${optionalString wantWayland ''
-      args+=(--setenv WAYLAND_DISPLAY "$WL_DST")
-      args+=(--setenv XDG_SESSION_TYPE wayland)
-    ''}
-    ${optionalString wantX11 ''
-      args+=(--setenv DISPLAY "''${DISPLAY:-:0}")
-      args+=(--setenv XAUTHORITY "$XAUTH")
-    ''}
-    ${optionalString gpu ''args+=(--setenv LIBVA_DRIVER_NAME "${vaapiDriver}")''}
-${envLines}
-${extraArgLines}
+        # ── Ortam: --clearenv ile sıfırla, yalnız gerekenleri geçir ──
+        args+=(--clearenv)
+        args+=(--setenv HOME "$HOME")
+        args+=(--setenv USER "''${USER:-${user}}")
+        args+=(--setenv XDG_RUNTIME_DIR "$XDG_RUNTIME_DIR")
+        args+=(--setenv PATH "${package}/bin")
+        args+=(--setenv LANG "''${LANG:-C.UTF-8}")
+        args+=(--setenv TZ "''${TZ:-UTC}")
+        args+=(--setenv XDG_DATA_DIRS "${package}/share:/run/current-system/sw/share")
+        args+=(--setenv XDG_CONFIG_DIRS "/etc/xdg")
+        ${optionalString isolatedConfig ''
+          args+=(--setenv XDG_CONFIG_HOME "$HOME/.config")
+          args+=(--setenv XDG_CACHE_HOME  "$HOME/.cache")
+          args+=(--setenv XDG_DATA_HOME   "$HOME/.local/share")
+        ''}
+        ${optionalString wantWayland ''
+          args+=(--setenv WAYLAND_DISPLAY "$WL_DST")
+          args+=(--setenv XDG_SESSION_TYPE wayland)
+        ''}
+        ${optionalString wantX11 ''
+          args+=(--setenv DISPLAY "''${DISPLAY:-:0}")
+          args+=(--setenv XAUTHORITY "$XAUTH")
+        ''}
+        ${optionalString gpu ''args+=(--setenv LIBVA_DRIVER_NAME "${vaapiDriver}")''}
+    ${envLines}
+    ${extraArgLines}
 
-    args+=(--chdir "$HOME")
+        args+=(--chdir "$HOME")
 
-    exec ${pkgs.bubblewrap}/bin/bwrap "''${args[@]}" -- ${exec} "$@"
+        exec ${pkgs.bubblewrap}/bin/bwrap "''${args[@]}" -- ${exec} "$@"
   '';
 
   # ---------------------------------------------------------------------------
   # Sandbox'a sabitlenmiş kendi .desktop girdimiz (üst-akışınki sandbox'ı atlardı)
   # ---------------------------------------------------------------------------
   desktop = pkgs.makeDesktopItem {
-    inherit name desktopName genericName icon categories mimeTypes startupWMClass;
+    inherit
+      name
+      desktopName
+      genericName
+      icon
+      categories
+      mimeTypes
+      startupWMClass
+      ;
     exec = "${wrapper}/bin/${name} ${desktopArgs}";
     startupNotify = true;
   };

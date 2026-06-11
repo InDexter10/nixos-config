@@ -17,6 +17,7 @@
     grim
     slurp
     wlopm
+    wob
 
   ];
 }

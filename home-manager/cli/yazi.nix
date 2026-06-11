@@ -8,8 +8,6 @@
     shellWrapperName = "y";
 
     extraPackages = with pkgs; [
-      ffmpegthumbnailer
-      ueberzugpp
     ];
 
     settings = {

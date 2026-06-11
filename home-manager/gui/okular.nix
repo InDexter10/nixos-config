@@ -17,7 +17,7 @@ in
       desktopName = "Okular";
       genericName = "Belge Görüntüleyici";
       icon = "okular";
-      startupWMClass = "org.kde.okular";
+      startupWMClass = "okular";
       categories = [
         "Office"
         "Viewer"

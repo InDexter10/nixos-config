@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <labwc_config>
 
+  <!-- ============================================================
+       DEĞİŞİKLİK NOTU
+       - swayosd KALDIRILDI. Ses=wpctl (WirePlumber), parlaklık=brightnessctl;
+         seviye göstergesi=wob.
+       - wob, autostart'taki FIFO okuyucusundan beslenir:
+           WOBSOCK="$XDG_RUNTIME_DIR/wob.fifo"
+           rm -f "$WOBSOCK"; mkfifo "$WOBSOCK"; tail -f "$WOBSOCK" | wob &
+         (autostart'tan 'swayosd-server &' satırını SİL.)
+       - İmleç-üstü-video takılması rc.xml'de DEĞİL: ~/.config/labwc/environment
+         içine 'WLR_NO_HARDWARE_CURSORS=0' (donanım imleci). UYAP/Java testini yap.
+       - Klavye rate/delay, keybind'ler ve <core> bilinçli olarak DEĞİŞTİRİLMEDİ.
+       ============================================================ -->
+
   <core>
     <decoration>server</decoration>
     <gap>12</gap>
@@ -53,9 +66,9 @@
     <!-- Açılışta NumLock aktif. -->
     <numlock>on</numlock>
 
-    <!-- Daha tepkili klavye; güvenli standart değerler. -->
-    <repeatRate>30</repeatRate>
-    <repeatDelay>250</repeatDelay>
+    <!-- Klavye rate/delay: kullanıcı tarafından ayarlandı, DOKUNULMADI. -->
+    <repeatRate>25</repeatRate>
+    <repeatDelay>600</repeatDelay>
 
     <!-- TÜM varsayılan keybind'ler:
            A-Tab / A-S-Tab = pencere döngüsü
@@ -78,7 +91,7 @@
     <keybind key="W-End">
       <action name="Execute" command="systemctl poweroff" />
     </keybind>
-  
+
 
     <keybind key="W-n">
       <action name="Execute">
@@ -150,20 +163,24 @@
     <keybind key="Print"><action name="Execute"><command>grim</command></action></keybind>
     <keybind key="W-S-s"><action name="Execute"><command>sh -c 'grim -g "$(slurp)" - | wl-copy'</command></action></keybind>
 
-    <!-- ============== SES (fiziksel medya tuşları) ============== -->
-    <keybind key="XF86AudioRaiseVolume"><action name="Execute"><command>swayosd-client --output-volume raise</command></action></keybind>
-    <keybind key="XF86AudioLowerVolume"><action name="Execute"><command>swayosd-client --output-volume lower</command></action></keybind>
-    <keybind key="XF86AudioMute"><action name="Execute"><command>swayosd-client --output-volume mute-toggle</command></action></keybind>
-    <keybind key="XF86AudioMicMute"><action name="Execute"><command>swayosd-client --input-volume mute-toggle</command></action></keybind>
+    <!-- ============== SES (fiziksel medya tuşları) ==============
+         wpctl ile değiştir + yeni yüzdeyi wob FIFO'suna yaz.
+         -l 1 : sistemi 100%'ün üstüne çıkarmaz (güvenli, yazılım amplifikasyonu yok). -->
+    <keybind key="XF86AudioRaiseVolume"><action name="Execute"><command>sh -c 'wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+; wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk "{print int(\$2*100)}" &gt; "$XDG_RUNTIME_DIR/wob.fifo"'</command></action></keybind>
+    <keybind key="XF86AudioLowerVolume"><action name="Execute"><command>sh -c 'wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%-; wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk "{print int(\$2*100)}" &gt; "$XDG_RUNTIME_DIR/wob.fifo"'</command></action></keybind>
+    <keybind key="XF86AudioMute"><action name="Execute"><command>sh -c 'wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle; v=$(wpctl get-volume @DEFAULT_AUDIO_SINK@); echo "$v" | grep -q MUTED &amp;&amp; echo 0 &gt; "$XDG_RUNTIME_DIR/wob.fifo" || echo "$v" | awk "{print int(\$2*100)}" &gt; "$XDG_RUNTIME_DIR/wob.fifo"'</command></action></keybind>
+    <!-- Mikrofon susturma: OSD'siz (mikrofon seviyesi göstergesi gereksiz). -->
+    <keybind key="XF86AudioMicMute"><action name="Execute"><command>sh -c 'wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle'</command></action></keybind>
 
     <!-- ============== PARLAKLIK ==============
          Bu klavyede ayrı parlaklık tuşu yok → medya ileri/geri
-         tuşları parlaklığa atandı (iz atlama işlevi devre dışı). -->
-    <keybind key="XF86AudioNext"><action name="Execute"><command>swayosd-client --brightness raise</command></action></keybind>
-    <keybind key="XF86AudioPrev"><action name="Execute"><command>swayosd-client --brightness lower</command></action></keybind>
+         tuşları parlaklığa atandı (iz atlama işlevi devre dışı).
+         brightnessctl ile değiştir + yüzdeyi wob FIFO'suna yaz. -->
+    <keybind key="XF86AudioNext"><action name="Execute"><command>sh -c 'brightnessctl -q set 5%+; brightnessctl -m | cut -d, -f4 | tr -d % &gt; "$XDG_RUNTIME_DIR/wob.fifo"'</command></action></keybind>
+    <keybind key="XF86AudioPrev"><action name="Execute"><command>sh -c 'brightnessctl -q set 5%-; brightnessctl -m | cut -d, -f4 | tr -d % &gt; "$XDG_RUNTIME_DIR/wob.fifo"'</command></action></keybind>
     <!-- Harici klavye/dock takılırsa standart tuşlar da çalışsın. -->
-    <keybind key="XF86MonBrightnessUp"><action name="Execute"><command>swayosd-client --brightness raise</command></action></keybind>
-    <keybind key="XF86MonBrightnessDown"><action name="Execute"><command>swayosd-client --brightness lower</command></action></keybind>
+    <keybind key="XF86MonBrightnessUp"><action name="Execute"><command>sh -c 'brightnessctl -q set 5%+; brightnessctl -m | cut -d, -f4 | tr -d % &gt; "$XDG_RUNTIME_DIR/wob.fifo"'</command></action></keybind>
+    <keybind key="XF86MonBrightnessDown"><action name="Execute"><command>sh -c 'brightnessctl -q set 5%-; brightnessctl -m | cut -d, -f4 | tr -d % &gt; "$XDG_RUNTIME_DIR/wob.fifo"'</command></action></keybind>
   </keyboard>
 
   <mouse>
@@ -177,19 +194,20 @@
          Modifier (Super) olduğu için uygulamaların normal kaydırması
          etkilenmez; yalnızca Super basılıyken tekerlek yakalanır.
          Sade tekerlek (modifiersiz) Root'ta varsayılan olarak
-         masaüstü değiştirir; <default/> ile korunur, çakışmaz. -->
+         masaüstü değiştirir; <default/> ile korunur, çakışmaz.
+         NOT: komutlar keybind'lerle BİREBİR aynı (swayosd → wpctl/brightnessctl + wob). -->
     <context name="Frame">
-      <mousebind direction="W-Up"   action="Scroll"><action name="Execute"><command>swayosd-client --output-volume raise</command></action></mousebind>
-      <mousebind direction="W-Down" action="Scroll"><action name="Execute"><command>swayosd-client --output-volume lower</command></action></mousebind>
-      <mousebind direction="W-S-Up"   action="Scroll"><action name="Execute"><command>swayosd-client --brightness raise</command></action></mousebind>
-      <mousebind direction="W-S-Down" action="Scroll"><action name="Execute"><command>swayosd-client --brightness lower</command></action></mousebind>
+      <mousebind direction="W-Up"   action="Scroll"><action name="Execute"><command>sh -c 'wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+; wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk "{print int(\$2*100)}" &gt; "$XDG_RUNTIME_DIR/wob.fifo"'</command></action></mousebind>
+      <mousebind direction="W-Down" action="Scroll"><action name="Execute"><command>sh -c 'wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%-; wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk "{print int(\$2*100)}" &gt; "$XDG_RUNTIME_DIR/wob.fifo"'</command></action></mousebind>
+      <mousebind direction="W-S-Up"   action="Scroll"><action name="Execute"><command>sh -c 'brightnessctl -q set 5%+; brightnessctl -m | cut -d, -f4 | tr -d % &gt; "$XDG_RUNTIME_DIR/wob.fifo"'</command></action></mousebind>
+      <mousebind direction="W-S-Down" action="Scroll"><action name="Execute"><command>sh -c 'brightnessctl -q set 5%-; brightnessctl -m | cut -d, -f4 | tr -d % &gt; "$XDG_RUNTIME_DIR/wob.fifo"'</command></action></mousebind>
     </context>
 
     <context name="Root">
-      <mousebind direction="W-Up"   action="Scroll"><action name="Execute"><command>swayosd-client --output-volume raise</command></action></mousebind>
-      <mousebind direction="W-Down" action="Scroll"><action name="Execute"><command>swayosd-client --output-volume lower</command></action></mousebind>
-      <mousebind direction="W-S-Up"   action="Scroll"><action name="Execute"><command>swayosd-client --brightness raise</command></action></mousebind>
-      <mousebind direction="W-S-Down" action="Scroll"><action name="Execute"><command>swayosd-client --brightness lower</command></action></mousebind>
+      <mousebind direction="W-Up"   action="Scroll"><action name="Execute"><command>sh -c 'wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+; wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk "{print int(\$2*100)}" &gt; "$XDG_RUNTIME_DIR/wob.fifo"'</command></action></mousebind>
+      <mousebind direction="W-Down" action="Scroll"><action name="Execute"><command>sh -c 'wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%-; wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk "{print int(\$2*100)}" &gt; "$XDG_RUNTIME_DIR/wob.fifo"'</command></action></mousebind>
+      <mousebind direction="W-S-Up"   action="Scroll"><action name="Execute"><command>sh -c 'brightnessctl -q set 5%+; brightnessctl -m | cut -d, -f4 | tr -d % &gt; "$XDG_RUNTIME_DIR/wob.fifo"'</command></action></mousebind>
+      <mousebind direction="W-S-Down" action="Scroll"><action name="Execute"><command>sh -c 'brightnessctl -q set 5%-; brightnessctl -m | cut -d, -f4 | tr -d % &gt; "$XDG_RUNTIME_DIR/wob.fifo"'</command></action></mousebind>
     </context>
   </mouse>
 

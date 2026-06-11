@@ -17,7 +17,7 @@ in
       desktopName = "Gwenview";
       genericName = "Görüntü Görüntüleyici";
       icon = "gwenview";
-      startupWMClass = "org.kde.gwenview";
+      startupWMClass = "gwenview";
       categories = [
         "Graphics"
         "Viewer"

@@ -118,18 +118,14 @@
     ];
 
     themes.trans = {
-      inherits = "hex_steel";
+      inherits = "hex_lavender";
 
       "ui.background".bg = "none";
       "ui.gutter".bg = "none";
 
-      "comment".fg = "#417e8c";
+      "comment".fg = "#396884";
       "comment.block.documentation".fg = "#234048";
 
-      palette = {
-        t3 = "#766f6f";
-        t4 = "#7e8182";
-      };
       # Palet referans notları (tema ince ayarı için):
       #   t8  = if/else, operatör (=)     t9  = noktalama işaretleri
       #   t10 = fonksiyon isimleri        t11 = keyword.function

@@ -11,16 +11,16 @@
 
     defaultApplications = {
 
-      "image/jpeg" = [ "org.kde.gwenview.desktop" ];
-      "image/png" = [ "org.kde.gwenview.desktop" ];
-      "image/webp" = [ "org.kdegwenview.desktop" ];
-      "image/gif" = [ "org.kdegwenview.desktop" ];
-      "image/bmp" = [ "org.kde.gwenview.desktop" ];
-      "image/svg+xml" = [ "org.kde.gwenview.desktop" ];
-      "image/tiff" = [ "org.kde.okular.desktop" ];
+      "image/jpeg" = [ "gwenview.desktop" ];
+      "image/png" = [ "gwenview.desktop" ];
+      "image/webp" = [ "gwenview.desktop" ];
+      "image/gif" = [ "gwenview.desktop" ];
+      "image/bmp" = [ "gwenview.desktop" ];
+      "image/svg+xml" = [ "gwenview.desktop" ];
+      "image/tiff" = [ "okular.desktop" ];
 
-      "application/pdf" = [ "org.kde.okular.desktop" ];
-      "application/epub+zip" = [ "org.kde.okular.desktop" ];
+      "application/pdf" = [ "okular.desktop" ];
+      "application/epub+zip" = [ ".okular.desktop" ];
 
       "application/x-udf" = [ "uyap-editor.desktop" ];
       "application/udf" = [ "uyap-editor.desktop" ];
@@ -45,8 +45,5 @@
       "x-scheme-handler/unknown" = [ "com.brave.Browser.desktop" ];
     };
 
-    associations.added = {
-      "application/pdf" = [ "com.github.jeromerobert.pdfarranger.desktop" ];
-    };
   };
 }
