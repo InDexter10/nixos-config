@@ -118,7 +118,7 @@
     ];
 
     themes.trans = {
-      inherits = "hex_lavender";
+      inherits = "gruvbox";
 
       "ui.background".bg = "none";
       "ui.gutter".bg = "none";

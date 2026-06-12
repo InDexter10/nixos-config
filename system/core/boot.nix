@@ -50,7 +50,6 @@
       "randomize_kstack_offset=on"
 
       "intel_iommu=on"
-      "iommu=pt"
 
       # Eski / zayıf yüzeyler
       "vsyscall=none"
@@ -106,6 +105,12 @@
       "net.core.bpf_jit_harden" = 2;
       "dev.tty.ldisc_autoload" = 0;
     };
+
+    boot.extraModprobeConfig = ''
+      options iwlwifi power_save=0 d0i3_disable=1 uapsd_disable=1
+      options iwlmvm power_scheme=1
+    '';
+
   };
 
   #   security.lsm = [ "integrity" ];
