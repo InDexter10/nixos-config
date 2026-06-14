@@ -12,6 +12,7 @@
     ./power-management.nix
     ./pipewire.nix
     ./driver.nix
+    ./storage.nix
   ];
 
 }

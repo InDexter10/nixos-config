@@ -64,6 +64,14 @@
     };
 
     # Yalnızca extraPackages ile desteklenen diller.
+    #
+    # labwc config dosyaları:
+    #   rc.xml / menu.xml  -> XML grameri gömülü; .xml uzantısıyla otomatik
+    #                         tanınır, burada ekstra tanım gerekmez.
+    #   autostart          -> shell script  -> aşağıda bash'e eşlendi
+    #   environment        -> KEY=value     -> aşağıda bash'e eşlendi
+    #   themerc            -> labwc'ye özgü sözdizimi; uygun bir gramer
+    #                         olmadığından bilerek atlandı.
     languages.language = [
       {
         name = "nix";
@@ -114,6 +122,40 @@
             "markdown"
           ];
         };
+      }
+      {
+        # labwc'nin uzantısız 'autostart' ve 'environment' dosyalarını
+        # bash olarak vurgula (tree-sitter, ekstra paket gerektirmez).
+        #
+        # NOT: Helix'te file-types override edilince varsayılanlarla
+        # BİRLEŞMEZ, onların yerine geçer. Bu yüzden bash'in standart
+        # eşleşmelerini de korumak için tekrar listelemek zorundayız;
+        # yoksa .sh / .bashrc gibi dosyalar tanınmaz olur.
+        name = "bash";
+        file-types = [
+          "sh"
+          "bash"
+          "zsh"
+          "ksh"
+          "csh"
+          { glob = ".bashrc"; }
+          { glob = ".bash_profile"; }
+          { glob = ".bash_login"; }
+          { glob = ".bash_logout"; }
+          { glob = ".profile"; }
+          { glob = ".zshrc"; }
+          { glob = ".zshenv"; }
+          { glob = ".zprofile"; }
+          { glob = ".zlogin"; }
+          { glob = ".zlogout"; }
+          { glob = "PKGBUILD"; }
+          { glob = "APKBUILD"; }
+          { glob = "ebuild"; }
+          { glob = "eclass"; }
+          # labwc:
+          { glob = "autostart"; }
+          { glob = "environment"; }
+        ];
       }
     ];
 

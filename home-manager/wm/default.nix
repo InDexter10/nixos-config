@@ -4,6 +4,7 @@
   imports = [
     ./addons
     ./labwc
+    ./etc
   ];
 
 }

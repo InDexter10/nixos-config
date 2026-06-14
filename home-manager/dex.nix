@@ -5,7 +5,6 @@
     ./cli
     ./gui
     ./wm
-    ./etc
 
   ];
 

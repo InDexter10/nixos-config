@@ -1,37 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-  labwc menu.xml - masaustu sag-tik (root-menu)
-  Bar olmadigi icin uygulama baslatmanin gorsel yolu: rofi (W-d) + bu menu.
-  Pencere islemleri (kapat/kucult vb.) icin: A-Space = client-menu (default).
-  id / label / execute ATTRIBUTE olmak zorunda (labwc-menu kurali).
--->
 <openbox_menu>
   <menu id="root-menu" label="labwc">
     <item label="Terminal">
       <action name="Execute" command="alacritty"/>
-    </item>
-    <item label="Uygulamalar (rofi)">
-      <action name="Execute" command="rofi -show drun"/>
-    </item>
-    <item label="Calistir">
-      <action name="Execute" command="rofi -show run"/>
-    </item>
-    <separator/>
-    <item label="Ekran goruntusu (bolge)">
-      <action name="Execute" command="sh -c 'grim -g &quot;$(slurp)&quot; - | wl-copy'"/>
-    </item>
-    <item label="Ekrani kilitle">
-      <action name="Execute" command="swaylock"/>
-    </item>
-    <item label="Monitoru kapat">
-      <action name="Execute" command="wlopm --off '*'"/>
-    </item>
-    <separator label="Oturum"/>
-    <item label="Yeniden yukle (reconfigure)">
-      <action name="Reconfigure"/>
-    </item>
-    <item label="labwc'den cik">
-      <action name="Exit"/>
     </item>
   </menu>
 </openbox_menu>

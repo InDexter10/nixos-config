@@ -27,6 +27,8 @@
       g = "git";
       h = "cd ~";
       b = "cd ~/Books";
+      d = "cd ~/Downloads";
+      dd = "cd ~/Documents";
       l = "cd ~/.config/labwc";
       n = "cd ~/nixos-config";
       homeup = "home-manager switch --flake ~/nixos-config#dex";

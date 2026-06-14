@@ -10,8 +10,8 @@
   };
 
   environment.sessionVariables = {
-    NIXOS_OZONE_WL = "1"; # Nix-paketli Electron/Chromium native Wayland
-    QT_QPA_PLATFORM = "wayland;xcb"; # Qt önce Wayland; yoksa XWayland'a düş
+    NIXOS_OZONE_WL = "1";
+    QT_QPA_PLATFORM = "wayland;xcb";
   };
 
 }

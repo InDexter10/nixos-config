@@ -1,18 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <labwc_config>
 
-  <!-- ============================================================
-       DEĞİŞİKLİK NOTU
-       - swayosd KALDIRILDI. Ses=wpctl (WirePlumber), parlaklık=brightnessctl;
-         seviye göstergesi=wob.
-       - wob, autostart'taki FIFO okuyucusundan beslenir:
-           WOBSOCK="$XDG_RUNTIME_DIR/wob.fifo"
-           rm -f "$WOBSOCK"; mkfifo "$WOBSOCK"; tail -f "$WOBSOCK" | wob &
-         (autostart'tan 'swayosd-server &' satırını SİL.)
-       - İmleç-üstü-video takılması rc.xml'de DEĞİL: ~/.config/labwc/environment
-         içine 'WLR_NO_HARDWARE_CURSORS=0' (donanım imleci). UYAP/Java testini yap.
-       - Klavye rate/delay, keybind'ler ve <core> bilinçli olarak DEĞİŞTİRİLMEDİ.
-       ============================================================ -->
 
   <core>
     <decoration>server</decoration>
@@ -35,9 +23,16 @@
     <cascadeOffset x="40" y="30" />
   </placement>
 
-  <desktops number="4">
-    <popupTime>700</popupTime>
-  </desktops>
+    <desktops>
+      <popupTime>1000</popupTime>
+      <initial>Workspace 1</initial>
+      <names>
+        <name>web</name>
+        <name>dev</name>
+        <name>work</name>
+      </names>
+    </desktops>
+
 
   <regions>
     <region name="top-left"     x="0%"  y="0%"  height="50%"  width="50%"  />
@@ -63,23 +58,13 @@
   </windowSwitcher>
 
   <keyboard>
-    <!-- Açılışta NumLock aktif. -->
     <numlock>on</numlock>
 
-    <!-- Klavye rate/delay: kullanıcı tarafından ayarlandı, DOKUNULMADI. -->
     <repeatRate>25</repeatRate>
     <repeatDelay>600</repeatDelay>
 
-    <!-- TÜM varsayılan keybind'ler:
-           A-Tab / A-S-Tab = pencere döngüsü
-           A-<ok>          = pencereyi kenara taşı (MoveToEdge)
-           W-a             = ToggleMaximize  (W-f ile aynı işi yapar; bilgi olsun)
-           A-F4            = Close            (W-q ile aynı)
-         W-<ok>'un varsayılanı (yarım-ekran tile) AŞAĞIDA bilinçli
-         olarak EZİLİYOR (pencere/masaüstü gezinmesi için). -->
     <default/>
 
-    <!-- ============== UYGULAMA BAŞLATMA ============== -->
     <keybind key="W-Return"><action name="Execute"><command>alacritty</command></action></keybind>
     <keybind key="W-d"><action name="Execute"><command>rofi -show drun</command></action></keybind>
     <keybind key="A-l"><action name="Execute"><command>swaylock</command></action></keybind>
@@ -104,13 +89,6 @@
     <keybind key="W-f"><action name="ToggleMaximize"/></keybind>
 
 
-    <!-- Super + Sol/Sağ: pencereler arası sırayla geçiş (senin tercihin, kaldı) -->
-    <keybind key="W-Left"><action name="PreviousWindow"/></keybind>
-    <keybind key="W-Right"><action name="NextWindow"/></keybind>
-
-    <keybind key="W-Up"><action name="GoToDesktop" to="right" wrap="yes"/></keybind>
-    <keybind key="W-Down"><action name="GoToDesktop" to="left" wrap="yes"/></keybind>
-
     <!-- Masaüstüne doğrudan geçiş -->
     <keybind key="W-1"><action name="GoToDesktop" to="1"/></keybind>
     <keybind key="W-2"><action name="GoToDesktop" to="2"/></keybind>
@@ -123,13 +101,6 @@
     <keybind key="W-S-3"><action name="SendToDesktop" to="3" follow="no"/></keybind>
     <keybind key="W-S-4"><action name="SendToDesktop" to="4" follow="no"/></keybind>
 
-    <!-- ============== SNAP TO REGION (W + Numpad) ==============
-         Her bölge İKİ keysym'e birden bağlandı:
-           NumLock AÇIK  → KP_7 KP_8 KP_9 ... (rakam keysym'leri)
-           NumLock KAPALI → KP_Home KP_Up KP_Prior ... (yön keysym'leri)
-         Böylece numlock durumundan BAĞIMSIZ çalışır. Gerekçe:
-         labwc #2709 — numlock açık görünse de numpad oturum başında
-         bazen aktif olmuyor; çift keysym bağlamak bunu kalıcı çözer. -->
 
     <!-- 7 = top-left -->
     <keybind key="W-KP_7"><action name="SnapToRegion" region="top-left"/></keybind>
@@ -164,8 +135,7 @@
     <keybind key="W-S-s"><action name="Execute"><command>sh -c 'grim -g "$(slurp)" - | wl-copy'</command></action></keybind>
 
     <!-- ============== SES (fiziksel medya tuşları) ==============
-         wpctl ile değiştir + yeni yüzdeyi wob FIFO'suna yaz.
-         -l 1 : sistemi 100%'ün üstüne çıkarmaz (güvenli, yazılım amplifikasyonu yok). -->
+          -->
     <keybind key="XF86AudioRaiseVolume"><action name="Execute"><command>sh -c 'wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+; wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk "{print int(\$2*100)}" &gt; "$XDG_RUNTIME_DIR/wob.fifo"'</command></action></keybind>
     <keybind key="XF86AudioLowerVolume"><action name="Execute"><command>sh -c 'wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%-; wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk "{print int(\$2*100)}" &gt; "$XDG_RUNTIME_DIR/wob.fifo"'</command></action></keybind>
     <keybind key="XF86AudioMute"><action name="Execute"><command>sh -c 'wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle; v=$(wpctl get-volume @DEFAULT_AUDIO_SINK@); echo "$v" | grep -q MUTED &amp;&amp; echo 0 &gt; "$XDG_RUNTIME_DIR/wob.fifo" || echo "$v" | awk "{print int(\$2*100)}" &gt; "$XDG_RUNTIME_DIR/wob.fifo"'</command></action></keybind>
@@ -173,9 +143,7 @@
     <keybind key="XF86AudioMicMute"><action name="Execute"><command>sh -c 'wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle'</command></action></keybind>
 
     <!-- ============== PARLAKLIK ==============
-         Bu klavyede ayrı parlaklık tuşu yok → medya ileri/geri
-         tuşları parlaklığa atandı (iz atlama işlevi devre dışı).
-         brightnessctl ile değiştir + yüzdeyi wob FIFO'suna yaz. -->
+          -->
     <keybind key="XF86AudioNext"><action name="Execute"><command>sh -c 'brightnessctl -q set 5%+; brightnessctl -m | cut -d, -f4 | tr -d % &gt; "$XDG_RUNTIME_DIR/wob.fifo"'</command></action></keybind>
     <keybind key="XF86AudioPrev"><action name="Execute"><command>sh -c 'brightnessctl -q set 5%-; brightnessctl -m | cut -d, -f4 | tr -d % &gt; "$XDG_RUNTIME_DIR/wob.fifo"'</command></action></keybind>
     <!-- Harici klavye/dock takılırsa standart tuşlar da çalışsın. -->
@@ -187,15 +155,7 @@
     <default/>
 
     <!-- ====== Super + Tekerlek = SES, Super+Shift + Tekerlek = PARLAKLIK ======
-         "Her yerde" tek context yok (bkz. labwc #1767). Bu yüzden:
-           Frame = pencere üzerindeki her yer (olaylar uygulamaya GEÇMEZ)
-           Root  = masaüstü boşluğu
-         İkisine de bağlandı → ekranın her yerinde çalışır.
-         Modifier (Super) olduğu için uygulamaların normal kaydırması
-         etkilenmez; yalnızca Super basılıyken tekerlek yakalanır.
-         Sade tekerlek (modifiersiz) Root'ta varsayılan olarak
-         masaüstü değiştirir; <default/> ile korunur, çakışmaz.
-         NOT: komutlar keybind'lerle BİREBİR aynı (swayosd → wpctl/brightnessctl + wob). -->
+         -->
     <context name="Frame">
       <mousebind direction="W-Up"   action="Scroll"><action name="Execute"><command>sh -c 'wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+; wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk "{print int(\$2*100)}" &gt; "$XDG_RUNTIME_DIR/wob.fifo"'</command></action></mousebind>
       <mousebind direction="W-Down" action="Scroll"><action name="Execute"><command>sh -c 'wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%-; wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk "{print int(\$2*100)}" &gt; "$XDG_RUNTIME_DIR/wob.fifo"'</command></action></mousebind>
@@ -212,17 +172,21 @@
   </mouse>
 
   <windowRules>
-    <!-- TÜM pencereler: yalnızca kenarlık (başlık çubuğu YOK).
-         forceSSD=yes → CSD kullanan GTK/Firefox'a da zorla server-side
-         kenarlık uygulanır. -->
     <windowRule identifier="*">
       <action name="SetDecorations" decorations="border" forceSSD="yes"/>
     </windowRule>
 
-    <!-- Firefox açılışta büyütülmüş gelsin -->
     <windowRule identifier="*firefox*" type="normal">
       <action name="Maximize"/>
     </windowRule>
+
+    <windowRule identifier="tr-com-havelsan-uyap-system-editor-common-WPAppManager">
+      <action name="SendToDesktop" to="work" follow="yes" />
+    </windowRule>
+
+
+
+  
   </windowRules>
 
 </labwc_config>
