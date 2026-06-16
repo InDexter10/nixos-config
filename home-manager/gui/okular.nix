@@ -6,16 +6,17 @@
 }:
 
 let
-  mkSandboxedApp = import ../lib/mk-sandboxed-app.nix { inherit pkgs lib config; };
+  mkSandboxedApp = import ../lib/sandboxing.nix { inherit pkgs lib config; };
   home = config.home.homeDirectory;
+  okularPkg = pkgs.kdePackages.okular; # KF6 (26.05). KF5'te ise pkgs.okular.
 in
 {
   home.packages = [
     (mkSandboxedApp {
       name = "okular";
-      package = pkgs.kdePackages.okular; # KF6 (26.05). KF5'te ise pkgs.okular.
+      package = okularPkg;
       desktopName = "Okular";
-      genericName = "Belge Görüntüleyici";
+      genericName = "PDF Wiever";
       icon = "okular";
       startupWMClass = "okular";
       categories = [
@@ -38,19 +39,21 @@ in
       gpu = false;
       isolatedConfig = true;
 
-      # Native dosya seçici bu üç klasörde gezinebilir; başka hiçbir yeri görmez.
-      # rw: Okular PDF üzerine not/annotation kaydeder.
+      exec = "${pkgs.dbus}/bin/dbus-run-session --dbus-daemon=${pkgs.dbus}/bin/dbus-daemon -- ${okularPkg}/bin/okular";
+
       rwDirs = [
         "${home}/Downloads"
         "${home}/Documents"
         "${home}/Books"
-        "${home}/Pictures"
-
       ];
 
       extraEnv = {
         QT_QPA_PLATFORM = "wayland";
       };
+
+      extraArgs = [
+        "--ro-bind-try /etc/dbus-1 /etc/dbus-1"
+      ];
     })
   ];
 }

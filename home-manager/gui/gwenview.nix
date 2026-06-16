@@ -6,7 +6,7 @@
 }:
 
 let
-  mkSandboxedApp = import ../lib/mk-sandboxed-app.nix { inherit pkgs lib config; };
+  mkSandboxedApp = import ../lib/sandboxing.nix { inherit pkgs lib config; };
   home = config.home.homeDirectory;
 in
 {

@@ -26,10 +26,12 @@
     music = null;
     templates = null;
     publicShare = null;
+    projects = null;
 
     extraConfig = {
-      XDG_MOVIES_DIR = "$HOME/Movies";
       XDG_BOOKS_DIR = "$HOME/Books";
+      XDG_Movies_DIR = "$HOME/Movies";
+
     };
   };
 
