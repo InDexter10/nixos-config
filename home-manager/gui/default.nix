@@ -1,11 +1,8 @@
 { pkgs, ... }:
 {
   imports = [
-    ./firefox.nix
+    ./flatpakapps.nix
     ./uyap.nix
-    ./vlc.nix
-    ./okular.nix
-    ./gwenview.nix
   ];
 
   home.packages = with pkgs; [
