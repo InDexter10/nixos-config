@@ -13,6 +13,7 @@
     ./pipewire.nix
     ./driver.nix
     ./storage.nix
+    ./flatpak.nix
   ];
 
 }

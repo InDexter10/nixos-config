@@ -9,7 +9,7 @@
       }
     ];
 
-    update.onActivation = false;
+    update.onActivation = true;
     update.auto.enable = false;
 
     uninstallUnmanaged = true;

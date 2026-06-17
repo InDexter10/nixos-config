@@ -6,11 +6,13 @@
       url = "github:nix-community/home-manager/release-26.05";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    nix-flatpak.url = "github:gmodena/nix-flatpak/?ref=v0.7.0";
   };
   outputs =
     {
       nixpkgs,
       home-manager,
+      nix-flatpak,
       ...
     }@inputs:
     let
@@ -34,6 +36,7 @@
           inherit pkgs;
           extraSpecialArgs = { inherit inputs; };
           modules = [
+            nix-flatpak.homeManagerModules.nix-flatpak
             ./home-manager/dex.nix
           ];
         };
