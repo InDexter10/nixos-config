@@ -11,38 +11,32 @@
 
     defaultApplications = {
 
-      "image/jpeg" = [ "gwenview.desktop" ];
-      "image/png" = [ "gwenview.desktop" ];
-      "image/webp" = [ "gwenview.desktop" ];
-      "image/gif" = [ "gwenview.desktop" ];
-      "image/bmp" = [ "gwenview.desktop" ];
-      "image/svg+xml" = [ "gwenview.desktop" ];
-      "image/tiff" = [ "okular.desktop" ];
+      "image/jpeg" = [ "org.kde.gwenview.desktop" ];
+      "image/png" = [ "org.kde.gwenview.desktop" ];
+      "image/webp" = [ "org.kde.gwenview.desktop" ];
+      "image/gif" = [ "org.kde.gwenview.desktop" ];
+      "image/bmp" = [ "org.kde.gwenview.desktop" ];
+      "image/svg+xml" = [ "org.kde.gwenview.desktop" ];
+      "image/tiff" = [ "org.kde.okular.desktop" ];
 
-      "application/pdf" = [ "okular.desktop" ];
-      "application/epub+zip" = [ ".okular.desktop" ];
+      "application/pdf" = [ "org.kde.okular.desktop" ];
+      "application/epub+zip" = [ "org.kde.okular.desktop" ];
 
       "application/x-udf" = [ "uyap-editor.desktop" ];
       "application/udf" = [ "uyap-editor.desktop" ];
 
-      "video/mp4" = [ "vlc.desktop" ];
-      "video/x-matroska" = [ "vlc.desktop" ];
-      "video/webm" = [ "vlc.desktop" ];
-      "video/avi" = [ "vlc.desktop" ];
-      "video/quicktime" = [ "vlc.desktop" ];
-      "audio/mpeg" = [ "vlc.desktop" ];
-
-      "application/zip" = [ "xarchiver.desktop" ];
-      "application/x-rar" = [ "xarchiver.desktop" ];
-      "application/x-7z-compressed" = [ "xarchiver.desktop" ];
-      "application/x-tar" = [ "xarchiver.desktop" ];
-      "application/gzip" = [ "xarchiver.desktop" ];
+      "video/mp4" = [ "org.videolan.VLC.desktop" ];
+      "video/x-matroska" = [ "org.videolan.VLC.desktop" ];
+      "video/webm" = [ "org.videolan.VLC.desktop" ];
+      "video/avi" = [ "org.videolan.VLC.desktop" ];
+      "video/quicktime" = [ "org.videolan.VLC.desktop" ];
+      "audio/mpeg" = [ "org.videolan.VLC.desktop" ];
 
       "text/html" = [ "firefox.desktop" ];
-      "x-scheme-handler/http" = [ "com.brave.Browser.desktop" ];
-      "x-scheme-handler/https" = [ "com.brave.Browser.desktop" ];
-      "x-scheme-handler/about" = [ "com.brave.Browser.desktop" ];
-      "x-scheme-handler/unknown" = [ "com.brave.Browser.desktop" ];
+      "x-scheme-handler/http" = [ "org.mozilla.firefox.desktop" ];
+      "x-scheme-handler/https" = [ "org.mozilla.firefox.desktop" ];
+      "x-scheme-handler/about" = [ "org.mozilla.firefox.desktop" ];
+      "x-scheme-handler/unknown" = [ "org.mozilla.firefox.desktop" ];
     };
 
   };
