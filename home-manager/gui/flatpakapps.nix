@@ -18,6 +18,7 @@
     packages = [
       "org.videolan.VLC"
       "org.mozilla.firefox"
+      "io.gitlab.librewolf-community"
       "org.kde.okular"
       "org.kde.gwenview"
       "com.github.jeromerobert.pdfarranger"
@@ -79,6 +80,13 @@
       };
 
       "org.mozilla.firefox".Context = {
+        shared = [ "network" ];
+        devices = [ "dri" ];
+        sockets = [ "pulseaudio" ];
+        filesystems = [ "xdg-download:rw" ];
+      };
+
+      "io.gitlab.librewolf-community".Context = {
         shared = [ "network" ];
         devices = [ "dri" ];
         sockets = [ "pulseaudio" ];
