@@ -30,9 +30,9 @@
       d = "cd ~/Downloads";
       dd = "cd ~/Documents";
       l = "cd ~/.config/labwc";
-      n = "cd ~/nixos-config";
-      homeup = "home-manager switch --flake ~/nixos-config#dex";
-      sysup = "sudo nixos-rebuild switch --flake ~/nixos-config#msi";
+      n = "cd ~/.config/nixconf";
+      homeup = "home-manager switch --flake ~/.config/nixconf#dex";
+      sysup = "sudo nixos-rebuild switch --flake ~/.config/nixconf#msi";
       lg = "git log --graph --abbrev-commit --decorate --format=format:'%C(bold blue)%h%C(reset) - %C(bold green)(%ar)%C(reset) %C(white)%s%C(reset) %C(dim white)- %an%C(reset)%C(bold yellow)%d%C(reset)' --all";
     };
 

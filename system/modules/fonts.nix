@@ -1,8 +1,7 @@
-{ pkgs, lib, ... }:
+{ pkgs, ... }:
 
 {
-  nixpkgs.config.allowUnfreePredicate = pkg: lib.getName pkg == "corefonts";
-
+  # corefonts unfree'dir; izin listesi flake.nix'teki `allowedUnfree`de tutulur.
   fonts = {
     packages = with pkgs; [
       corefonts # Times New Roman + Arial (Windows web fontlari)

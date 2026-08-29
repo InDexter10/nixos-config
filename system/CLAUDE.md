@@ -12,15 +12,15 @@ system hardening hakkında:
 4. sistem varsayılan olarak minimal tutulacak. kullanıcının kullanımına göre ek özellikler ve davranışlar eklenecek.
    ama varsayılan olarak hardaening e meyil edilecek.
 5. kernel hardening kullanıcının niyetine göre optimum ama -hardeninge meyilli- şekilde olacak. kullanılmayan servis, yapı ve davrnışlar varsayılan kapalı tutulacak.
+6. sistem tutarlı olmalıdır. modüller bir biriyle çelişmemeli ve çakışmamalıdır. sistem bütünlüğü ve uyumluluğu sağlanmalıdır.
+   tercihler:
 
-tercihler:
-
-1. msi all in one tek kullanıcı erişimi bir pc kullanıyorum. disk şifreleme kullanılmayacak.
-2. hashde password sadece kullanıcı şifresi için. kullanım senaryosu şöyle olacak, sistem ilk kurulumda manuel olarak root şifresi belirlenecek.
-3. ***
-4. latest kernel tercih edilcek.
-5. sistem genelinde güvenlik ve kontrol için zorunlu olanlar hariç gereksiz loglama işlemi önlenecek. ama zaruri olanlar açık bırakılacak.
-6. bluetooth, thunderbolt gibi gereksiz servisler kullanılmayacak.
+7. msi all in one tek kullanıcı erişimi bir pc kullanıyorum. disk şifreleme kullanılmayacak.
+8. hashde password sadece kullanıcı şifresi için. kullanım senaryosu şöyle olacak, sistem ilk kurulumda manuel olarak root şifresi belirlenecek.
+9. ***
+10. latest kernel tercih edilcek.
+11. sistem genelinde güvenlik ve kontrol için zorunlu olanlar hariç gereksiz loglama işlemi önlenecek. ama zaruri olanlar açık bırakılacak.
+12. bluetooth, thunderbolt gibi gereksiz servisler kullanılmayacak.
 
 önemli not : kullanıcı nixos öğrenmeye çalışıyor. nixos ve hardening bilgisi yeterli değil. o yüzden ai olarak sen,
 kullanıcının farkında olmadığı ama niyetiyle uyumlu olan herhangi bir konuda açıklama yaparak uyarmak zorundasın.

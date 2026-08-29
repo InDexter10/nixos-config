@@ -8,9 +8,13 @@
     [ (modulesPath + "/installer/scan/not-detected.nix")
     ];
 
-  boot.initrd.availableKernelModules = [ "ahci" "xhci_pci" "nvme" "usb_storage" "usbhid" "sd_mod" "sr_mod" "rtsx_pci_sdmmc" ];
+  # "sr_mod" cikarildi: optik surucu yok ve cdrom modulu boot.nix'te blacklist'te
+  # (sr_mod cdrom'a bagimlidir) - sistem kendiyle celisiyordu.
+  boot.initrd.availableKernelModules = [ "ahci" "xhci_pci" "nvme" "usb_storage" "usbhid" "sd_mod" "rtsx_pci_sdmmc" ];
   boot.initrd.kernelModules = [ ];
-  boot.kernelModules = [ "kvm-intel" ];
+  # "kvm-intel" cikarildi: sanallastirma kullanilmiyor, modul refcount 0 ile
+  # bosuna yukluydu. boot.nix ayrica blacklist'liyor.
+  boot.kernelModules = [ ];
   boot.extraModulePackages = [ ];
 
   fileSystems."/" =

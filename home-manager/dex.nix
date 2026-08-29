@@ -1,4 +1,4 @@
-{ ... }:
+{ config, ... }:
 
 {
   imports = [
@@ -13,6 +13,11 @@
   home.stateVersion = "26.05";
 
   programs.home-manager.enable = true;
+
+  # home-manager CLI konfigi sabit olarak ~/.config/home-manager altinda arar.
+  # Bu symlink sayesinde `--flake` vermeden sadece `home-manager switch` yeter.
+  xdg.configFile."home-manager".source =
+    config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.config/nixconf";
 
   xdg.userDirs = {
     enable = true;

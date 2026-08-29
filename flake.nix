@@ -11,6 +11,7 @@
   };
   outputs =
     {
+      self,
       nixpkgs,
       nixpkgs-unstable,
       home-manager,
@@ -20,27 +21,49 @@
     let
       system = "x86_64-linux";
 
-      # unstable kanalını `pkgs.unstable.<paket>` olarak açar.
+      # Izin verilen unfree paketler. Tek liste, hem NixOS hem Home-Manager
+      # tarafinda gecerli; yeni bir unfree paket eklemek icin buraya adini yaz.
+      allowedUnfree = [
+        "corefonts" # Times New Roman + Arial (system/modules/fonts.nix)
+        "claude-code" # home-manager/cli
+      ];
+
+      # Hem sistem hem home tarafinin paylastigi nixpkgs ayari.
+      nixpkgsConfig = {
+        allowUnfreePredicate = pkg: builtins.elem (nixpkgs.lib.getName pkg) allowedUnfree;
+      };
+
+      # unstable kanalini `pkgs.unstable.<paket>` olarak acar.
       overlay-unstable = final: prev: {
         unstable = import nixpkgs-unstable {
           inherit system;
-          inherit (prev) config; # allowUnfree vb. tek yerden miras alınır
+          inherit (prev) config; # unfree politikasi tek yerden miras alinir
         };
       };
 
       pkgs = import nixpkgs {
         inherit system;
         overlays = [ overlay-unstable ];
-        config.allowUnfree = true;
+        config = nixpkgsConfig;
       };
     in
     {
+      # `nix fmt` -> helix'in kullandigi formatter ile ayni.
+      formatter.${system} = pkgs.nixfmt;
+
       nixosConfigurations = {
         msi = nixpkgs.lib.nixosSystem {
           inherit system;
-          specialArgs = { inherit inputs; };
+          specialArgs = { inherit inputs self; };
           modules = [
-            { nixpkgs.overlays = [ overlay-unstable ]; }
+            {
+              nixpkgs.overlays = [ overlay-unstable ];
+              nixpkgs.config = nixpkgsConfig;
+
+              # Calisan sistemin hangi commit'ten geldigini kaydeder:
+              # `nixos-version --configuration-revision` ile gorulebilir.
+              system.configurationRevision = self.rev or self.dirtyRev or "dirty";
+            }
             ./system/default.nix
           ];
         };
@@ -48,7 +71,7 @@
       homeConfigurations = {
         "dex" = home-manager.lib.homeManagerConfiguration {
           inherit pkgs;
-          extraSpecialArgs = { inherit inputs; };
+          extraSpecialArgs = { inherit inputs self; };
           modules = [
             nix-flatpak.homeManagerModules.nix-flatpak
             ./home-manager/dex.nix

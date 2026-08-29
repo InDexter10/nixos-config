@@ -8,7 +8,7 @@
     # Helix'in çalışma zamanı PATH'ine eklenen araçlar (LSP + formatter).
     extraPackages = with pkgs; [
       nil # nix LSP (Helix varsayılanı)
-      nixfmt-rfc-style # nix formatter (binary adı: nixfmt)
+      nixfmt # nix formatter (RFC 166 stili)
       vscode-langservers-extracted # html / css / json / eslint LSP'leri
       prettier # html / css / json / markdown formatter
     ];
