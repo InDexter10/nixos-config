@@ -15,16 +15,12 @@
       enable = true;
       allowPing = false;
       logRefusedConnections = true;
-
     };
 
     networkmanager = {
       enable = true;
-
       dns = "systemd-resolved";
-
       wifi.powersave = false;
-
       wifi.macAddress = "stable";
       ethernet.macAddress = "stable";
       connectionConfig = {
@@ -36,14 +32,10 @@
 
   services.resolved = {
     enable = true;
-
     settings.Resolve = {
       DNSOverTLS = true;
-
       DNSSEC = "allow-downgrade";
-
       Domains = [ "~." ];
-
       FallbackDNS = [ "194.242.2.4#base.dns.mullvad.net" ];
 
       LLMNR = false;

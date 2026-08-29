@@ -9,3 +9,5 @@ swayidle -w \
   timeout 1260 'wlopm --off "*"' \
   resume 'wlopm --on "*"' \
   before-sleep 'swaylock -f' &
+
+

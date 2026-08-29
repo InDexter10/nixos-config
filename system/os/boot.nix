@@ -36,7 +36,6 @@
       "udev.log_priority=3"
 
       "init_on_alloc=1"
-      #"init_on_free=1"
       "slab_nomerge"
       "page_alloc.shuffle=1"
       "randomize_kstack_offset=on"
@@ -47,7 +46,6 @@
       "debugfs=off"
 
       "ipv6.disable=1"
-
     ];
 
     kernel.sysctl = {
@@ -99,12 +97,10 @@
       options iwlwifi power_save=0 d0i3_disable=1 uapsd_disable=1
       options iwlmvm power_scheme=1
     '';
-
   };
 
   security.protectKernelImage = true;
+  #security.lockKernelModules = false;
 
-  security.lockKernelModules = false;
-
-  systemd.coredump.enable = false;
+  #systemd.coredump.enable = false;
 }

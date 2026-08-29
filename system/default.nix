@@ -1,12 +1,8 @@
-{
-  ...
-}:
+{ ... }:
 
 {
   imports = [
-    ./core
-    ./etc
-
+    ./modules
+    ./os
   ];
-
 }

@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <labwc_config>
 
-
   <core>
     <decoration>server</decoration>
     <gap>12</gap>
     <adaptiveSync>no</adaptiveSync>
     <allowTearing>no</allowTearing>
     <autoEnableOutputs>yes</autoEnableOutputs>
-    <hdr>no</hdr>
     <reuseOutputMode>no</reuseOutputMode>
     <xwaylandPersistence>no</xwaylandPersistence>
     <primarySelection>yes</primarySelection>
+
+    <hdr>yes</hdr>
   </core>
 
   <focus>
@@ -23,16 +23,15 @@
     <cascadeOffset x="40" y="30" />
   </placement>
 
-    <desktops>
-      <popupTime>1000</popupTime>
-      <initial>Workspace 1</initial>
-      <names>
-        <name>web</name>
-        <name>dev</name>
-        <name>work</name>
-      </names>
-    </desktops>
-
+  <desktops>
+    <popupTime>1000</popupTime>
+    <initial>web</initial>
+    <names>
+      <name>web</name>
+      <name>dev</name>
+      <name>work</name>
+    </names>
+  </desktops>
 
   <regions>
     <region name="top-left"     x="0%"  y="0%"  height="50%"  width="50%"  />
@@ -69,6 +68,9 @@
     <keybind key="W-d"><action name="Execute"><command>rofi -show drun</command></action></keybind>
     <keybind key="A-l"><action name="Execute"><command>swaylock</command></action></keybind>
 
+    <!-- ============== 0.20.0 YENİ: Masaüstünü göster (toggle) ============== -->
+    <keybind key="W-space"><action name="ToggleShowDesktop"/></keybind>
+
     <keybind key="W-Home">
       <action name="Execute" command="systemctl reboot" />
     </keybind>
@@ -77,30 +79,26 @@
       <action name="Execute" command="systemctl poweroff" />
     </keybind>
 
-
     <keybind key="W-n">
       <action name="Execute">
         <command>sh -c 'if systemctl --user is-active --quiet wlsunset.service; then systemctl --user stop wlsunset.service;  else systemctl --user start wlsunset.service;  fi'</command>
       </action>
     </keybind>
 
+  
     <!-- ============== PENCERE YÖNETİMİ ============== -->
     <keybind key="W-q"><action name="Close"/></keybind>
     <keybind key="W-f"><action name="ToggleMaximize"/></keybind>
 
-
-    <!-- Masaüstüne doğrudan geçiş -->
+    <!-- Masaüstüne doğrudan geçiş (3 workspace: web/dev/work) -->
     <keybind key="W-1"><action name="GoToDesktop" to="1"/></keybind>
     <keybind key="W-2"><action name="GoToDesktop" to="2"/></keybind>
     <keybind key="W-3"><action name="GoToDesktop" to="3"/></keybind>
-    <keybind key="W-4"><action name="GoToDesktop" to="4"/></keybind>
 
     <!-- Pencereyi masaüstüne gönder (follow=no: geçerli masaüstünde kal) -->
     <keybind key="W-S-1"><action name="SendToDesktop" to="1" follow="no"/></keybind>
     <keybind key="W-S-2"><action name="SendToDesktop" to="2" follow="no"/></keybind>
     <keybind key="W-S-3"><action name="SendToDesktop" to="3" follow="no"/></keybind>
-    <keybind key="W-S-4"><action name="SendToDesktop" to="4" follow="no"/></keybind>
-
 
     <!-- 7 = top-left -->
     <keybind key="W-KP_7"><action name="SnapToRegion" region="top-left"/></keybind>
@@ -134,16 +132,14 @@
     <keybind key="Print"><action name="Execute"><command>grim</command></action></keybind>
     <keybind key="W-S-s"><action name="Execute"><command>sh -c 'grim -g "$(slurp)" - | wl-copy'</command></action></keybind>
 
-    <!-- ============== SES (fiziksel medya tuşları) ==============
-          -->
+    <!-- ============== SES (fiziksel medya tuşları, wob OSD) ============== -->
     <keybind key="XF86AudioRaiseVolume"><action name="Execute"><command>sh -c 'wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+; wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk "{print int(\$2*100)}" &gt; "$XDG_RUNTIME_DIR/wob.fifo"'</command></action></keybind>
     <keybind key="XF86AudioLowerVolume"><action name="Execute"><command>sh -c 'wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%-; wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk "{print int(\$2*100)}" &gt; "$XDG_RUNTIME_DIR/wob.fifo"'</command></action></keybind>
     <keybind key="XF86AudioMute"><action name="Execute"><command>sh -c 'wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle; v=$(wpctl get-volume @DEFAULT_AUDIO_SINK@); echo "$v" | grep -q MUTED &amp;&amp; echo 0 &gt; "$XDG_RUNTIME_DIR/wob.fifo" || echo "$v" | awk "{print int(\$2*100)}" &gt; "$XDG_RUNTIME_DIR/wob.fifo"'</command></action></keybind>
-    <!-- Mikrofon susturma: OSD'siz (mikrofon seviyesi göstergesi gereksiz). -->
+    <!-- Mikrofon susturma: OSD'siz. -->
     <keybind key="XF86AudioMicMute"><action name="Execute"><command>sh -c 'wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle'</command></action></keybind>
 
-    <!-- ============== PARLAKLIK ==============
-          -->
+    <!-- ============== PARLAKLIK ============== -->
     <keybind key="XF86AudioNext"><action name="Execute"><command>sh -c 'brightnessctl -q set 5%+; brightnessctl -m | cut -d, -f4 | tr -d % &gt; "$XDG_RUNTIME_DIR/wob.fifo"'</command></action></keybind>
     <keybind key="XF86AudioPrev"><action name="Execute"><command>sh -c 'brightnessctl -q set 5%-; brightnessctl -m | cut -d, -f4 | tr -d % &gt; "$XDG_RUNTIME_DIR/wob.fifo"'</command></action></keybind>
     <!-- Harici klavye/dock takılırsa standart tuşlar da çalışsın. -->
@@ -154,8 +150,7 @@
   <mouse>
     <default/>
 
-    <!-- ====== Super + Tekerlek = SES, Super+Shift + Tekerlek = PARLAKLIK ======
-         -->
+    <!-- Super + Tekerlek = SES, Super+Shift + Tekerlek = PARLAKLIK -->
     <context name="Frame">
       <mousebind direction="W-Up"   action="Scroll"><action name="Execute"><command>sh -c 'wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+; wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk "{print int(\$2*100)}" &gt; "$XDG_RUNTIME_DIR/wob.fifo"'</command></action></mousebind>
       <mousebind direction="W-Down" action="Scroll"><action name="Execute"><command>sh -c 'wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%-; wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk "{print int(\$2*100)}" &gt; "$XDG_RUNTIME_DIR/wob.fifo"'</command></action></mousebind>
@@ -183,10 +178,6 @@
     <windowRule identifier="tr-com-havelsan-uyap-system-editor-common-WPAppManager">
       <action name="SendToDesktop" to="work" follow="yes" />
     </windowRule>
-
-
-
-  
   </windowRules>
 
 </labwc_config>

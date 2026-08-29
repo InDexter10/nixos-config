@@ -2,5 +2,4 @@
 
 {
   services.flatpak.enable = true;
-
 }

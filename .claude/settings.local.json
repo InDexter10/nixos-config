@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//sys/devices/system/cpu/cpufreq/policy0/**)",
+      "Read(//sys/devices/system/cpu/intel_pstate/**)",
+      "Bash(command -v vainfo)",
+      "Bash(vainfo)",
+      "Bash(env)"
+    ]
+  }
+}

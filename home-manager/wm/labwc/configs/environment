@@ -1,7 +1,6 @@
 
 XKB_DEFAULT_LAYOUT=tr
-# XKB_DEFAULT_LAYOUT=se,us(intl)
-# XKB_DEFAULT_OPTIONS=grp:alt_shift_toggle
+
 
 # GTK_IM_MODULE=simple
 

@@ -37,6 +37,29 @@
       "x-scheme-handler/https" = [ "org.mozilla.firefox.desktop" ];
       "x-scheme-handler/about" = [ "org.mozilla.firefox.desktop" ];
       "x-scheme-handler/unknown" = [ "org.mozilla.firefox.desktop" ];
+
+      # Word Belgeleri
+      "application/msword" = [ "org.libreoffice.LibreOffice.writer.desktop" ];
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.document" = [
+        "org.libreoffice.LibreOffice.writer.desktop"
+      ];
+      "application/vnd.openxmlformats-officedocument.wordprocessingml.template" = [
+        "org.libreoffice.LibreOffice.writer.desktop"
+      ];
+
+      # PowerPoint Sunumları
+      "application/vnd.ms-powerpoint" = [ "org.libreoffice.LibreOffice.impress.desktop" ];
+      "application/vnd.openxmlformats-officedocument.presentationml.presentation" = [
+        "org.libreoffice.LibreOffice.impress.desktop"
+      ];
+      "application/vnd.openxmlformats-officedocument.presentationml.template" = [
+        "org.libreoffice.LibreOffice.impress.desktop"
+      ];
+
+      # XML Dosyaları
+      "application/xml" = [ "org.libreoffice.LibreOffice.desktop" ];
+      "text/xml" = [ "org.libreoffice.LibreOffice.desktop" ];
+
     };
 
   };

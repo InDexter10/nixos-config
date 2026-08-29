@@ -1,55 +1,6 @@
-# sfwbar.nix — labwc icin KDE-Plasma esinli, premium, unbloat panel
-# Hedef surumler (teyit): NixOS 26.05 · labwc 0.9.7 · sfwbar 1.0_beta17
-# Kapsam: Home Manager modulu.
-#
-# DUZEN (sol -> sag):
-#   [ Taskbar (gruplanmamis) ]  <esnek bosluk>
-#   [ Tray ] [ Volume ] [ Backlight ] [ SysMon ] [ Clock ] [ Power ]
-#
-# ── BU SURUMDEKI DEGISIKLIKLER ───────────────────────────────────────────────
-#
-# 1) TUM GORUNUR METIN INGILIZCE. (Yorumlar Turkce calisma notu; ekrana cikmaz.)
-#
-# 2) CPU DOGRULANDI/DUZELTILDI. Shipped cpu.source'taki XCpuUtilization'in PAYI
-#    yalnizca `user` zamanini sayiyordu (nice+system disarida) -> htop'tan DUSUK.
-#    Artik kendi /proc/stat taramamiz: busy = user+nice+system+irq+softirq,
-#    total = busy+idle+iowait. htop "toplam" ile uyumlu. cpu.source KALDIRILDI.
-#
-# 3) SES/PARLAKLIK 3'ER ADIM.
-#    - Parlaklik: backlight.widget'in `step` Var'i = 3 (native logind D-Bus).
-#    - Ses: layout dugmesinde dogrudan VolumeCtl (+3/-3), 0-100 ARASI KILITLI
-#      (yazilim amplifikasyonu yok; rc.xml'deki `-l 1` niyetiyle ayni).
-#
-# 4) SES MODULUNE TIK -> "volctl" popup'i: HOPARLOR + MIKROFON. Her ikisi de
-#    ikon ile susturulup acilabilir, seviye cubugu tiklayinca ayarlanir. Native
-#    XVolumeWindow mikrofonu gostermedigi icin kendi kompakt popup'imiz var.
-#    (volume.widget / volume-popup.widget KALDIRILDI; sadece module("pulsectl").)
-#
-# 5) SAAT yalnizca saati gosterir (tek satir). Tarih zaten tiklayinca XCal'de.
-#
-# 6) TAKVIM (XCal) acik kalmasi duzeltildi (AutoClose) + premium stillendi;
-#    paletteki eksik @theme_border_color / @border renkleri eklendi.
-#
-# 7) PANEL YUKSELTI HISSI: ust kenar acik, alt kenar koyu (kabartma) -> panel
-#    icerigin "ustunde" durur. layer="top" (pencerelerin ustu). Tam-ekranin da
-#    ustunde olsun istersen layer="overlay" yap (videoyu kapatir, dikkat).
-#
-# 8) SYSTEM MONITOR: CPU/RAM/Disk icin doluluk cubuklari + Disk() ile disk.
-#
-# AUTOSTART (bu modulde YONETILMEZ). labwc/autostart — wob YALNIZCA medya tuslari
-# icin OSD (panel scroll'u native, wob beslemez). rc.xml DEGISMEDI:
-#   WOBSOCK="$XDG_RUNTIME_DIR/wob.fifo"; rm -f "$WOBSOCK"; mkfifo "$WOBSOCK"; tail -f "$WOBSOCK" | wob &
-#   nm-applet &
-#   sfwbar &
-#
-# SVG (nixpkgs #430793): backlight ikonu SVG ciziyor -> librsvg gerekli.
-# nixpkgs duzeltirse `sfwbarPkg = pkgs.sfwbar;` yap.
-
 { pkgs, ... }:
 
 let
-  # 26.05 derlemesi wrapGAppsHook3 icerdiginden YALNIZCA librsvg (unbloat).
-  # libpulseaudio + pipewire derlemede var -> native ses (pulsectl) calisir.
   sfwbarPkg = pkgs.sfwbar.overrideAttrs (old: {
     buildInputs = (old.buildInputs or [ ]) ++ [ pkgs.librsvg ];
   });

@@ -1,6 +1,10 @@
 { pkgs, ... }:
+
 {
-  programs.labwc.enable = true;
+  programs.labwc = {
+    enable = true;
+    package = pkgs.unstable.labwc;
+  };
   programs.dconf.enable = true;
 
   xdg.portal = {
@@ -13,5 +17,4 @@
     NIXOS_OZONE_WL = "1";
     QT_QPA_PLATFORM = "wayland;xcb";
   };
-
 }
