@@ -1,7 +1,0 @@
-border.width: 3
-osd.border.width: 3
-
-
-window.active.border.color: #00FFFF
-window.inactive.border.color: #000000
-osd.window-switcher.preview.border.color: #FF00FF

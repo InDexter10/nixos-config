@@ -2,37 +2,21 @@
 
 {
   security = {
-    # PipeWire'in gercek zamanli zamanlama onceligi alabilmesi icin gerekli.
-    # services.pipewire etkin oldugu surece kaldirilamaz.
-    rtkit.enable = true;
-
-    # NetworkManager modulu zaten zorunlu kiliyor; niyet gorunur olsun diye
-    # burada acikca yaziliyor.
+    rtkit.enable = true; # pipewire'in gercek zamanli onceligi icin
     polkit.enable = true;
 
-    # Kernel denetim (audit) altyapisi. Varsayilani zaten false; tek kullanicili
-    # bir masaustunde okunmayan syscall kaydi biriktirmekten baska ise yaramaz
-    # (kural 11). Upstream varsayilani degisirse sistem sessizce log uretmeye
-    # baslamasin diye acikca sabitleniyor.
+    # Varsayilanlari zaten false; upstream degistirirse sistem sessizce
+    # syscall kaydi biriktirmeye baslamasin diye sabitleniyor.
     audit.enable = false;
     auditd.enable = false;
   };
 
-  # --- Journald ---
+  # Kalici log bilincli olarak acik: 2026-08-29'daki Wi-Fi arizasi
+  # "journalctl -b -1" ile teshis edildi. Sinir sart - varsayilan tavan
+  # dosya sisteminin %10'u (bu diskte ~23 GB) ve disk sifresiz.
   #
-  # Kalici log BILEREK acik: 2026-08-29'daki Wi-Fi arizasi tam olarak
-  # "journalctl -b -1" sayesinde teshis edildi. Kural 11'in "zaruri olanlar
-  # acik birakilacak" istisnasi budur.
-  #
-  # Ama sinirsiz birakilamazdi. Varsayilan tavan dosya sisteminin %10'u - bu
-  # diskte ~23 GB. Olcum: 3 aylik kullanimda 427 MB birikmisti, hicbir sinir
-  # yoktu. Disk sifresiz oldugu icin (kural 7) bu, hangi aglara baglandigin,
-  # hangi cihazlari taktigin, oturum saatlerin gibi ayrintili bir davranis
-  # kaydinin diskte suresiz durmasi demektir (kural 2).
-  #
-  # MaxLevelStore BILEREK kisitlanmadi: Wi-Fi teshisinde ise yarayan
-  # wpa_supplicant satirlari info seviyesindeydi. Onem seviyesini kisip
-  # teshis yetenegini kaybetmek yerine boyut ve sure sinirlaniyor.
+  # MaxLevelStore kisitlanmadi: o arizada ise yarayan wpa_supplicant
+  # satirlari info seviyesindeydi.
   services.journald = {
     storage = "persistent";
     extraConfig = ''
@@ -40,5 +24,29 @@
       SystemMaxFileSize=25M
       MaxRetentionSec=2week
     '';
+  };
+
+  # --- Varsayilan gelen, karsiligi olmayan bilesenler ---
+
+  # espeak-ng dahil ~1.2 GiB kapanis. Ekran okuyucu kullanilmiyor;
+  # gui/flatpakapps.nix da "speech-dispatcher kurulu degil" varsayimiyla
+  # yazilmisti - o varsayim ancak bu satirla dogru hale geliyor.
+  services.speechd.enable = false;
+
+  # perl / rsync / strace. Ucu de kullanilmiyor; strace zaten
+  # kernel.yama.ptrace_scope=2 altinda sudo'suz ise yaramaz.
+  environment.defaultPackages = [ ];
+
+  documentation = {
+    # man sayfalari KALIYOR: "man configuration.nix" bu sistemde ogrenme
+    # kaynagi. HTML manual da nixos.enable ile birlikte geliyor, ayrilamiyor.
+    man.enable = true;
+    nixos.enable = true;
+
+    # Paketlerin share/doc ve info ciktilari. HTML dosyalari yalnizca
+    # Flatpak tarayicidan acilabilir, o da /nix/store'u goremiyor;
+    # info okuyucu da kurulu degil.
+    doc.enable = false;
+    info.enable = false;
   };
 }

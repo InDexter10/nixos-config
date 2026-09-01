@@ -1,16 +1,21 @@
 { pkgs, ... }:
 
+# Duzenleme katmani. defaultEditor = true -> $EDITOR; yazi'nin "edit"
+# opener'i ve alacritty'nin Ctrl+Shift+E ipucu da buraya yonlenir.
+# "trans" temasi arka planini boyamaz (ui.background.bg = none), yani zemin
+# alacritty'nin zeminidir.
+
 {
   programs.helix = {
     enable = true;
     defaultEditor = true;
 
-    # Helix'in çalışma zamanı PATH'ine eklenen araçlar (LSP + formatter).
+    # Helix'in calisma zamani PATH'ine eklenir (LSP + formatter).
     extraPackages = with pkgs; [
-      nil # nix LSP (Helix varsayılanı)
-      nixfmt # nix formatter (RFC 166 stili)
-      vscode-langservers-extracted # html / css / json / eslint LSP'leri
-      prettier # html / css / json / markdown formatter
+      nil
+      nixfmt
+      vscode-langservers-extracted # html / css / json / eslint
+      prettier
     ];
 
     settings = {
@@ -21,6 +26,36 @@
         mouse = false;
         bufferline = "multiple";
         true-color = true;
+        cursorline = true;
+        color-modes = true;
+
+        # nixfmt'in satir genisligiyle ayni.
+        rulers = [ 100 ];
+        text-width = 100;
+
+        # Arka planla ayni renkte olduklarinda nerede bittikleri belirsizdi.
+        popup-border = "all";
+
+        soft-wrap = {
+          enable = true;
+          wrap-indicator = "↪ ";
+          max-indent-retain = 40;
+        };
+
+        indent-guides = {
+          render = true;
+          character = "┊";
+          skip-levels = 1;
+        };
+
+        end-of-line-diagnostics = "hint";
+        inline-diagnostics = {
+          cursor-line = "hint";
+          other-lines = "error";
+        };
+
+        # Otomatik algilama XWayland varken x-clip'e kayabiliyor.
+        clipboard-provider = "wayland";
 
         cursor-shape = {
           insert = "bar";
@@ -32,12 +67,17 @@
           left = [
             "mode"
             "spinner"
+            "version-control"
           ];
-          center = [ "file-name" ];
+          center = [
+            "file-name"
+            "file-modification-indicator"
+          ];
           right = [
             "diagnostics"
             "selections"
             "position"
+            "position-percentage"
             "file-encoding"
             "file-type"
           ];
@@ -63,15 +103,9 @@
       };
     };
 
-    # Yalnızca extraPackages ile desteklenen diller.
-    #
-    # labwc config dosyaları:
-    #   rc.xml / menu.xml  -> XML grameri gömülü; .xml uzantısıyla otomatik
-    #                         tanınır, burada ekstra tanım gerekmez.
-    #   autostart          -> shell script  -> aşağıda bash'e eşlendi
-    #   environment        -> KEY=value     -> aşağıda bash'e eşlendi
-    #   themerc            -> labwc'ye özgü sözdizimi; uygun bir gramer
-    #                         olmadığından bilerek atlandı.
+    # Yalnizca extraPackages ile desteklenen diller.
+    # labwc rc.xml / menu.xml XML grameriyle otomatik taninir; themerc icin
+    # uygun bir gramer olmadigindan atlandi.
     languages.language = [
       {
         name = "nix";
@@ -114,7 +148,7 @@
       {
         name = "markdown";
         auto-format = true;
-        language-servers = [ ]; # marksman kurulu değil → LSP kapalı
+        language-servers = [ ]; # marksman kurulu degil
         formatter = {
           command = "prettier";
           args = [
@@ -124,13 +158,12 @@
         };
       }
       {
-        # labwc'nin uzantısız 'autostart' ve 'environment' dosyalarını
-        # bash olarak vurgula (tree-sitter, ekstra paket gerektirmez).
+        # labwc'nin uzantisiz autostart ve environment dosyalarini bash
+        # olarak vurgula.
         #
-        # NOT: Helix'te file-types override edilince varsayılanlarla
-        # BİRLEŞMEZ, onların yerine geçer. Bu yüzden bash'in standart
-        # eşleşmelerini de korumak için tekrar listelemek zorundayız;
-        # yoksa .sh / .bashrc gibi dosyalar tanınmaz olur.
+        # DIKKAT: file-types override edilince varsayilanlarla BIRLESMEZ,
+        # yerine gecer. Bash'in standart eslesmeleri bu yuzden tekrar
+        # listelenmek zorunda; yoksa .sh / .bashrc taninmaz olur.
         name = "bash";
         file-types = [
           "sh"
@@ -152,7 +185,6 @@
           { glob = "APKBUILD"; }
           { glob = "ebuild"; }
           { glob = "eclass"; }
-          # labwc:
           { glob = "autostart"; }
           { glob = "environment"; }
         ];
@@ -164,13 +196,6 @@
 
       "ui.background".bg = "none";
       "ui.gutter".bg = "none";
-
-      "comment".fg = "#396884";
-      "comment.block.documentation".fg = "#234048";
-
-      # Palet referans notları (tema ince ayarı için):
-      #   t8  = if/else, operatör (=)     t9  = noktalama işaretleri
-      #   t10 = fonksiyon isimleri        t11 = keyword.function
     };
   };
 }

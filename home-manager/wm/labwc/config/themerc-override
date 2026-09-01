@@ -1,0 +1,67 @@
+# Renkler ../../../theme/palette.nix ile ELDE eslenir; orada bir deger
+# degisirse buradaki karsiligi da guncellenmeli.
+#
+# Baslik cubugu kapali (rc.xml > windowRules), bu yuzden odakli pencereyi
+# ayirt eden tek isaret cerceve rengi - 1px degil 2px.
+border.width: 2
+window.active.border.color: #4d9ee0
+window.inactive.border.color: #55585a
+
+# Asagisi yalnizca dekorasyonu acilan pencereler icin gecerli.
+window.active.title.bg.color: #414446
+window.inactive.title.bg.color: #37393a
+window.active.label.text.color: #e6e8e8
+window.inactive.label.text.color: #a6abac
+window.label.text.justify: left
+window.titlebar.padding.width: 6
+window.titlebar.padding.height: 4
+window.button.width: 22
+window.button.height: 22
+window.button.spacing: 2
+window.active.button.unpressed.image.color: #e6e8e8
+window.inactive.button.unpressed.image.color: #a6abac
+window.button.hover.bg.color: #4a4d4f
+window.button.hover.bg.corner-radius: 3
+
+# Golge ayari BILEREK YOK: labwc golgeleri themerc'ten degil rc.xml'den
+# acar (<theme><dropShadows>, varsayilani "no") ve orada acilmiyor - buraya
+# yazilan window.*.shadow.* satirlari okunmadan atiliyordu. Istenirse once
+# rc.xml'e <dropShadows>yes</dropShadows> eklenmeli.
+
+menu.border.width: 1
+menu.border.color: #55585a
+menu.items.bg.color: #414446
+menu.items.text.color: #e6e8e8
+menu.items.active.bg.color: #4d9ee0
+menu.items.active.text.color: #37393a
+menu.items.padding.x: 10
+menu.items.padding.y: 5
+menu.title.bg.color: #37393a
+menu.title.text.color: #a6abac
+menu.separator.color: #55585a
+menu.separator.width: 1
+menu.width.min: 140
+
+osd.bg.color: #414446
+osd.border.width: 2
+osd.border.color: #55585a
+osd.label.text.color: #e6e8e8
+osd.window-switcher.preview.border.width: 2
+osd.window-switcher.preview.border.color: #4d9ee0
+osd.window-switcher.style-thumbnail.item.active.bg.color: #4d9ee0
+osd.window-switcher.style-thumbnail.item.active.border.color: #4d9ee0
+osd.window-switcher.style-thumbnail.item.active.border.width: 2
+osd.window-switcher.style-thumbnail.item.icon.size: 24
+osd.window-switcher.style-thumbnail.item.padding: 6
+osd.window-switcher.style-thumbnail.padding: 10
+
+snapping.overlay.edge.bg.enabled: yes
+snapping.overlay.edge.bg.color: #4d9ee033
+snapping.overlay.edge.border.enabled: yes
+snapping.overlay.edge.border.width: 2
+snapping.overlay.edge.border.color: #4d9ee0
+snapping.overlay.region.bg.enabled: yes
+snapping.overlay.region.bg.color: #4d9ee033
+snapping.overlay.region.border.enabled: yes
+snapping.overlay.region.border.width: 2
+snapping.overlay.region.border.color: #4d9ee0

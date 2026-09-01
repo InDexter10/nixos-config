@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openbox_menu>
+
+  <menu id="power-menu" label="Guc">
+    <item label="Ekrani kilitle">
+      <action name="Execute" command="swaylock -f"/>
+    </item>
+    <item label="Askiya al">
+      <action name="Execute" command="systemctl suspend"/>
+    </item>
+    <item label="Oturumu kapat">
+      <action name="Exit"/>
+    </item>
+    <separator/>
+    <item label="Yeniden baslat">
+      <action name="Execute" command="systemctl reboot"/>
+    </item>
+    <item label="Bilgisayari kapat">
+      <action name="Execute" command="systemctl poweroff"/>
+    </item>
+  </menu>
+
+  <menu id="root-menu" label="labwc">
+    <item label="Terminal">
+      <action name="Execute" command="alacritty"/>
+    </item>
+    <item label="Dosya yoneticisi">
+      <action name="Execute" command="alacritty -e yazi"/>
+    </item>
+    <item label="Uygulamalar">
+      <action name="Execute" command="rofi -show drun"/>
+    </item>
+    <separator/>
+    <item label="Masaustunu goster">
+      <action name="ToggleShowDesktop"/>
+    </item>
+    <separator/>
+    <menu id="power-menu"/>
+  </menu>
+
+</openbox_menu>

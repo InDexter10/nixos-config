@@ -1,9 +1,5 @@
-{ pkgs, ... }:
+{ ... }:
 
 {
-
-  imports = [
-    ./appearance.nix
-    ./mime.nix
-  ];
+  imports = [ ./mime.nix ];
 }

@@ -1,5 +1,10 @@
 { pkgs, ... }:
 
+# Yalnizca KURULU uygulamalara isaret eder; hedefi olmayan bir girdi "ac"
+# eylemini sessizce basarisiz kilar. Uygulama listesi gui/flatpakapps.nix
+# (Flatpak) ve gui/uyap.nix icinde - biri oradan cikarsa buradaki karsiligi
+# da dusmeli.
+
 {
   home.packages = with pkgs; [
     xdg-utils
@@ -22,7 +27,7 @@
       "application/pdf" = [ "org.kde.okular.desktop" ];
       "application/epub+zip" = [ "org.kde.okular.desktop" ];
 
-      "application/x-udf" = [ "uyap-editor.desktop" ];
+      # Tur adini gui/uyap.nix'teki uyap-mime tanimlar; baska ad uretilmiyor.
       "application/udf" = [ "uyap-editor.desktop" ];
 
       "video/mp4" = [ "org.videolan.VLC.desktop" ];
@@ -32,35 +37,13 @@
       "video/quicktime" = [ "org.videolan.VLC.desktop" ];
       "audio/mpeg" = [ "org.videolan.VLC.desktop" ];
 
-      "text/html" = [ "firefox.desktop" ];
+      # Flatpak Firefox yalnizca "org.mozilla.firefox.desktop" uretir;
+      # sade "firefox.desktop" bu sistemde hicbir seye karsilik gelmez.
+      "text/html" = [ "org.mozilla.firefox.desktop" ];
       "x-scheme-handler/http" = [ "org.mozilla.firefox.desktop" ];
       "x-scheme-handler/https" = [ "org.mozilla.firefox.desktop" ];
       "x-scheme-handler/about" = [ "org.mozilla.firefox.desktop" ];
       "x-scheme-handler/unknown" = [ "org.mozilla.firefox.desktop" ];
-
-      # Word Belgeleri
-      "application/msword" = [ "org.libreoffice.LibreOffice.writer.desktop" ];
-      "application/vnd.openxmlformats-officedocument.wordprocessingml.document" = [
-        "org.libreoffice.LibreOffice.writer.desktop"
-      ];
-      "application/vnd.openxmlformats-officedocument.wordprocessingml.template" = [
-        "org.libreoffice.LibreOffice.writer.desktop"
-      ];
-
-      # PowerPoint Sunumları
-      "application/vnd.ms-powerpoint" = [ "org.libreoffice.LibreOffice.impress.desktop" ];
-      "application/vnd.openxmlformats-officedocument.presentationml.presentation" = [
-        "org.libreoffice.LibreOffice.impress.desktop"
-      ];
-      "application/vnd.openxmlformats-officedocument.presentationml.template" = [
-        "org.libreoffice.LibreOffice.impress.desktop"
-      ];
-
-      # XML Dosyaları
-      "application/xml" = [ "org.libreoffice.LibreOffice.desktop" ];
-      "text/xml" = [ "org.libreoffice.LibreOffice.desktop" ];
-
     };
-
   };
 }

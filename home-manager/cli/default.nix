@@ -1,4 +1,5 @@
 { pkgs, ... }:
+
 {
   imports = [
     ./alacritty.nix
@@ -13,18 +14,12 @@
     timewarrior
     jq
     htop
-
     ripgrep
-
     onefetch
-
     pciutils
     usbutils
     binutils
-
     nix-tree
     file
-
   ];
-
 }

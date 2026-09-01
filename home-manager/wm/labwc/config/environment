@@ -1,0 +1,12 @@
+XKB_DEFAULT_LAYOUT=tr
+
+XCURSOR_THEME=Vanilla-DMZ
+XCURSOR_SIZE=24
+WLR_NO_HARDWARE_CURSORS=0
+
+# QT_QPA_PLATFORMTHEME ve QT_STYLE_OVERRIDE BILINCLI OLARAK YOK:
+# host'ta yerel Qt uygulamasi kurulu degil (etkisizler) ve bu
+# degiskenler Flatpak'in icine sizip okular/gwenview'in renk semasini
+# devre disi birakiyorlardi. Gerekce: ../../../theme/qt.nix
+
+GTK_IM_MODULE=simple

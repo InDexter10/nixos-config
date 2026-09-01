@@ -1,12 +1,10 @@
 { pkgs, ... }:
+
 {
   imports = [
     ./flatpakapps.nix
     ./uyap.nix
   ];
 
-  home.packages = with pkgs; [
-    claude-code
-  ];
-
+  home.packages = [ pkgs.claude-code ];
 }

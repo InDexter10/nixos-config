@@ -6,22 +6,32 @@
 
 let
   uyapDir = ".config/uyap";
-
   ukiDir = ".uki";
-
   javaPkg = pkgs.temurin-bin-11;
 
+  # GUVEN MODELI
+  # Kapali kaynak Java uygulamasi ve ag erisimi ZORUNLU (evraklar mobil imza
+  # ile cevrimici imzalaniyor), yani --share-net kaldirilamaz. Ag kapatilamadigi
+  # icin tek kaldirac dosya yuzeyidir; kutunun gordugu kullanici verisi tek
+  # dizine indirildi:
+  #   ~/Documents        calisma dizini (rw)
+  #   ~/.config/uyap     uygulamanin kendi kurulumu
+  #   ~/.uki             imza bileseninin dizini
+  #   ~/.java            JVM tercihleri
+  # Son ucu uygulamanin KENDI urettigi yollardir; erisemezse hic calismaz.
+  #
+  # ~/Downloads KALDIRILDI. Bedeli: tarayiciyla indirilen bir .udf acilamaz,
+  # once ~/Documents altina tasinmasi gerekir.
   uyap-launcher = pkgs.writeShellScriptBin "uyap-editor" ''
     set -e
 
-    # Bind kaynaklarının var olmasını garanti et (--bind eksik kaynakta patlar).
+    # --bind eksik kaynakta patlar; bu liste kutunun gordugu her seydir.
     mkdir -p "$HOME/${ukiDir}"
     mkdir -p "$HOME/${uyapDir}/UYAPEditor"
     mkdir -p "$HOME/.java"
     mkdir -p "$HOME/Documents"
-    mkdir -p "$HOME/Downloads"
 
-    # X11 yetkilendirme dosyası. labwc, XWayland üzerinden X11 soketi sağlar.
+    # labwc, XWayland uzerinden X11 soketi saglar.
     XAUTH=''${XAUTHORITY:-$HOME/.Xauthority}
     if [ ! -f "$XAUTH" ]; then
       touch "$HOME/.Xauthority"
@@ -52,7 +62,6 @@ let
       --bind "${config.home.homeDirectory}/${uyapDir}" "${config.home.homeDirectory}/${uyapDir}" \
       --bind "${config.home.homeDirectory}/${ukiDir}" "${config.home.homeDirectory}/${ukiDir}" \
       --bind "${config.home.homeDirectory}/Documents" "${config.home.homeDirectory}/Documents" \
-      --bind "${config.home.homeDirectory}/Downloads" "${config.home.homeDirectory}/Downloads" \
       --chdir "${config.home.homeDirectory}/${uyapDir}/UYAPEditor" \
       --die-with-parent \
       --new-session \
@@ -75,7 +84,6 @@ let
         "getNewWPInstance" "EDITOR_TYPE_DOCUMENT" "$@"
   '';
 
-  # --- Masaüstü kısayolu ---
   uyap-desktop = pkgs.makeDesktopItem {
     name = "uyap-editor";
     desktopName = "UYAP Doküman Editörü";
@@ -85,12 +93,10 @@ let
       "Office"
       "WordProcessor"
     ];
-    # Yalnız .udf; application/xml KASITLI olarak yok (tüm XML'lere
-    # UYAP'ı eşlememek için).
+    # Yalniz .udf; application/xml KASITLI olarak yok.
     mimeTypes = [ "application/udf" ];
   };
 
-  # --- MIME tipi tanımı (pure, store içinde) ---
   uyap-mime = pkgs.writeTextDir "share/mime/packages/udf.xml" ''
     <?xml version="1.0" encoding="UTF-8"?>
     <mime-info xmlns="http://www.freedesktop.org/standards/shared-mime-info">
@@ -109,9 +115,7 @@ in
     shared-mime-info
   ];
 
-  # Masaüstü girişinin ikonu (hicolor temasından "uyap-editor" adıyla çözülür).
-  # Kaynak, .deb'den ~/.config/uyap/icons altına kopyalanan store-dışı ikondur.
+  # Kaynak, .deb'den ~/.config/uyap altina kopyalanan store-disi ikondur.
   home.file.".local/share/icons/hicolor/128x128/apps/uyap-editor.png".source =
     config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/${uyapDir}/icons/hicolor/128x128/apps/uyap-editor.png";
-
 }

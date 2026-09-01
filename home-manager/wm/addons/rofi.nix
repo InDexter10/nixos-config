@@ -1,103 +1,150 @@
 { config, pkgs, ... }:
 
 let
+  p = import ../../theme/palette.nix;
   inherit (config.lib.formats.rasi) mkLiteral;
-
-  bg = "#1d2021"; # ana arka plan (notr koyu)
-  bgAlt = "#282828"; # arama cubugu icin hafif kontrast yuzey
-  fg = "#d4be98"; # ana metin (gruvbox material krem)
-  fgDim = "#928374"; # ikincil/soluk metin (prompt, placeholder)
-  accent = "#7daea3"; # vurgu: secili oge + kenarlik (serin mavi ton)
-  accentFg = "#1d2021"; # secili oge uzerindeki metin (koyu, kontrast icin)
 in
 {
   programs.rofi = {
     enable = true;
+    package = pkgs.rofi; # 2.0: Wayland-native
 
-    package = pkgs.rofi;
-
-    # Sistemde kurulu font.
-    font = "JetBrainsMono Nerd Font 10";
+    font = "${p.fontUI} ${toString p.fontUISize}";
 
     extraConfig = {
-      modi = "drun"; # yalnizca uygulama baslatici
-      show-icons = true; # drun'da uygulama ikonlari
-      icon-theme = "breeze-dark"; # sistemdeki ile ayni (koyu icin "Papirus-Dark")
-      drun-display-format = "{name}"; # sadece uygulama adini goster
-      terminal = "alacritty"; # terminal gerektiren .desktop girdileri icin
+      # drun uygulamalar, window ACIK PENCERELER arasi aranabilir gecis
+      # (Alt-Tab'in tum masaustlerini kapsayan hali), run $PATH komutlari.
+      modi = "drun,window,run";
+
+      show-icons = true;
+      icon-theme = p.iconTheme;
+      drun-display-format = "{name}";
+      terminal = "alacritty";
+
+      display-drun = "Uygulama";
+      display-window = "Pencere";
+      display-run = "Calistir";
+
+      auto-select = false;
+      matching = "normal";
+      sort = true;
+      sorting-method = "fzf";
+
+      kb-mode-next = "Control+Tab";
+      kb-mode-previous = "Control+ISO_Left_Tab";
     };
 
     theme = {
       "*" = {
-        background-color = mkLiteral bg;
-        text-color = mkLiteral fg;
+        background-color = mkLiteral p.bg;
+        text-color = mkLiteral p.fg;
       };
 
       "window" = {
-        location = mkLiteral "north"; # ekranin ust kenarina yasla
+        location = mkLiteral "north";
         anchor = mkLiteral "north";
-        y-offset = mkLiteral "0px"; # ust kenardan bosluk istersen artir (or. 8px)
-        width = mkLiteral "50%";
-        border = mkLiteral "2px";
-        border-color = mkLiteral accent;
-        border-radius = mkLiteral "0px";
-        background-color = mkLiteral bg;
+        y-offset = mkLiteral "80px"; # panel altina yapismasin
+        width = mkLiteral "620px";
+        border = mkLiteral "1px";
+        border-color = mkLiteral p.border;
+        border-radius = mkLiteral "6px";
+        background-color = mkLiteral p.bg;
       };
 
       "mainbox" = {
-        padding = mkLiteral "8px";
-        spacing = mkLiteral "8px";
+        padding = mkLiteral "10px";
+        spacing = mkLiteral "10px";
         children = map mkLiteral [
           "inputbar"
+          "mode-switcher"
           "listview"
         ];
       };
 
-      # Arama satiri
       "inputbar" = {
-        background-color = mkLiteral bgAlt;
-        padding = mkLiteral "8px";
-        spacing = mkLiteral "8px";
+        background-color = mkLiteral p.base;
+        border-radius = mkLiteral "4px";
+        padding = mkLiteral "9px 12px";
+        spacing = mkLiteral "10px";
         children = map mkLiteral [
           "prompt"
           "entry"
         ];
       };
       "prompt" = {
-        text-color = mkLiteral accent;
+        text-color = mkLiteral p.accent;
+        background-color = mkLiteral "transparent";
       };
       "entry" = {
-        text-color = mkLiteral fg;
-        placeholder = "Ara..."; # bos arama kutusu metni
-        placeholder-color = mkLiteral fgDim;
+        text-color = mkLiteral p.fg;
+        background-color = mkLiteral "transparent";
+        placeholder = "Ara";
+        placeholder-color = mkLiteral p.fgDim;
+        cursor = mkLiteral "text";
       };
 
-      # Liste: 10 satir, tek sutun, kaydirma cubugu yok.
+      "mode-switcher" = {
+        spacing = mkLiteral "6px";
+        background-color = mkLiteral "transparent";
+      };
+      "button" = {
+        padding = mkLiteral "6px";
+        border-radius = mkLiteral "4px";
+        background-color = mkLiteral p.base;
+        text-color = mkLiteral p.fgDim;
+        cursor = mkLiteral "pointer";
+      };
+      "button selected" = {
+        background-color = mkLiteral p.accent;
+        text-color = mkLiteral p.accentFg;
+      };
+
       "listview" = {
-        lines = 10; # gosterilecek satir sayisi
+        lines = 10;
         columns = 1;
         scrollbar = false;
-        fixed-height = true; # az sonuc olsa da yuksekligi sabit tut
+        fixed-height = true;
         spacing = mkLiteral "2px";
+        background-color = mkLiteral "transparent";
       };
 
-      # Satirlar
       "element" = {
-        padding = mkLiteral "6px";
-        spacing = mkLiteral "8px";
-        border-radius = mkLiteral "0px";
+        padding = mkLiteral "7px 10px";
+        spacing = mkLiteral "10px";
+        border-radius = mkLiteral "4px";
+        background-color = mkLiteral "transparent";
+        cursor = mkLiteral "pointer";
+      };
+      "element normal active" = {
+        text-color = mkLiteral p.accent; # o an calisan uygulama
       };
       "element selected" = {
-        background-color = mkLiteral accent;
-        text-color = mkLiteral accentFg;
+        background-color = mkLiteral p.accent;
+        text-color = mkLiteral p.accentFg;
+      };
+      "element selected active" = {
+        background-color = mkLiteral p.accent;
+        text-color = mkLiteral p.accentFg;
       };
       "element-icon" = {
-        size = mkLiteral "1.1em";
+        size = mkLiteral "1.15em";
         background-color = mkLiteral "transparent";
+        vertical-align = mkLiteral "0.5";
       };
       "element-text" = {
         background-color = mkLiteral "transparent";
-        text-color = mkLiteral "inherit"; # secili satirda dogru rengi devral
+        text-color = mkLiteral "inherit";
+        vertical-align = mkLiteral "0.5";
+      };
+
+      "message" = {
+        padding = mkLiteral "8px";
+        background-color = mkLiteral p.base;
+        border-radius = mkLiteral "4px";
+      };
+      "textbox" = {
+        text-color = mkLiteral p.fgDim;
+        background-color = mkLiteral "transparent";
       };
     };
   };

@@ -4,8 +4,8 @@
   imports = [
     ./cli
     ./gui
+    ./theme
     ./wm
-
   ];
 
   home.username = "dex";
@@ -15,7 +15,7 @@
   programs.home-manager.enable = true;
 
   # home-manager CLI konfigi sabit olarak ~/.config/home-manager altinda arar.
-  # Bu symlink sayesinde `--flake` vermeden sadece `home-manager switch` yeter.
+  # Bu bag sayesinde --flake vermeden "home-manager switch" yeter.
   xdg.configFile."home-manager".source =
     config.lib.file.mkOutOfStoreSymlink "${config.home.homeDirectory}/.config/nixconf";
 
@@ -36,8 +36,6 @@
     extraConfig = {
       XDG_BOOKS_DIR = "$HOME/Books";
       XDG_Movies_DIR = "$HOME/Movies";
-
     };
   };
-
 }

@@ -1,23 +1,24 @@
 { pkgs, ... }:
 
 {
-
   imports = [
-    ./utils.nix
+    ./mako.nix
     ./rofi.nix
-    ./sfwbar.nix
+    ./swayidle.nix
+    ./swaylock.nix
+    ./waybar.nix
+    ./wlsunset.nix
   ];
+
   home.packages = with pkgs; [
-    swaybg
-    swayidle
+    swaybg # duvar kagidi
+    wlopm # ekran gucu (DPMS); swayidle birimi mutlak yolla cagirir
     libnotify
-    brightnessctl
-    networkmanagerapplet
+    brightnessctl # logind uzerinden, udev kurali gerekmez
     wl-clipboard
     grim
     slurp
-    wlopm
-    wob
-
+    wob # ses/parlaklik ekran ustu gostergesi
   ];
+  # swayidle paketini ./swayidle.nix ekliyor; burada tekrarlanmaz.
 }

@@ -8,8 +8,8 @@
     [ (modulesPath + "/installer/scan/not-detected.nix")
     ];
 
-  # "sr_mod" cikarildi: optik surucu yok ve cdrom modulu boot.nix'te blacklist'te
-  # (sr_mod cdrom'a bagimlidir) - sistem kendiyle celisiyordu.
+  # "sr_mod" cikarildi: DVD surucu var ama kullanilmiyor ve boot.nix onu
+  # cdrom ile birlikte blacklist'liyor; initrd'de tutmak o karari bosa cikarirdi.
   boot.initrd.availableKernelModules = [ "ahci" "xhci_pci" "nvme" "usb_storage" "usbhid" "sd_mod" "rtsx_pci_sdmmc" ];
   boot.initrd.kernelModules = [ ];
   # "kvm-intel" cikarildi: sanallastirma kullanilmiyor, modul refcount 0 ile

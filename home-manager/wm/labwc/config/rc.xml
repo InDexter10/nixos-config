@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<labwc_config>
+
+  <core>
+    <decoration>server</decoration>
+    <gap>12</gap>
+    <adaptiveSync>no</adaptiveSync>
+    <allowTearing>no</allowTearing>
+    <autoEnableOutputs>yes</autoEnableOutputs>
+    <reuseOutputMode>no</reuseOutputMode>
+    <xwaylandPersistence>no</xwaylandPersistence>
+    <primarySelection>yes</primarySelection>
+
+    <!-- Panel SDR. Acilirsa wlroots her kareyi renk yonetimi hattindan
+         gecirir ve dogrudan tarama kapanir; bu makinede 2026-06-01'de
+         tam olarak bu yuzden kapatilmisti. -->
+    <hdr>no</hdr>
+  </core>
+
+  <focus>
+    <followMouse>no</followMouse>
+  </focus>
+
+  <placement>
+    <policy>cascade</policy>
+    <cascadeOffset x="40" y="30" />
+  </placement>
+
+  <!-- Adlar waybar'daki "ext/workspaces" modulunde {name} olarak gorunur.
+       Ad degistirilirse asagidaki <initial> ve UYAP windowRule'undaki
+       to="..." degeri de guncellenmeli - labwc eslesmeyen bir ada
+       sessizce hicbir sey yapmaz. -->
+  <desktops>
+    <popupTime>800</popupTime>
+    <initial>I</initial>
+    <names>
+      <name>I</name>
+      <name>II</name>
+      <name>III</name>
+    </names>
+  </desktops>
+
+  <!-- cornerRange: koseye surukleyince ceyrek ekran (Aero Snap). -->
+  <snapping>
+    <range><inner>16</inner><outer>16</outer></range>
+    <cornerRange>60</cornerRange>
+    <overlay>
+      <enabled>yes</enabled>
+      <delay><inner>200</inner><outer>200</outer></delay>
+    </overlay>
+    <topMaximize>yes</topMaximize>
+  </snapping>
+
+  <!-- Asagidaki numpad kisayollarinin kullandigi bolgeler. -->
+  <regions>
+    <region name="top-left"     x="0%"  y="0%"  height="50%"  width="50%"  />
+    <region name="top"          x="0%"  y="0%"  height="50%"  width="100%" />
+    <region name="top-right"    x="50%" y="0%"  height="50%"  width="50%"  />
+    <region name="left"         x="0%"  y="0%"  height="100%" width="50%"  />
+    <region name="center"       x="10%" y="10%" height="80%"  width="80%"  />
+    <region name="right"        x="50%" y="0%"  height="100%" width="50%"  />
+    <region name="bottom-left"  x="0%"  y="50%" height="50%"  width="50%"  />
+    <region name="bottom"       x="0%"  y="50%" height="50%"  width="100%" />
+    <region name="bottom-right" x="50%" y="50%" height="50%"  width="50%"  />
+  </regions>
+
+  <theme>
+    <cornerRadius>0</cornerRadius>
+
+    <!-- Baslik cubuklari windowRules'ta kapatiliyor; bunlar yalnizca
+         dekorasyonu acilan pencereler icin gecerli. -->
+    <titlebar>
+      <layout>icon:iconify,max,close</layout>
+      <showTitle>yes</showTitle>
+    </titlebar>
+
+    <!-- fontUI / fontUISize karsiligi; ../../../theme/palette.nix ile elde
+         eslenir. -->
+    <font place="ActiveWindow"><name>Inter</name><size>10</size></font>
+    <font place="InactiveWindow"><name>Inter</name><size>10</size></font>
+    <font place="MenuItem"><name>Inter</name><size>10</size></font>
+    <font place="MenuHeader"><name>Inter</name><size>10</size></font>
+    <font place="OnScreenDisplay"><name>Inter</name><size>10</size></font>
+  </theme>
+
+  <windowSwitcher preview="yes" outlines="yes" order="focus">
+    <osd show="no" style="thumbnail" output="all" />
+  </windowSwitcher>
+
+  <!-- Kabuk komutlarindaki ">" ve "&&" XML icinde gectikleri icin
+       &gt; ve &amp;&amp; olarak kacislanmis. -->
+  <keyboard>
+    <numlock>on</numlock>
+    <repeatRate>25</repeatRate>
+    <repeatDelay>600</repeatDelay>
+    <!-- labwc varsayilanlari (A-Tab, A-space, A-surukle...) korunur. -->
+    <default/>
+
+    <!-- UYGULAMA / SISTEM -->
+    <keybind key="W-Return"><action name="Execute"><command>alacritty</command></action></keybind>
+    <keybind key="W-d"><action name="Execute"><command>rofi -show drun</command></action></keybind>
+    <keybind key="W-w"><action name="Execute"><command>rofi -show window</command></action></keybind>
+    <keybind key="W-l"><action name="Execute"><command>swaylock -f</command></action></keybind>
+    <keybind key="W-e"><action name="Execute"><command>alacritty -e yazi</command></action></keybind>
+
+    <!-- Gece isigi ac/kapa -->
+    <keybind key="W-n">
+  <action name="Execute">
+    <command>sh -c 'if systemctl --user is-active --quiet wlsunset.service; then systemctl --user stop wlsunset.service; else systemctl --user start wlsunset.service; fi'</command>
+  </action>
+    </keybind>
+
+    <keybind key="W-space"><action name="ToggleShowDesktop"/></keybind>
+
+    <!-- PENCERE -->
+    <keybind key="A-F4"><action name="Close"/></keybind>
+    <keybind key="W-q"><action name="Close"/></keybind>
+
+    <keybind key="W-c"><action name="ToggleMaximize"/></keybind>
+    <keybind key="F11"><action name="ToggleFullscreen"/></keybind>
+
+    <!-- direction="center" hicbir kenar biti set etmez, yani <core><gap>
+         kadar iceriden tum kullanilabilir alani kaplar (12px cerceve).
+         Toggle olani ikinci basista pencereyi eski boyutuna dondurur. -->
+    <keybind key="W-f"><action name="ToggleSnapToEdge" direction="center"/></keybind>
+    <keybind key="W-m"><action name="Iconify"/></keybind>
+    <keybind key="W-t"><action name="ToggleAlwaysOnTop"/></keybind>
+
+    <!-- combine="yes": once sol sonra yukari = sol-ust ceyrek (Aero Snap). -->
+    <keybind key="W-Left"><action name="SnapToEdge" direction="left" combine="yes"/></keybind>
+    <keybind key="W-Right"><action name="SnapToEdge" direction="right" combine="yes"/></keybind>
+    <keybind key="W-Up"><action name="SnapToEdge" direction="up" combine="yes"/></keybind>
+    <keybind key="W-Down"><action name="SnapToEdge" direction="down" combine="yes"/></keybind>
+
+    <!-- Kenara TASI (boyut degismez) -->
+    <keybind key="W-S-Left"><action name="MoveToEdge" direction="left" snapWindows="yes"/></keybind>
+    <keybind key="W-S-Right"><action name="MoveToEdge" direction="right" snapWindows="yes"/></keybind>
+    <keybind key="W-S-Up"><action name="MoveToEdge" direction="up" snapWindows="yes"/></keybind>
+    <keybind key="W-S-Down"><action name="MoveToEdge" direction="down" snapWindows="yes"/></keybind>
+
+    <!-- Komsu kenara kadar buyut / kucult -->
+    <keybind key="W-A-Left"><action name="GrowToEdge" direction="left"/></keybind>
+    <keybind key="W-A-Right"><action name="GrowToEdge" direction="right"/></keybind>
+    <keybind key="W-A-Up"><action name="GrowToEdge" direction="up"/></keybind>
+    <keybind key="W-A-Down"><action name="GrowToEdge" direction="down"/></keybind>
+    <keybind key="W-A-S-Left"><action name="ShrinkToEdge" direction="left"/></keybind>
+    <keybind key="W-A-S-Right"><action name="ShrinkToEdge" direction="right"/></keybind>
+    <keybind key="W-A-S-Up"><action name="ShrinkToEdge" direction="up"/></keybind>
+    <keybind key="W-A-S-Down"><action name="ShrinkToEdge" direction="down"/></keybind>
+
+    <!-- PENCERE GECISI -->
+    <keybind key="A-Right"><action name="NextWindow"/></keybind>
+    <keybind key="A-Left"><action name="PreviousWindow"/></keybind>
+
+    <keybind key="W-Tab"><action name="NextWindow" workspace="all"/></keybind>
+    <keybind key="W-S-Tab"><action name="PreviousWindow" workspace="all"/></keybind>
+
+    <!-- Secici gostermeden aninda sonraki pencere -->
+    <keybind key="A-Escape"><action name="NextWindowImmediate"/></keybind>
+
+    <!-- MASAUSTLERI -->
+    <keybind key="W-1"><action name="GoToDesktop" to="1"/></keybind>
+    <keybind key="W-2"><action name="GoToDesktop" to="2"/></keybind>
+    <keybind key="W-3"><action name="GoToDesktop" to="3"/></keybind>
+
+    <keybind key="W-S-1"><action name="SendToDesktop" to="1" follow="no"/></keybind>
+    <keybind key="W-S-2"><action name="SendToDesktop" to="2" follow="no"/></keybind>
+    <keybind key="W-S-3"><action name="SendToDesktop" to="3" follow="no"/></keybind>
+
+    <keybind key="W-C-Left"><action name="GoToDesktop" to="left" wrap="yes"/></keybind>
+    <keybind key="W-C-Right"><action name="GoToDesktop" to="right" wrap="yes"/></keybind>
+
+    <keybind key="W-C-S-Left"><action name="SendToDesktop" to="left" follow="yes" wrap="yes"/></keybind>
+    <keybind key="W-C-S-Right"><action name="SendToDesktop" to="right" follow="yes" wrap="yes"/></keybind>
+
+    <keybind key="W-grave"><action name="GoToDesktop" to="last"/></keybind>
+
+    <!-- BOLGE YASLAMA (numpad)
+         Her bolge iki kez baglaniyor: NumLock acikken KP_<rakam>,
+         kapaliyken KP_<isim> uretilir. -->
+    <keybind key="W-KP_7"><action name="SnapToRegion" region="top-left"/></keybind>
+    <keybind key="W-KP_Home"><action name="SnapToRegion" region="top-left"/></keybind>
+    <keybind key="W-KP_8"><action name="SnapToRegion" region="top"/></keybind>
+    <keybind key="W-KP_Up"><action name="SnapToRegion" region="top"/></keybind>
+    <keybind key="W-KP_9"><action name="SnapToRegion" region="top-right"/></keybind>
+    <keybind key="W-KP_Prior"><action name="SnapToRegion" region="top-right"/></keybind>
+    <keybind key="W-KP_4"><action name="SnapToRegion" region="left"/></keybind>
+    <keybind key="W-KP_Left"><action name="SnapToRegion" region="left"/></keybind>
+    <keybind key="W-KP_5"><action name="SnapToRegion" region="center"/></keybind>
+    <keybind key="W-KP_Begin"><action name="SnapToRegion" region="center"/></keybind>
+    <keybind key="W-KP_6"><action name="SnapToRegion" region="right"/></keybind>
+    <keybind key="W-KP_Right"><action name="SnapToRegion" region="right"/></keybind>
+    <keybind key="W-KP_1"><action name="SnapToRegion" region="bottom-left"/></keybind>
+    <keybind key="W-KP_End"><action name="SnapToRegion" region="bottom-left"/></keybind>
+    <keybind key="W-KP_2"><action name="SnapToRegion" region="bottom"/></keybind>
+    <keybind key="W-KP_Down"><action name="SnapToRegion" region="bottom"/></keybind>
+    <keybind key="W-KP_3"><action name="SnapToRegion" region="bottom-right"/></keybind>
+    <keybind key="W-KP_Next"><action name="SnapToRegion" region="bottom-right"/></keybind>
+
+    <!-- EKRAN GORUNTUSU -->
+    <keybind key="Print"><action name="Execute"><command>grim</command></action></keybind>
+    <keybind key="S-Print"><action name="Execute"><command>sh -c 'grim -g "$(slurp)"'</command></action></keybind>
+    <keybind key="W-S-s"><action name="Execute"><command>sh -c 'grim -g "$(slurp)" - | wl-copy'</command></action></keybind>
+
+    <!-- SES -->
+    <keybind key="XF86AudioRaiseVolume"><action name="Execute"><command>sh -c 'wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+; wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk "{print int(\$2*100)}" &gt; "$XDG_RUNTIME_DIR/wob.fifo"'</command></action></keybind>
+    <keybind key="XF86AudioLowerVolume"><action name="Execute"><command>sh -c 'wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%-; wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk "{print int(\$2*100)}" &gt; "$XDG_RUNTIME_DIR/wob.fifo"'</command></action></keybind>
+    <keybind key="XF86AudioMute"><action name="Execute"><command>sh -c 'wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle; v=$(wpctl get-volume @DEFAULT_AUDIO_SINK@); echo "$v" | grep -q MUTED &amp;&amp; echo 0 &gt; "$XDG_RUNTIME_DIR/wob.fifo" || echo "$v" | awk "{print int(\$2*100)}" &gt; "$XDG_RUNTIME_DIR/wob.fifo"'</command></action></keybind>
+    <keybind key="XF86AudioMicMute"><action name="Execute"><command>sh -c 'wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle'</command></action></keybind>
+
+    <!-- PARLAKLIK
+         XF86AudioNext / XF86AudioPrev bilerek bos: medya kontrolu icin ayrildi. -->
+    <keybind key="XF86MonBrightnessUp"><action name="Execute"><command>sh -c 'brightnessctl -q set 5%+; brightnessctl -m | cut -d, -f4 | tr -d % &gt; "$XDG_RUNTIME_DIR/wob.fifo"'</command></action></keybind>
+    <keybind key="XF86MonBrightnessDown"><action name="Execute"><command>sh -c 'brightnessctl -q set 5%-; brightnessctl -m | cut -d, -f4 | tr -d % &gt; "$XDG_RUNTIME_DIR/wob.fifo"'</command></action></keybind>
+  </keyboard>
+
+  <mouse>
+    <default/>
+
+    <context name="Frame">
+      <mousebind direction="W-Up"     action="Scroll"><action name="Execute"><command>sh -c 'wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+; wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk "{print int(\$2*100)}" &gt; "$XDG_RUNTIME_DIR/wob.fifo"'</command></action></mousebind>
+      <mousebind direction="W-Down"   action="Scroll"><action name="Execute"><command>sh -c 'wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%-; wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk "{print int(\$2*100)}" &gt; "$XDG_RUNTIME_DIR/wob.fifo"'</command></action></mousebind>
+      <mousebind direction="W-S-Up"   action="Scroll"><action name="Execute"><command>sh -c 'brightnessctl -q set 5%+; brightnessctl -m | cut -d, -f4 | tr -d % &gt; "$XDG_RUNTIME_DIR/wob.fifo"'</command></action></mousebind>
+      <mousebind direction="W-S-Down" action="Scroll"><action name="Execute"><command>sh -c 'brightnessctl -q set 5%-; brightnessctl -m | cut -d, -f4 | tr -d % &gt; "$XDG_RUNTIME_DIR/wob.fifo"'</command></action></mousebind>
+    </context>
+
+    <context name="Root">
+      <mousebind direction="W-Up"     action="Scroll"><action name="Execute"><command>sh -c 'wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%+; wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk "{print int(\$2*100)}" &gt; "$XDG_RUNTIME_DIR/wob.fifo"'</command></action></mousebind>
+      <mousebind direction="W-Down"   action="Scroll"><action name="Execute"><command>sh -c 'wpctl set-volume -l 1 @DEFAULT_AUDIO_SINK@ 5%-; wpctl get-volume @DEFAULT_AUDIO_SINK@ | awk "{print int(\$2*100)}" &gt; "$XDG_RUNTIME_DIR/wob.fifo"'</command></action></mousebind>
+      <mousebind direction="W-S-Up"   action="Scroll"><action name="Execute"><command>sh -c 'brightnessctl -q set 5%+; brightnessctl -m | cut -d, -f4 | tr -d % &gt; "$XDG_RUNTIME_DIR/wob.fifo"'</command></action></mousebind>
+      <mousebind direction="W-S-Down" action="Scroll"><action name="Execute"><command>sh -c 'brightnessctl -q set 5%-; brightnessctl -m | cut -d, -f4 | tr -d % &gt; "$XDG_RUNTIME_DIR/wob.fifo"'</command></action></mousebind>
+    </context>
+  </mouse>
+
+  <windowRules>
+    <!-- Baslik cubuklari kapali, yalnizca ince cerceve kalir. Tasima
+         Alt+surukle, boyutlandirma Alt+sag-surukle. -->
+    <windowRule identifier="*">
+      <action name="SetDecorations" decorations="border" forceSSD="yes"/>
+    </windowRule>
+
+    <windowRule identifier="*firefox*" type="normal">
+      <action name="Maximize"/>
+    </windowRule>
+
+    <windowRule identifier="tr-com-havelsan-uyap-system-editor-common-WPAppManager">
+      <action name="SendToDesktop" to="III" follow="yes" />
+    </windowRule>
+  </windowRules>
+
+</labwc_config>
