@@ -1,0 +1,9 @@
+{ ... }:
+
+{
+  imports = [
+    ./addons
+    ./labwc
+    ./etc
+  ];
+}

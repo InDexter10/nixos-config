@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openbox_menu>
+
+  <!-- Eylemlerin govdesi ../../addons/power.nix icinde; waybar'in guc menusu de
+       ayni betigi cagirir. Ekrana bagli servisler (waybar, swayidle, wlsunset,
+       portallar) orada ONCE durdurulur, gerekcesi betigin basinda yazili. -->
+  <menu id="power-menu" label="Power">
+    <item label="Lock screen">
+      <action name="Execute" command="power lock"/>
+    </item>
+    <item label="Suspend">
+      <action name="Execute" command="power suspend"/>
+    </item>
+    <item label="Log out">
+      <action name="Execute" command="power logout"/>
+    </item>
+    <separator/>
+    <item label="Restart">
+      <action name="Execute" command="power reboot"/>
+    </item>
+    <item label="Shut down">
+      <action name="Execute" command="power poweroff"/>
+    </item>
+  </menu>
+
+  <menu id="root-menu" label="labwc">
+    <item label="Terminal">
+      <action name="Execute" command="foot --app-id=foot-main"/>
+    </item>
+    <item label="File manager">
+      <action name="Execute" command="foot yazi"/>
+    </item>
+    <item label="Applications">
+      <action name="Execute" command="rofi -show drun"/>
+    </item>
+    <separator/>
+    <item label="Show desktop">
+      <action name="ToggleShowDesktop"/>
+    </item>
+    <separator/>
+    <menu id="power-menu"/>
+  </menu>
+
+</openbox_menu>
