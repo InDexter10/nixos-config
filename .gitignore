@@ -1,0 +1,13 @@
+# claude-code'un bu depo icin tuttugu izin listesi. Adinda "local" var ve
+# oyle kalmali: icinde makineye ozgu yollar ve verilmis yetkiler duruyor
+# (ornegin NetworkManager baglanti dizini, ev dizini okuma izni). Depo public
+# oldugu icin bunlar yayinlanmamali.
+.claude/settings.local.json
+
+# "nix build" / "home-manager build" komutlarinin biraktigi cikti bagi.
+# Yalnizca bir symlink degil: Nix onu GC koku olarak kaydeder ve isaret ettigi
+# kapanisi (GB'larca) cop toplamadan muaf tutar. Depoya ait bir sey degil.
+# NOT: ~/.config/git/ignore icinde de var (home-manager/cli/git.nix); burada
+# tekrarlanmasinin sebebi depo baska bir makinede klonlanirsa da gecerli olmasi.
+result
+result-*
